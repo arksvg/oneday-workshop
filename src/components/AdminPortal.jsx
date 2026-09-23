@@ -122,7 +122,7 @@ export default function AdminPortal({ onClose }) {
       'vahijeeva@gmail.com',
       'admin'
     ];
-    const allowedPasswords = ['admin123', 'admin', 'sams2026'];
+    const allowedPasswords = ['admin123'];
 
     if (
       allowedEmails.includes(cleanEmail) &&
@@ -133,7 +133,7 @@ export default function AdminPortal({ onClose }) {
       setLoginError('');
       message.success('Welcome to Sam’s Administration Hub!');
     } else {
-      setLoginError('Invalid Admin Email or Password. Try: admin@samsculinary.com / admin123');
+      setLoginError('Invalid Admin Email or Password.');
     }
   };
 
