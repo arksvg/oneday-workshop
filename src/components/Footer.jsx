@@ -47,7 +47,7 @@ export default function Footer({ onOpenAdmin }) {
             </div>
 
             <p style={{ fontSize: '0.88rem', opacity: 0.82, lineHeight: '1.6', marginBottom: '16px' }}>
-              Pioneering premier hands-on culinary education in Chennai. Partnering with Sun TV MasterChef Manikandan for exclusive masterclasses, life skills, and championship carving artistry.
+              Pioneering premier hands-on culinary education in Chennai. Partnering with Sun TV MasterChef Manikandan for exclusive masterclasses, knife skills, and championship carving artistry.
             </p>
 
             {/* Single Line Visit Link */}
@@ -111,7 +111,7 @@ export default function Footer({ onOpenAdmin }) {
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '16px', fontSize: '0.88rem', lineHeight: '1.6' }}>
               <EnvironmentOutlined style={{ color: 'var(--mango-yellow)', marginTop: '4px', fontSize: '16px' }} />
               <div>
-                <strong style={{ display: 'block', color: 'var(--text-dark)' }}>Anbazhaghi Bhavanam</strong>
+                <strong style={{ display: 'block', color: 'var(--text-dark)' }}>"Anbhazhi Bhavanam"</strong>
                 <span>18/21, Vishwanathapuram 3rd Street,</span><br />
                 <span>Kodambakkam,</span>
                 <span>Chennai - 600 024</span>

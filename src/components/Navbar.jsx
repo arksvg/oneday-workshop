@@ -59,7 +59,7 @@ export default function Navbar() {
               Sam&apos;s Culinary Art Class
             </div>
             <div style={{ fontSize: '0.74rem', color: 'var(--mango-yellow)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '1px' }}>
-              One Day Masterclass Series
+              One day Workshop for Master class
             </div>
           </div>
         </a>

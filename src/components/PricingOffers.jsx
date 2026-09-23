@@ -188,7 +188,7 @@ export default function PricingOffers() {
                 <span>Call Now</span>
               </a>
               <a
-                href="https://wa.me/918939648457?text=Hi%20Sam's%20Culinary%20Art%20Class,%20please%20share%20the%20complete%20workshop%20fees%20for%20Chef%20Manikandan's%20One%20Day%20Masterclass."
+                href="https://wa.me/918939648457?text=Hi%20Sam's%20Culinary%20Art%20Class,%20please%20share%20the%20complete%20workshop%20fees%20for%20Chef%20Manikandan's%20One%20day%20Workshop%20for%20Master%20class."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary"

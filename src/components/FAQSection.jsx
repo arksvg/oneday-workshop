@@ -37,7 +37,7 @@ export default function FAQSection() {
     },
     {
       question: 'Where will the workshop take place?',
-      answer: "The masterclass will be hosted at the main training academy of Sam's Culinary Art Class, located at No. 18/21, Vishwanathapuram 3rd Street, Kodambakkam, Chennai - 600024. Landmark and route directions will also be sent to your WhatsApp after registration."
+      answer: "The workshop will be hosted at the main training academy of Sam's Culinary Art Class, located at \"Anbhazhi Bhavanam\", No. 18/21, Vishwanathapuram 3rd Street, Kodambakkam, Chennai - 600024. Landmark and route directions will also be sent to your WhatsApp after registration."
     }
   ];
 

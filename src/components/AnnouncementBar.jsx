@@ -12,7 +12,7 @@ export default function AnnouncementBar() {
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: '12px', fontSize: '0.86rem' }}>
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
           <ThunderboltFilled style={{ color: 'var(--mango-yellow)' }} />
-          <strong>First Time in Sam's Culinary:</strong> One Day Masterclass with Sun TV MasterChef Manikandan
+          <strong>First Time in Sam's Culinary:</strong> One day Workshop for Master class with Sun TV MasterChef Manikandan
         </span>
         <span style={{ opacity: 0.5, display: 'inline-block' }}>|</span>
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>

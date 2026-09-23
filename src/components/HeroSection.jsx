@@ -28,9 +28,9 @@ export default function HeroSection() {
 
             {/* Main Headline */}
             <h1 style={{ fontSize: 'clamp(2.1rem, 4.2vw, 3.2rem)', fontWeight: '800', lineHeight: '1.18', marginBottom: '16px' }}>
-              One Day Masterclass:{' '}
+              One day Workshop for Master class:{' '}
               <span className="gradient-text-gold" style={{ display: 'inline-block' }}>
-                Basic Life Skills &amp; Bouquet Carving
+                Basic knife Skills &amp; Bouquet Carving
               </span>
             </h1>
 

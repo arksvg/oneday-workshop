@@ -12,7 +12,7 @@ export default function WorkshopInclusions() {
     {
       icon: <SafetyCertificateOutlined />,
       title: 'Official Recognized Certificate',
-      desc: 'Accredited certificate of completion signed by Sun TV MasterChef Manikandan & Sam’s Culinary Art Class founder Mrs. M. Vahitha Jeevanandam, honoring your life skills and botanical carving mastery.'
+      desc: 'Accredited certificate of completion signed by Sun TV MasterChef Manikandan & Sam’s Culinary Art Class founder Mrs. M. Vahitha Jeevanandam, honoring your knife skills and botanical carving mastery.'
     },
     {
       icon: <CoffeeOutlined />,

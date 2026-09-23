@@ -54,7 +54,7 @@ export default function RegistrationForm() {
     city: '',
     registrationType: 'Individual', // 'Individual' | 'Group (2 or more)' | 'Student'
     numberOfAttendees: 1,
-    purpose: 'Basic Life Skills & Vegetable Floral Bouquet Carving',
+    purpose: 'Basic Knife Skills & Vegetable Floral Bouquet Carving',
     bankDetails: '',
     amountPaid: 500,
     proofImageUrl: '',
@@ -241,7 +241,7 @@ export default function RegistrationForm() {
       city: '',
       registrationType: 'Individual',
       numberOfAttendees: 1,
-      purpose: 'Basic Life Skills & Vegetable Floral Bouquet Carving',
+      purpose: 'Basic Knife Skills & Vegetable Floral Bouquet Carving',
       bankDetails: '',
       amountPaid: 500,
       proofImageUrl: '',
@@ -471,7 +471,7 @@ export default function RegistrationForm() {
                 </div>
                 <div>
                   <strong style={{ opacity: 0.7, display: 'block' }}>Workshop</strong>
-                  <div>Basic Life Skills &amp; Bouquet Carving</div>
+                  <div>Basic Knife Skills &amp; Bouquet Carving</div>
                 </div>
                 <div>
                   <strong style={{ opacity: 0.7, display: 'block' }}>Instructor</strong>
