@@ -72,7 +72,7 @@ export default function PricingOffers() {
               Advance Registration Fee
             </h3>
             <p style={{ fontSize: '0.88rem', opacity: 0.8, marginBottom: '20px' }}>
-              Mandatory advance deposit to lock your training station &amp; workshop kit.
+              Mandatory advance deposit to lock your vegetable carving station &amp; toolkit.
             </p>
 
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '24px' }}>
@@ -89,7 +89,7 @@ export default function PricingOffers() {
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.9rem' }}>
                 <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '16px' }} />
-                <span>Kit &amp; carving tools reserved in your name</span>
+                <span>Vegetable carving kit &amp; tools reserved in your name</span>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.9rem' }}>
                 <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '16px' }} />

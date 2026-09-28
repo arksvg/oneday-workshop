@@ -11,8 +11,8 @@ export default function WorkshopInclusions() {
   const inclusions = [
     {
       icon: <SafetyCertificateOutlined />,
-      title: 'Official Recognized Certificate',
-      desc: 'Accredited certificate of completion signed by Sun TV MasterChef Manikandan & Sam’s Culinary Art Class founder Mrs. M. Vahitha Jeevanandam, honoring your knife skills and botanical carving mastery.'
+      title: 'Recognized Carving Certificate',
+      desc: 'Accredited certificate of completion signed by Sun TV MasterChef Manikandan & Sam’s Culinary Art Class founder Mrs. M. Vahitha Jeevanandam, honoring your vegetable carving mastery and precision knife skills.'
     },
     {
       icon: <CoffeeOutlined />,
@@ -21,8 +21,8 @@ export default function WorkshopInclusions() {
     },
     {
       icon: <GiftOutlined />,
-      title: 'Complete Workshop Kit & Tools',
-      desc: 'Take home your personal workshop kit including specialized Thai fruit/vegetable carving knives, floral assembly skewers, sharpening tools, and instructional diagram sheets.'
+      title: 'Complete Vegetable Carving Kit',
+      desc: 'Take home your personal workshop kit including specialized Thai vegetable carving knives, floral assembly skewers, sharpening tools, and instructional diagram sheets.'
     },
     {
       icon: <StarFilled />,

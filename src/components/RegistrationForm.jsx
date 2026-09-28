@@ -24,7 +24,8 @@ import {
   TeamOutlined,
   DownloadOutlined,
   TableOutlined,
-  InfoCircleOutlined
+  InfoCircleOutlined,
+  TrophyOutlined
 } from '@ant-design/icons';
 
 import {
@@ -54,7 +55,7 @@ export default function RegistrationForm() {
     city: '',
     registrationType: 'Individual', // 'Individual' | 'Group (2 or more)' | 'Student'
     numberOfAttendees: 1,
-    purpose: 'Basic Knife Skills & Vegetable Floral Bouquet Carving',
+    purpose: 'One Day Vegetable Carving & Basic Knife Skills Workshop',
     bankDetails: '',
     amountPaid: 500,
     proofImageUrl: '',
@@ -241,7 +242,7 @@ export default function RegistrationForm() {
       city: '',
       registrationType: 'Individual',
       numberOfAttendees: 1,
-      purpose: 'Basic Knife Skills & Vegetable Floral Bouquet Carving',
+      purpose: 'One Day Vegetable Carving & Basic Knife Skills Workshop',
       bankDetails: '',
       amountPaid: 500,
       proofImageUrl: '',
@@ -313,7 +314,7 @@ export default function RegistrationForm() {
             Reserve Your <span className="gradient-text-gold">Workshop Slot</span>
           </h2>
           <p style={{ fontSize: '1.05rem', opacity: 0.9, maxWidth: '640px', margin: '0 auto', lineHeight: '1.6' }}>
-            Pay the advance seat reservation fee of Rs. 500 to lock in your workstation, carving kit, and certificate.
+            Pay the advance seat reservation fee of Rs. 500 to lock in your workstation, vegetable carving kit, and certificate.
           </p>
         </div>
 
@@ -471,7 +472,7 @@ export default function RegistrationForm() {
                 </div>
                 <div>
                   <strong style={{ opacity: 0.7, display: 'block' }}>Workshop</strong>
-                  <div>Basic Knife Skills &amp; Bouquet Carving</div>
+                  <div>One Day Vegetable Carving &amp; Bouquet Masterclass</div>
                 </div>
                 <div>
                   <strong style={{ opacity: 0.7, display: 'block' }}>Instructor</strong>
@@ -577,6 +578,11 @@ export default function RegistrationForm() {
               {/* STEP 1: PARTICIPANT INFORMATION */}
               {currentStep === 1 && (
                 <div>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(232, 167, 16, 0.12)', border: '1px solid rgba(232, 167, 16, 0.3)', padding: '6px 14px', borderRadius: '20px', marginBottom: '16px', fontSize: '0.84rem', color: 'var(--mango-yellow)', fontWeight: '700' }}>
+                    <TrophyOutlined />
+                    <span>One Day Vegetable Carving &amp; Knife Skills Workshop</span>
+                  </div>
+
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px' }}>
                     <UserOutlined style={{ color: 'var(--mango-yellow)', fontSize: '20px' }} />
                     <h3 style={{ fontSize: '1.25rem', fontWeight: '700', margin: 0 }}>Participant Details</h3>
@@ -943,32 +949,6 @@ export default function RegistrationForm() {
             </form>
           </div>
         )}
-
-        {/* Organizer / Admissions Submissions Footer Utility */}
-        <div style={{ textAlign: 'center', marginTop: '30px' }}>
-          <button
-            type="button"
-            onClick={() => {
-              window.location.hash = 'admin';
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            style={{
-              background: 'transparent',
-              border: '1px dashed var(--border-color)',
-              color: 'var(--text-muted)',
-              padding: '6px 16px',
-              borderRadius: '20px',
-              fontSize: '0.78rem',
-              cursor: 'pointer',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px'
-            }}
-          >
-            <TableOutlined />
-            <span>Admissions Desk: Open Admin Portal ({allRegistrations.length})</span>
-          </button>
-        </div>
 
         {/* Modal: Lightbox Screenshot Viewer */}
         <Modal

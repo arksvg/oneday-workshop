@@ -443,17 +443,7 @@ export default function AdminPortal({ onClose }) {
                   placeholder="admin@samsculinary.com"
                   value={loginEmail}
                   onChange={(e) => setLoginEmail(e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '11px 14px',
-                    borderRadius: '10px',
-                    border: '1px solid rgba(255, 255, 255, 0.15)',
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    color: '#ffffff',
-                    fontSize: '0.9rem',
-                    boxSizing: 'border-box',
-                    outline: 'none'
-                  }}
+                  className="admin-login-input"
                 />
               </div>
 
@@ -467,17 +457,7 @@ export default function AdminPortal({ onClose }) {
                   placeholder="••••••••"
                   value={loginPassword}
                   onChange={(e) => setLoginPassword(e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '11px 14px',
-                    borderRadius: '10px',
-                    border: '1px solid rgba(255, 255, 255, 0.15)',
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    color: '#ffffff',
-                    fontSize: '0.9rem',
-                    boxSizing: 'border-box',
-                    outline: 'none'
-                  }}
+                  className="admin-login-input"
                 />
               </div>
 
@@ -729,8 +709,8 @@ export default function AdminPortal({ onClose }) {
             }}
           >
             {/* Search Input */}
-            <div style={{ position: 'relative', flex: '1 1 240px', minWidth: '220px' }}>
-              <SearchOutlined style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.4)', fontSize: '15px', zIndex: 1 }} />
+            <div style={{ position: 'relative', flex: '1 1 240px', minWidth: '220px', height: '38px', display: 'flex', alignItems: 'center' }}>
+              <SearchOutlined style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.45)', fontSize: '15px', zIndex: 2, pointerEvents: 'none' }} />
               <input
                 type="text"
                 placeholder="Search name, phone, city, UTR..."
@@ -739,16 +719,19 @@ export default function AdminPortal({ onClose }) {
                   setSearchQuery(e.target.value);
                   setCurrentPage(1);
                 }}
+                className="admin-search-input"
                 style={{
                   width: '100%',
-                  padding: '9px 12px 9px 36px',
+                  height: '38px',
+                  padding: '0 12px 0 36px',
                   borderRadius: '10px',
                   border: '1px solid rgba(255,255,255,0.15)',
                   background: 'rgba(255,255,255,0.06)',
-                  color: '#fff',
+                  color: '#ffffff',
                   fontSize: '0.88rem',
                   outline: 'none',
-                  boxSizing: 'border-box'
+                  boxSizing: 'border-box',
+                  lineHeight: '38px'
                 }}
               />
             </div>
@@ -764,9 +747,20 @@ export default function AdminPortal({ onClose }) {
                     colorBgElevated: '#121b14',
                     colorBorder: 'rgba(255, 255, 255, 0.15)',
                     colorText: '#ffffff',
-                    colorTextPlaceholder: 'rgba(255, 255, 255, 0.45)',
+                    colorTextPlaceholder: 'rgba(255, 255, 255, 0.5)',
                     borderRadius: 10,
                     controlHeight: 38
+                  },
+                  components: {
+                    Select: {
+                      selectorBg: 'rgba(255, 255, 255, 0.06)',
+                      colorText: '#ffffff',
+                      colorTextPlaceholder: 'rgba(255, 255, 255, 0.5)',
+                      colorBorder: 'rgba(255, 255, 255, 0.15)',
+                      colorPrimaryHover: '#e8a710',
+                      controlItemBgActive: 'rgba(232, 167, 16, 0.25)',
+                      controlItemBgHover: 'rgba(232, 167, 16, 0.12)'
+                    }
                   }
                 }}
               >
@@ -776,6 +770,7 @@ export default function AdminPortal({ onClose }) {
                     setActiveTab(val);
                     setCurrentPage(1);
                   }}
+                  className="admin-status-select"
                   style={{ width: '100%' }}
                   suffixIcon={<FilterOutlined style={{ color: 'var(--mango-yellow)' }} />}
                   options={[
@@ -799,9 +794,19 @@ export default function AdminPortal({ onClose }) {
                     colorBgElevated: '#121b14',
                     colorBorder: 'rgba(255, 255, 255, 0.15)',
                     colorText: '#ffffff',
-                    colorTextPlaceholder: 'rgba(255, 255, 255, 0.45)',
+                    colorTextPlaceholder: 'rgba(255, 255, 255, 0.5)',
                     borderRadius: 10,
                     controlHeight: 38
+                  },
+                  components: {
+                    DatePicker: {
+                      colorBgContainer: 'rgba(255, 255, 255, 0.06)',
+                      colorText: '#ffffff',
+                      colorTextPlaceholder: 'rgba(255, 255, 255, 0.45)',
+                      colorBorder: 'rgba(255, 255, 255, 0.15)',
+                      cellActiveWithRangeBg: 'rgba(232, 167, 16, 0.25)',
+                      cellHoverWithRangeBg: 'rgba(232, 167, 16, 0.12)'
+                    }
                   }
                 }}
               >
@@ -811,6 +816,7 @@ export default function AdminPortal({ onClose }) {
                     setDateRange(dates);
                     setCurrentPage(1);
                   }}
+                  className="admin-range-picker"
                   format="YYYY-MM-DD"
                   placeholder={['Start Date', 'End Date']}
                   style={{ width: '100%' }}

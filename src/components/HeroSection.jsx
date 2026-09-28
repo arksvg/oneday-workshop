@@ -23,14 +23,14 @@ export default function HeroSection() {
             {/* Announcement Pill */}
             <div className="hero-badge-glow">
               <TrophyOutlined style={{ fontSize: '15px' }} />
-              <span>FIRST TIME IN SAM'S CULINARY ART CLASS</span>
+              <span>ONE DAY VEGETABLE CARVING WORKSHOP</span>
             </div>
 
             {/* Main Headline */}
             <h1 style={{ fontSize: 'clamp(2.1rem, 4.2vw, 3.2rem)', fontWeight: '800', lineHeight: '1.18', marginBottom: '16px' }}>
               One day Workshop for Master class:{' '}
               <span className="gradient-text-gold" style={{ display: 'inline-block' }}>
-                Basic knife Skills &amp; Bouquet Carving
+                Vegetable Carving &amp; Basic Knife Skills
               </span>
             </h1>
 
@@ -59,7 +59,7 @@ export default function HeroSection() {
             </div>
 
             <p style={{ fontSize: '1.08rem', lineHeight: '1.65', opacity: '0.9', marginBottom: '24px', maxWidth: '620px' }}>
-              Master foundational culinary knife skills, kitchen safety, and step-by-step professional vegetable and fruit floral bouquet assembly in an exclusive, hands-on full day experience.
+              Master professional <strong>Vegetable Carving</strong>, Thai botanical floral techniques (roses, lotus, leaves &amp; lilies), and foundational culinary knife skills in an exclusive, hands-on 1-day masterclass.
             </p>
 
             {/* Timing & Format Badges */}
@@ -86,6 +86,11 @@ export default function HeroSection() {
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'rgba(255, 255, 255, 0.04)', border: '1px solid var(--border-color)', padding: '10px 14px', borderRadius: '10px' }}>
+                <TrophyOutlined style={{ color: 'var(--mango-yellow)', fontSize: '18px' }} />
+                <span style={{ fontSize: '0.86rem', fontWeight: '600' }}>Vegetable Carving Kit</span>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'rgba(255, 255, 255, 0.04)', border: '1px solid var(--border-color)', padding: '10px 14px', borderRadius: '10px' }}>
                 <SafetyCertificateOutlined style={{ color: 'var(--mango-yellow)', fontSize: '18px' }} />
                 <span style={{ fontSize: '0.86rem', fontWeight: '600' }}>Recognized Certificate</span>
               </div>
@@ -97,7 +102,7 @@ export default function HeroSection() {
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'rgba(255, 255, 255, 0.04)', border: '1px solid var(--border-color)', padding: '10px 14px', borderRadius: '10px' }}>
                 <GiftOutlined style={{ color: 'var(--mango-yellow)', fontSize: '18px' }} />
-                <span style={{ fontSize: '0.86rem', fontWeight: '600' }}>Full Workshop Kit</span>
+                <span style={{ fontSize: '0.86rem', fontWeight: '600' }}>Take-Home Floral Bouquet</span>
               </div>
             </div>
 
@@ -229,7 +234,7 @@ export default function HeroSection() {
                     Chef Manikandan
                   </strong>
                   <span style={{ fontSize: '0.82rem', color: 'var(--mango-yellow)', fontWeight: '600' }}>
-                    SICA &amp; Sri Lanka Gold Medalist
+                    SICA &amp; Sri Lanka Carving Gold Medalist
                   </span>
                 </div>
                 <div style={{ textAlign: 'right' }}>
@@ -244,7 +249,7 @@ export default function HeroSection() {
 
               <div style={{ paddingTop: '10px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8rem', opacity: 0.85 }}>
                 <span>Group Discounts on Call</span>
-                <span style={{ color: 'var(--mango-yellow)', fontWeight: '600' }}>Kit &amp; Certificate Included</span>
+                <span style={{ color: 'var(--mango-yellow)', fontWeight: '600' }}>Vegetable Carving Kit Included</span>
               </div>
             </div>
           </div>

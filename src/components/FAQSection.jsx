@@ -16,6 +16,10 @@ export default function FAQSection() {
 
   const faqData = [
     {
+      question: 'Is this a hands-on Vegetable Carving workshop?',
+      answer: 'Yes! This is an intensive, 100% hands-on One Day Vegetable Carving & Knife Skills Masterclass. Under the personal mentorship of Sun TV MasterChef Manikandan (International Gold Medalist in Carving), you will master Thai carving knife techniques, floral sculpting from vegetables (carrot roses, radish lotus, beetroot blossoms, cucumber leaves), and assemble your own edible floral bouquet centerpiece to take home.'
+    },
+    {
       question: 'Who can attend this One Day Workshop?',
       answer: 'This workshop is open to anyone passionate about culinary arts—complete beginners, home cooking enthusiasts, hotel management students, aspiring food entrepreneurs, and professional catering staff. No prior carving experience is needed as Chef Manikandan begins from foundational knife holding and safety principles.'
     },

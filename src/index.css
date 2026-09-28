@@ -1261,14 +1261,24 @@ textarea::placeholder {
   opacity: 0.75;
 }
 
-.dark input,
-.dark textarea,
-.dark select,
+.dark input:not([class*="ant-"]):not(.admin-search-input):not(.admin-login-input),
+.dark textarea:not([class*="ant-"]),
+.dark select:not([class*="ant-"]),
 .dark .form-input {
   color: #f1f6f2 !important;
   background-color: rgba(18, 38, 22, 0.95) !important;
   border-color: rgba(255, 255, 255, 0.22) !important;
   color-scheme: dark;
+}
+
+/* Ensure Ant Design inner inputs are never contaminated by generic dark input background or borders */
+.dark .ant-picker input,
+.dark .ant-select input,
+.dark .ant-input,
+.dark [class*="ant-"] input {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
 }
 
 /* White Calendar & Clock Picker Icons in Dark Mode */
@@ -4574,9 +4584,9 @@ textarea::placeholder {
   font-weight: 600 !important;
 }
 
-.dark input,
-.dark textarea,
-.dark select,
+.dark input:not([class*="ant-"]):not(.admin-search-input):not(.admin-login-input),
+.dark textarea:not([class*="ant-"]),
+.dark select:not([class*="ant-"]),
 .dark .form-input,
 .dark .webinar-search-input {
   color: #ffffff !important;
