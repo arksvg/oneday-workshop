@@ -21,12 +21,22 @@ import {
   FileExcelOutlined,
   FilterOutlined,
   CloseCircleOutlined,
-  CalendarOutlined
+  CalendarOutlined,
+  UserAddOutlined,
+  TeamOutlined,
+  PlusOutlined,
+  UploadOutlined,
+  PhoneOutlined,
+  MailOutlined,
+  UserOutlined,
+  CloseOutlined
 } from '@ant-design/icons';
 import {
   fetchWorkshopRegistrations,
   updateWorkshopRegistrationStatus,
-  deleteWorkshopRegistrationRecord
+  deleteWorkshopRegistrationRecord,
+  submitWorkshopRegistration,
+  uploadProofToCloudinary
 } from '../services/workshopService';
 
 export const STORAGE_KEY = 'sams_oneday_workshop_registrations';
@@ -52,7 +62,63 @@ export default function AdminPortal({ onClose }) {
   const [selectedApplicant, setSelectedApplicant] = useState(null);
   const [lightboxPreview, setLightboxPreview] = useState({ open: false, url: '', title: '' });
 
+  // Offline & Group Registration Top Panel State
+  const [showNewRegPanel, setShowNewRegPanel] = useState(false);
+  const [isSubmittingNewReg, setIsSubmittingNewReg] = useState(false);
+  const [newRegProofPreview, setNewRegProofPreview] = useState('');
+
+  const initialNewRegForm = {
+    name: '',
+    phone: '',
+    email: '',
+    city: 'Chennai',
+    registrationType: 'Individual',
+    registrationSource: 'Offline Walk-in / Academy Desk',
+    numberOfAttendees: 1,
+    groupName: '',
+    additionalMembers: '',
+    purpose: 'One Day Vegetable Carving Workshop',
+    amountPaid: 4499,
+    feeBreakdown: 'Rs. 500 Reg Fee + Rs. 3,999 Workshop Fee',
+    paymentMode: 'Cash (Paid at Academy Desk)',
+    paymentStatus: 'Full Payment Complete (Rs. 4,499)',
+    bankDetails: 'Cash Received at Academy Desk',
+    proofImageUrl: '',
+    notes: '',
+    status: 'Verified / Enrolled'
+  };
+
+  const [newRegForm, setNewRegForm] = useState(initialNewRegForm);
+
   const [isLoading, setIsLoading] = useState(false);
+
+  // Toggle or open registration panel above table and filter
+  const handleToggleRegisterPanel = () => {
+    setShowNewRegPanel((prev) => {
+      const nextState = !prev;
+      if (nextState) {
+        setTimeout(() => {
+          const el = document.getElementById('admin-register-panel');
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 50);
+      }
+      return nextState;
+    });
+  };
+
+  // Lock background window scroll only when applicant detail modal is open
+  useEffect(() => {
+    if (selectedApplicant) {
+      const origHtmlOverflow = document.documentElement.style.overflow;
+      const origBodyOverflow = document.body.style.overflow;
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.documentElement.style.overflow = origHtmlOverflow;
+        document.body.style.overflow = origBodyOverflow;
+      };
+    }
+  }, [selectedApplicant]);
 
   // Load registrations from MongoDB Atlas or fallback to local storage
   const loadRegistrations = async () => {
@@ -216,12 +282,17 @@ export default function AdminPortal({ onClose }) {
       'Email Address',
       'Phone Number',
       'City / Location',
+      'Registration Channel / Source',
       'Registration Type',
       'Attendees Count',
+      'Group Name',
+      'Additional Members',
       'Amount Paid (INR)',
+      'Payment Method',
+      'Payment Status',
       'Transaction Ref / UTR',
-      'Status',
-      'Notes'
+      'Roster Status',
+      'Admin Notes'
     ];
 
     const rows = listToExport.map((r) => [
@@ -231,9 +302,14 @@ export default function AdminPortal({ onClose }) {
       `"${(r.email || '').replace(/"/g, '""')}"`,
       `"${(r.phone || '').replace(/"/g, '""')}"`,
       `"${(r.city || '').replace(/"/g, '""')}"`,
+      `"${(r.registrationSource || 'Online Web Portal').replace(/"/g, '""')}"`,
       `"${(r.registrationType || 'Individual').replace(/"/g, '""')}"`,
       `"${r.numberOfAttendees || 1}"`,
+      `"${(r.groupName || '').replace(/"/g, '""')}"`,
+      `"${(r.additionalMembers || '').replace(/"/g, '""')}"`,
       `"${r.amountPaid || 500}"`,
+      `"${(r.paymentMode || 'Online UPI').replace(/"/g, '""')}"`,
+      `"${(r.paymentStatus || (r.status === 'Verified / Enrolled' ? 'Verified' : 'Pending')).replace(/"/g, '""')}"`,
       `"${(r.bankDetails || '').replace(/"/g, '""')}"`,
       `"${(r.status || 'Pending Verification').replace(/"/g, '""')}"`,
       `"${(r.notes || '').replace(/"/g, '""')}"`
@@ -248,6 +324,103 @@ export default function AdminPortal({ onClose }) {
     link.click();
     document.body.removeChild(link);
     message.success(`Exported ${listToExport.length} registration record(s) to CSV.`);
+  };
+
+  // Upload proof image for manual registration
+  const handleNewRegProofUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      message.error('Receipt image must be under 5 MB');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const base64 = reader.result;
+      setNewRegProofPreview(base64);
+      setNewRegForm((prev) => ({ ...prev, proofImageUrl: base64 }));
+      try {
+        message.loading({ content: 'Uploading proof image...', key: 'newRegImg' });
+        const cdnUrl = await uploadProofToCloudinary(base64);
+        if (cdnUrl) {
+          setNewRegForm((prev) => ({ ...prev, proofImageUrl: cdnUrl }));
+          message.success({ content: 'Proof attached successfully!', key: 'newRegImg' });
+        }
+      } catch (err) {
+        console.warn('Cloudinary upload warning:', err);
+        message.info({ content: 'Proof image attached locally.', key: 'newRegImg' });
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // Handle Admin Manual Registration (Offline or Group)
+  const handleCreateNewRegistration = async (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+
+    if (!newRegForm.name.trim()) {
+      message.error('Please enter the participant name or group contact person.');
+      return;
+    }
+    if (!newRegForm.phone.trim()) {
+      message.error('Please enter the phone / WhatsApp number.');
+      return;
+    }
+    if (!newRegForm.city.trim()) {
+      message.error('Please enter the city or location.');
+      return;
+    }
+
+    setIsSubmittingNewReg(true);
+    try {
+      const regId = 'SAMS-' + Math.floor(100000 + Math.random() * 900000);
+      const isGroup = newRegForm.registrationType.includes('Group');
+
+      const record = {
+        id: regId,
+        registrationId: regId,
+        name: newRegForm.name.trim(),
+        phone: newRegForm.phone.trim(),
+        email: newRegForm.email.trim() || 'offline@samsculinary.com',
+        city: newRegForm.city.trim(),
+        registrationType: newRegForm.registrationType,
+        registrationSource: newRegForm.registrationSource || (isGroup ? 'Group WhatsApp / Direct Process' : 'Offline Walk-in / Academy Desk'),
+        numberOfAttendees: Number(newRegForm.numberOfAttendees) || 1,
+        groupName: newRegForm.groupName.trim() || '',
+        additionalMembers: newRegForm.additionalMembers.trim() || '',
+        purpose: 'One Day Vegetable Carving Workshop',
+        amountPaid: Number(newRegForm.amountPaid) || 4499,
+        feeBreakdown: newRegForm.feeBreakdown || (Number(newRegForm.amountPaid) === 4499 ? 'Rs. 500 Reg Fee + Rs. 3,999 Workshop Fee' : `Agreed Fee: Rs. ${newRegForm.amountPaid}`),
+        paymentMode: newRegForm.paymentMode,
+        paymentStatus: newRegForm.paymentStatus,
+        bankDetails: newRegForm.bankDetails.trim() || newRegForm.paymentMode,
+        proofImageUrl: newRegForm.proofImageUrl || '',
+        notes: newRegForm.notes.trim() || '',
+        status: newRegForm.status || 'Verified / Enrolled',
+        submittedAt: new Date().toISOString()
+      };
+
+      try {
+        await submitWorkshopRegistration(record);
+      } catch (dbErr) {
+        console.warn('MongoDB submission fallback:', dbErr);
+      }
+
+      const updated = [record, ...registrations];
+      saveRegistrations(updated);
+
+      message.success(`Successfully enrolled ${record.name} (${record.registrationId})!`);
+      setNewRegForm(initialNewRegForm);
+      setNewRegProofPreview('');
+      setShowNewRegPanel(false);
+    } catch (err) {
+      console.error('Error creating registration:', err);
+      message.error('Failed to create registration. Please check fields.');
+    } finally {
+      setIsSubmittingNewReg(false);
+    }
   };
 
   // Filter and search logic
@@ -529,11 +702,34 @@ export default function AdminPortal({ onClose }) {
               Workshop Registrations Hub
             </h1>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', margin: 0 }}>
-              Live attendee submissions, Rs. 500 advance payment verification, UPI / UTR proofs, and seating roster.
+              Live attendee submissions, Rs. 500 registration fee verification, UPI / UTR proofs, and seating roster.
             </p>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+            <button
+              type="button"
+              onClick={handleToggleRegisterPanel}
+              className="btn-primary"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '9px 22px',
+                borderRadius: '30px',
+                background: showNewRegPanel ? 'rgba(255, 255, 255, 0.1)' : 'var(--green-medium)',
+                color: '#ffffff',
+                border: showNewRegPanel ? '1px solid rgba(255, 255, 255, 0.25)' : '1px solid rgba(34, 197, 94, 0.4)',
+                fontWeight: '700',
+                fontSize: '0.88rem',
+                cursor: 'pointer',
+                boxShadow: showNewRegPanel ? 'none' : '0 4px 16px rgba(25, 65, 33, 0.4)'
+              }}
+            >
+              {showNewRegPanel ? <CloseOutlined /> : <UserAddOutlined />}
+              <span>{showNewRegPanel ? 'Close Registration Form' : '+ Register Offline / Group'}</span>
+            </button>
+
             <button
               type="button"
               onClick={loadRegistrations}
@@ -608,7 +804,7 @@ export default function AdminPortal({ onClose }) {
             </div>
           </div>
 
-          {/* Total Advance Collected */}
+          {/* Total Registration Fees Collected */}
           <div className="metric-card glass-panel" style={{ padding: '20px', borderRadius: '14px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', gap: '16px' }}>
             <div style={{ width: '50px', height: '50px', borderRadius: '12px', background: 'rgba(232, 167, 16, 0.15)', color: 'var(--mango-yellow)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px' }}>
               <DollarOutlined />
@@ -617,7 +813,7 @@ export default function AdminPortal({ onClose }) {
               <span style={{ display: 'block', fontSize: '1.8rem', fontWeight: '800', color: 'var(--mango-yellow)' }}>
                 ₹{totalFees.toLocaleString()}
               </span>
-              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Advance Collected</span>
+              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Registration Fees Collected</span>
             </div>
           </div>
         </div>
@@ -669,29 +865,467 @@ export default function AdminPortal({ onClose }) {
               ))}
             </div>
 
-            <button
-              type="button"
-              onClick={handleExportCSV}
-              className="btn-primary"
-              title="Download Excel / CSV roster of registered attendees"
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <button
+                type="button"
+                onClick={handleToggleRegisterPanel}
+                className="btn-primary"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '8px 20px',
+                  borderRadius: '30px',
+                  background: showNewRegPanel ? 'rgba(255, 255, 255, 0.1)' : 'var(--green-medium)',
+                  color: '#ffffff',
+                  border: showNewRegPanel ? '1px solid rgba(255, 255, 255, 0.25)' : '1px solid rgba(34, 197, 94, 0.4)',
+                  fontWeight: '700',
+                  fontSize: '0.86rem',
+                  cursor: 'pointer',
+                  boxShadow: showNewRegPanel ? 'none' : '0 4px 12px rgba(25, 65, 33, 0.35)'
+                }}
+              >
+                {showNewRegPanel ? <CloseOutlined /> : <UserAddOutlined />}
+                <span>{showNewRegPanel ? 'Close Form' : '+ Register Attendee'}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleExportCSV}
+                className="btn-outline"
+                title="Download Excel / CSV roster of registered attendees"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '8px 18px',
+                  borderRadius: '8px',
+                  background: 'rgba(255,255,255,0.06)',
+                  color: '#fff',
+                  border: '1px solid rgba(255,255,255,0.15)',
+                  fontWeight: '600',
+                  fontSize: '0.86rem',
+                  cursor: 'pointer'
+                }}
+              >
+                <FileExcelOutlined />
+                <span>Export CSV</span>
+              </button>
+            </div>
+          </div>
+
+          {/* INLINE REGISTRATION PANEL: TOP OF TABLE & FILTER */}
+          {showNewRegPanel && (
+            <div
+              id="admin-register-panel"
               style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '8px 18px',
-                borderRadius: '8px',
-                background: 'var(--mango-yellow)',
-                color: '#0b100c',
-                border: 'none',
-                fontWeight: '700',
-                fontSize: '0.86rem',
-                cursor: 'pointer'
+                marginBottom: '26px',
+                background: 'linear-gradient(145deg, #0a140d 0%, #112015 100%)',
+                border: '1.5px solid rgba(34, 197, 94, 0.45)',
+                borderRadius: '16px',
+                padding: '24px 28px',
+                boxShadow: '0 16px 40px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(34, 197, 94, 0.2)'
               }}
             >
-              <FileExcelOutlined />
-              <span>Export CSV</span>
-            </button>
-          </div>
+              {/* Header with Title and Close Button */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '14px', borderBottom: '1px solid rgba(255, 255, 255, 0.1)', paddingBottom: '16px', marginBottom: '22px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(34, 197, 94, 0.15)', border: '1px solid rgba(34, 197, 94, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#22c55e', fontSize: '20px' }}>
+                    <UserAddOutlined />
+                  </div>
+                  <div>
+                    <h2 style={{ margin: 0, fontSize: '1.3rem', fontWeight: '800', color: '#ffffff' }}>
+                      Register Attendee (Offline / Group Process)
+                    </h2>
+                    <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)', display: 'block', marginTop: '2px' }}>
+                      Enroll offline walk-ins at desk or WhatsApp group enquiries directly into the workshop roster.
+                    </span>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowNewRegPanel(false);
+                    setNewRegForm(initialNewRegForm);
+                    setNewRegProofPreview('');
+                  }}
+                  className="btn-outline"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '7px 18px',
+                    borderRadius: '20px',
+                    fontSize: '0.84rem',
+                    fontWeight: '600',
+                    border: '1px solid rgba(255, 255, 255, 0.25)',
+                    color: '#ffffff',
+                    cursor: 'pointer',
+                    background: 'rgba(255, 255, 255, 0.05)'
+                  }}
+                  title="Close Form"
+                >
+                  <CloseOutlined />
+                  <span>Close</span>
+                </button>
+              </div>
+
+              <form onSubmit={handleCreateNewRegistration}>
+                {/* Channel Selector - 2 Options Only: Individual & Group */}
+                <div style={{ marginBottom: '18px', background: 'rgba(255,255,255,0.03)', padding: '14px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.15)' }}>
+                  <label style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.6px', color: 'var(--mango-yellow)', fontWeight: '800', display: 'block', marginBottom: '10px' }}>
+                    Registration Channel &amp; Process
+                  </label>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px' }}>
+                    {[
+                      { type: 'Individual', source: 'Offline Walk-in / Academy Desk', label: 'Individual (Offline Walk-in)' },
+                      { type: 'Group Process', source: 'Group Enquiry / WhatsApp Process', label: 'Group Booking / Enquiry' }
+                    ].map((chan) => {
+                      const isSelected = chan.type === 'Group Process'
+                        ? newRegForm.registrationType === 'Group Process'
+                        : (newRegForm.registrationType === 'Individual' || newRegForm.registrationType === 'Offline Walk-in');
+
+                      return (
+                        <button
+                          key={chan.type}
+                          type="button"
+                          onClick={() => setNewRegForm((prev) => ({
+                            ...prev,
+                            registrationType: chan.type,
+                            registrationSource: chan.source,
+                            numberOfAttendees: chan.type === 'Group Process' ? (prev.numberOfAttendees > 1 ? prev.numberOfAttendees : 2) : 1
+                          }))}
+                          style={{
+                            padding: '12px 18px',
+                            borderRadius: '10px',
+                            background: isSelected ? 'var(--green-medium)' : 'rgba(0, 0, 0, 0.35)',
+                            border: isSelected ? '1.5px solid #22c55e' : '1.5px solid rgba(255, 255, 255, 0.25)',
+                            color: '#ffffff',
+                            fontWeight: isSelected ? '700' : '500',
+                            fontSize: '0.9rem',
+                            cursor: 'pointer',
+                            textAlign: 'center',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '8px',
+                            boxShadow: isSelected ? '0 4px 14px rgba(25, 65, 33, 0.45)' : 'none',
+                            transition: 'all 0.2s ease'
+                          }}
+                        >
+                          {isSelected && <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '16px' }} />}
+                          <span>{chan.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Participant Contact Info Grid */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '14px', marginBottom: '16px' }}>
+                  <div>
+                    <label style={{ fontSize: '0.82rem', fontWeight: '600', color: 'rgba(255,255,255,0.85)', display: 'block', marginBottom: '6px' }}>
+                      Participant / Contact Person Name <span style={{ color: '#ff4d4f' }}>*</span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Ramesh Kumar"
+                      value={newRegForm.name}
+                      onChange={(e) => setNewRegForm({ ...newRegForm, name: e.target.value })}
+                      className="admin-modal-field admin-login-input"
+                      style={{ width: '100%', padding: '10px 14px', fontSize: '0.9rem', border: '1.5px solid rgba(255, 255, 255, 0.5)', backgroundColor: '#18261c', borderRadius: '8px', color: '#ffffff' }}
+                    />
+                  </div>
+
+                  <div>
+                    <label style={{ fontSize: '0.82rem', fontWeight: '600', color: 'rgba(255,255,255,0.85)', display: 'block', marginBottom: '6px' }}>
+                      Phone / WhatsApp Number <span style={{ color: '#ff4d4f' }}>*</span>
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      placeholder="e.g. 9876543210"
+                      value={newRegForm.phone}
+                      onChange={(e) => setNewRegForm({ ...newRegForm, phone: e.target.value })}
+                      className="admin-modal-field admin-login-input"
+                      style={{ width: '100%', padding: '10px 14px', fontSize: '0.9rem', border: '1.5px solid rgba(255, 255, 255, 0.5)', backgroundColor: '#18261c', borderRadius: '8px', color: '#ffffff' }}
+                    />
+                  </div>
+
+                  <div>
+                    <label style={{ fontSize: '0.82rem', fontWeight: '600', color: 'rgba(255,255,255,0.85)', display: 'block', marginBottom: '6px' }}>
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      placeholder="e.g. attendee@gmail.com (optional)"
+                      value={newRegForm.email}
+                      onChange={(e) => setNewRegForm({ ...newRegForm, email: e.target.value })}
+                      className="admin-modal-field admin-login-input"
+                      style={{ width: '100%', padding: '10px 14px', fontSize: '0.9rem', border: '1.5px solid rgba(255, 255, 255, 0.5)', backgroundColor: '#18261c', borderRadius: '8px', color: '#ffffff' }}
+                    />
+                  </div>
+
+                  <div>
+                    <label style={{ fontSize: '0.82rem', fontWeight: '600', color: 'rgba(255,255,255,0.85)', display: 'block', marginBottom: '6px' }}>
+                      City / Location <span style={{ color: '#ff4d4f' }}>*</span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Chennai, Kodambakkam"
+                      value={newRegForm.city}
+                      onChange={(e) => setNewRegForm({ ...newRegForm, city: e.target.value })}
+                      className="admin-modal-field admin-login-input"
+                      style={{ width: '100%', padding: '10px 14px', fontSize: '0.9rem', border: '1.5px solid rgba(255, 255, 255, 0.5)', backgroundColor: '#18261c', borderRadius: '8px', color: '#ffffff' }}
+                    />
+                  </div>
+                </div>
+
+                {/* Group / Seating Details */}
+                <div style={{ background: 'rgba(34, 197, 94, 0.08)', border: '1.5px solid rgba(34, 197, 94, 0.35)', borderRadius: '12px', padding: '16px', marginBottom: '16px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#22c55e', fontWeight: '700', fontSize: '0.88rem', marginBottom: '12px' }}>
+                    <TeamOutlined />
+                    <span>Group &amp; Seating Roster Settings</span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px' }}>
+                    <div>
+                      <label style={{ fontSize: '0.8rem', fontWeight: '600', color: 'rgba(255,255,255,0.85)', display: 'block', marginBottom: '6px' }}>
+                        Number of Participants / Seats
+                      </label>
+                      <input
+                        type="number"
+                        min={1}
+                        max={50}
+                        value={newRegForm.numberOfAttendees}
+                        onChange={(e) => setNewRegForm({ ...newRegForm, numberOfAttendees: Number(e.target.value) || 1 })}
+                        className="admin-modal-field admin-login-input"
+                        style={{ width: '100%', padding: '10px 14px', fontSize: '0.9rem', border: '1.5px solid rgba(255, 255, 255, 0.5)', backgroundColor: '#18261c', borderRadius: '8px', color: '#ffffff' }}
+                      />
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: '0.8rem', fontWeight: '600', color: 'rgba(255,255,255,0.85)', display: 'block', marginBottom: '6px' }}>
+                        Group / Company / College Name (Optional)
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="e.g. SRM Hotel Mgmt Batch / Kumar &amp; Family"
+                        value={newRegForm.groupName}
+                        onChange={(e) => setNewRegForm({ ...newRegForm, groupName: e.target.value })}
+                        className="admin-modal-field admin-login-input"
+                        style={{ width: '100%', padding: '10px 14px', fontSize: '0.9rem', border: '1.5px solid rgba(255, 255, 255, 0.5)', backgroundColor: '#18261c', borderRadius: '8px', color: '#ffffff' }}
+                      />
+                    </div>
+
+                    <div style={{ gridColumn: '1 / -1' }}>
+                      <label style={{ fontSize: '0.8rem', fontWeight: '600', color: 'rgba(255,255,255,0.85)', display: 'block', marginBottom: '6px' }}>
+                        Additional Participant Names (Optional)
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="e.g. 1. Anitha, 2. Vignesh, 3. Priya"
+                        value={newRegForm.additionalMembers}
+                        onChange={(e) => setNewRegForm({ ...newRegForm, additionalMembers: e.target.value })}
+                        className="admin-modal-field admin-login-input"
+                        style={{ width: '100%', padding: '10px 14px', fontSize: '0.9rem', border: '1.5px solid rgba(255, 255, 255, 0.5)', backgroundColor: '#18261c', borderRadius: '8px', color: '#ffffff' }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Masterclass Badge info */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px', background: 'rgba(232, 167, 16, 0.08)', border: '1px solid rgba(232, 167, 16, 0.25)', padding: '10px 14px', borderRadius: '10px', marginBottom: '16px', fontSize: '0.84rem' }}>
+                  <div>
+                    <strong style={{ color: 'var(--mango-yellow)' }}>One Day Vegetable Carving Workshop</strong>
+                    <span style={{ opacity: 0.7, marginLeft: '8px' }}>• Oct 24 (10:00 AM to 5:00 PM)</span>
+                  </div>
+                  <div style={{ color: '#22c55e', fontWeight: '700' }}>
+                    Mentor: Sun TV MasterChef Manikandan
+                  </div>
+                </div>
+
+                {/* Payment Details Grid */}
+                <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '12px', padding: '16px', marginBottom: '16px' }}>
+                  <label style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.6px', color: 'var(--mango-yellow)', fontWeight: '800', display: 'block', marginBottom: '12px' }}>
+                    Payment &amp; Financial Accounting
+                  </label>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px' }}>
+                    <div>
+                      <label style={{ fontSize: '0.8rem', fontWeight: '600', color: 'rgba(255,255,255,0.85)', display: 'block', marginBottom: '6px' }}>
+                        Total Amount Collected (₹) <span style={{ color: '#ff4d4f' }}>*</span>
+                      </label>
+                      <input
+                        type="number"
+                        required
+                        min={0}
+                        value={newRegForm.amountPaid}
+                        onChange={(e) => setNewRegForm({ ...newRegForm, amountPaid: Number(e.target.value) || 0 })}
+                        className="admin-modal-field admin-login-input"
+                        style={{ width: '100%', padding: '10px 14px', fontSize: '0.95rem', border: '1.5px solid rgba(255, 255, 255, 0.5)', backgroundColor: '#18261c', borderRadius: '8px', color: '#22c55e', fontWeight: '800' }}
+                      />
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: '0.8rem', fontWeight: '600', color: 'rgba(255,255,255,0.85)', display: 'block', marginBottom: '6px' }}>
+                        Payment Method
+                      </label>
+                      <select
+                        value={newRegForm.paymentMode}
+                        onChange={(e) => setNewRegForm({
+                          ...newRegForm,
+                          paymentMode: e.target.value,
+                          bankDetails: e.target.value.includes('Cash') ? 'Cash Received at Academy Desk' : newRegForm.bankDetails
+                        })}
+                        className="admin-modal-field admin-login-input"
+                        style={{ width: '100%', padding: '10px 14px', fontSize: '0.86rem', border: '1.5px solid rgba(255, 255, 255, 0.5)', backgroundColor: '#18261c', borderRadius: '8px', color: '#ffffff' }}
+                      >
+                        <option value="Cash (Paid at Academy Desk)">Cash (Paid at Academy Desk)</option>
+                        <option value="GPay / PhonePe UPI">GPay / PhonePe / Paytm UPI</option>
+                        <option value="Bank Transfer (NEFT/IMPS)">Bank Transfer (NEFT / IMPS)</option>
+                        <option value="Card Swipe / POS">Card Swipe / POS Terminal</option>
+                        <option value="Pending - Pay on Arrival">Pending - Pay on Arrival (Oct 24)</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: '0.8rem', fontWeight: '600', color: 'rgba(255,255,255,0.85)', display: 'block', marginBottom: '6px' }}>
+                        Payment Status
+                      </label>
+                      <select
+                        value={newRegForm.paymentStatus}
+                        onChange={(e) => setNewRegForm({ ...newRegForm, paymentStatus: e.target.value })}
+                        className="admin-modal-field admin-login-input"
+                        style={{ width: '100%', padding: '10px 14px', fontSize: '0.86rem', border: '1.5px solid rgba(255, 255, 255, 0.5)', backgroundColor: '#18261c', borderRadius: '8px', color: '#ffffff' }}
+                      >
+                        <option value="Full Payment Complete (Rs. 4,499)">Full Payment Complete (Rs. 4,499)</option>
+                        <option value="Advance / Reg Fee Paid (Rs. 500)">Advance / Reg Fee Paid (Rs. 500)</option>
+                        <option value="Custom Group Concession Paid">Custom Group Concession Paid</option>
+                        <option value="Pending at Venue">Pending at Venue</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: '0.8rem', fontWeight: '600', color: 'rgba(255,255,255,0.85)', display: 'block', marginBottom: '6px' }}>
+                        Transaction / UTR / Receipt ID <span style={{ color: '#ff4d4f' }}>*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. CASH-DESK-01 / UPI Ref ID"
+                        value={newRegForm.bankDetails}
+                        onChange={(e) => setNewRegForm({ ...newRegForm, bankDetails: e.target.value })}
+                        className="admin-modal-field admin-login-input"
+                        style={{ width: '100%', padding: '10px 14px', fontSize: '0.9rem', border: '1.5px solid rgba(255, 255, 255, 0.5)', backgroundColor: '#18261c', borderRadius: '8px', color: '#ffffff' }}
+                      />
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: '0.8rem', fontWeight: '600', color: 'rgba(255,255,255,0.85)', display: 'block', marginBottom: '6px' }}>
+                        Roster Status
+                      </label>
+                      <select
+                        value={newRegForm.status}
+                        onChange={(e) => setNewRegForm({ ...newRegForm, status: e.target.value })}
+                        className="admin-modal-field admin-login-input"
+                        style={{ width: '100%', padding: '10px 14px', fontSize: '0.86rem', border: '1.5px solid rgba(255, 255, 255, 0.5)', backgroundColor: '#18261c', borderRadius: '8px', color: '#ffffff' }}
+                      >
+                        <option value="Verified / Enrolled">Verified / Enrolled (Seat Confirmed)</option>
+                        <option value="Pending Verification">Pending Verification</option>
+                        <option value="Follow-up">Follow-up</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: '0.8rem', fontWeight: '600', color: 'rgba(255,255,255,0.85)', display: 'block', marginBottom: '6px' }}>
+                        Payment Proof Screenshot / Bill (Optional)
+                      </label>
+                      <div style={{
+                        border: '1.5px dashed rgba(255, 255, 255, 0.45)',
+                        borderRadius: '8px',
+                        padding: '7px 12px',
+                        backgroundColor: '#18261c'
+                      }}>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleNewRegProofUpload}
+                          style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.85)', width: '100%', cursor: 'pointer' }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {newRegProofPreview && (
+                    <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '10px', background: 'rgba(34, 197, 94, 0.1)', padding: '8px 12px', borderRadius: '8px', border: '1px solid rgba(34, 197, 94, 0.25)' }}>
+                      <img
+                        src={newRegProofPreview}
+                        alt="Proof Preview"
+                        style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '6px', border: '1px solid #22c55e' }}
+                      />
+                      <span style={{ fontSize: '0.82rem', color: '#22c55e', fontWeight: '600' }}>Proof image attached &amp; ready to record</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Special Notes */}
+                <div style={{ marginBottom: '20px' }}>
+                  <label style={{ fontSize: '0.82rem', fontWeight: '600', color: 'rgba(255,255,255,0.85)', display: 'block', marginBottom: '6px' }}>
+                    Admin Notes / Special Instructions (Optional)
+                  </label>
+                  <textarea
+                    rows={2}
+                    placeholder="e.g. Vegetarian lunch confirmed, requires left-handed carving station, group discount approved by Chef Vahitha"
+                    value={newRegForm.notes}
+                    onChange={(e) => setNewRegForm({ ...newRegForm, notes: e.target.value })}
+                    className="admin-modal-field admin-login-input"
+                    style={{ width: '100%', height: 'auto', padding: '10px 14px', fontSize: '0.88rem', border: '1.5px solid rgba(255, 255, 255, 0.5)', backgroundColor: '#18261c', borderRadius: '8px', color: '#ffffff' }}
+                  />
+                </div>
+
+                {/* Action Buttons */}
+                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '12px', borderTop: '1px solid rgba(255,255,255,0.12)', paddingTop: '16px' }}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowNewRegPanel(false);
+                      setNewRegForm(initialNewRegForm);
+                      setNewRegProofPreview('');
+                    }}
+                    className="btn-outline"
+                    style={{ padding: '9px 22px', borderRadius: '30px', fontSize: '0.88rem', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.3)', color: '#fff' }}
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    type="submit"
+                    disabled={isSubmittingNewReg}
+                    className="btn-primary"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '11px 30px',
+                      borderRadius: '30px',
+                      background: 'var(--green-medium)',
+                      color: '#ffffff',
+                      border: '1px solid rgba(34, 197, 94, 0.4)',
+                      fontWeight: '700',
+                      fontSize: '0.94rem',
+                      cursor: 'pointer',
+                      boxShadow: '0 4px 16px rgba(25, 65, 33, 0.4)'
+                    }}
+                  >
+                    <CheckCircleOutlined />
+                    <span>{isSubmittingNewReg ? 'Enrolling...' : 'Confirm & Register Attendee'}</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
 
           {/* Top Controls Toolbar: Search, Status Dropdown, Date Range Picker, Clear Filters */}
           <div
@@ -906,15 +1540,33 @@ export default function AdminPortal({ onClose }) {
                   <tbody>
                     {paginatedList.map((app) => (
                       <tr key={app.id || app.registrationId} style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                        {/* Reg ID */}
+                        {/* Reg ID & Channel */}
                         <td style={{ padding: '14px' }}>
                           <strong style={{ color: 'var(--mango-yellow)', fontSize: '0.92rem' }}>
                             {app.registrationId || app.id}
                           </strong>
-                          <span style={{ display: 'block', fontSize: '0.74rem', opacity: 0.65, marginTop: '2px' }}>
-                            {app.registrationType || 'Individual'}
-                            {app.numberOfAttendees > 1 ? ` (${app.numberOfAttendees} seats)` : ''}
-                          </span>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '5px', flexWrap: 'wrap', marginTop: '4px' }}>
+                            {app.registrationSource && app.registrationSource.includes('Walk-in') && (
+                              <span style={{ fontSize: '0.68rem', padding: '1px 6px', borderRadius: '4px', background: 'rgba(34, 197, 94, 0.15)', color: '#22c55e', border: '1px solid rgba(34, 197, 94, 0.3)', fontWeight: '600' }}>
+                                Offline Desk
+                              </span>
+                            )}
+                            {app.registrationType && app.registrationType.includes('Group') && (
+                              <span style={{ fontSize: '0.68rem', padding: '1px 6px', borderRadius: '4px', background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', border: '1px solid rgba(56, 189, 248, 0.3)', fontWeight: '600' }}>
+                                Group ({app.numberOfAttendees || 2})
+                              </span>
+                            )}
+                            {app.registrationSource && app.registrationSource.includes('Telephonic') && (
+                              <span style={{ fontSize: '0.68rem', padding: '1px 6px', borderRadius: '4px', background: 'rgba(232, 167, 16, 0.15)', color: 'var(--mango-yellow)', border: '1px solid rgba(232, 167, 16, 0.3)', fontWeight: '600' }}>
+                                Phone Call
+                              </span>
+                            )}
+                            {(!app.registrationSource || app.registrationSource.includes('Online')) && (
+                              <span style={{ fontSize: '0.72rem', opacity: 0.65 }}>
+                                {app.registrationType || 'Individual'}
+                              </span>
+                            )}
+                          </div>
                         </td>
 
                         {/* Date */}
@@ -930,6 +1582,11 @@ export default function AdminPortal({ onClose }) {
                           <strong style={{ display: 'block', fontSize: '0.94rem', color: '#fff' }}>
                             {app.name}
                           </strong>
+                          {app.groupName && (
+                            <span style={{ display: 'block', fontSize: '0.76rem', color: '#38bdf8', fontWeight: '500' }}>
+                              Group: {app.groupName}
+                            </span>
+                          )}
                           <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '0.8rem', opacity: 0.75, marginTop: '3px' }}>
                             <EnvironmentOutlined style={{ color: 'var(--mango-yellow)' }} />
                             <span>{app.city || 'Chennai'}</span>
@@ -974,10 +1631,10 @@ export default function AdminPortal({ onClose }) {
                             )}
                             <div>
                               <strong style={{ color: '#22c55e', fontSize: '0.88rem', display: 'block' }}>
-                                ₹{app.amountPaid || 500} Paid
+                                ₹{Number(app.amountPaid || 500).toLocaleString('en-IN')} Paid
                               </strong>
-                              <span style={{ fontSize: '0.75rem', opacity: 0.75, maxWidth: '140px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'block' }} title={app.bankDetails}>
-                                {app.bankDetails || 'UTR pending'}
+                              <span style={{ fontSize: '0.74rem', opacity: 0.75, maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'block' }} title={`${app.paymentMode || ''} - ${app.bankDetails || ''}`}>
+                                {app.paymentMode ? `${app.paymentMode.split(' ')[0]} • ` : ''}{app.bankDetails || 'UTR pending'}
                               </span>
                             </div>
                           </div>
@@ -1150,11 +1807,26 @@ export default function AdminPortal({ onClose }) {
                   </div>
                   <div>
                     <span style={{ fontSize: '0.75rem', opacity: 0.6, textTransform: 'uppercase', display: 'block' }}>Registration Type</span>
-                    <span style={{ fontSize: '0.92rem' }}>{selectedApplicant.registrationType || 'Individual'} ({selectedApplicant.numberOfAttendees || 1} Person)</span>
+                    <span style={{ fontSize: '0.92rem' }}>
+                      {selectedApplicant.registrationType || 'Individual'} ({selectedApplicant.numberOfAttendees || 1} Person{selectedApplicant.numberOfAttendees > 1 ? 's' : ''})
+                      {selectedApplicant.registrationSource ? ` • ${selectedApplicant.registrationSource}` : ''}
+                    </span>
                   </div>
+                  {selectedApplicant.groupName && (
+                    <div>
+                      <span style={{ fontSize: '0.75rem', opacity: 0.6, textTransform: 'uppercase', display: 'block' }}>Group / Organization</span>
+                      <strong style={{ fontSize: '0.95rem', color: 'var(--mango-yellow)' }}>{selectedApplicant.groupName}</strong>
+                    </div>
+                  )}
+                  {selectedApplicant.paymentMode && (
+                    <div>
+                      <span style={{ fontSize: '0.75rem', opacity: 0.6, textTransform: 'uppercase', display: 'block' }}>Payment Method</span>
+                      <strong style={{ fontSize: '0.92rem', color: '#22c55e' }}>{selectedApplicant.paymentMode}</strong>
+                    </div>
+                  )}
                   <div>
-                    <span style={{ fontSize: '0.75rem', opacity: 0.6, textTransform: 'uppercase', display: 'block' }}>Advance Amount</span>
-                    <strong style={{ fontSize: '0.95rem', color: 'var(--mango-yellow)' }}>₹{selectedApplicant.amountPaid || 500}</strong>
+                    <span style={{ fontSize: '0.75rem', opacity: 0.6, textTransform: 'uppercase', display: 'block' }}>Fee Amount</span>
+                    <strong style={{ fontSize: '0.95rem', color: 'var(--mango-yellow)' }}>₹{selectedApplicant.amountPaid || 4499}</strong>
                   </div>
                   <div>
                     <span style={{ fontSize: '0.75rem', opacity: 0.6, textTransform: 'uppercase', display: 'block' }}>Transaction Reference / UTR</span>
@@ -1165,6 +1837,13 @@ export default function AdminPortal({ onClose }) {
                     <span style={{ fontSize: '0.9rem' }}>{selectedApplicant.submittedAt ? new Date(selectedApplicant.submittedAt).toLocaleString() : 'N/A'}</span>
                   </div>
                 </div>
+
+                {selectedApplicant.additionalMembers && (
+                  <div style={{ background: 'rgba(34, 197, 94, 0.08)', border: '1px solid rgba(34, 197, 94, 0.25)', borderRadius: '10px', padding: '12px 16px', marginBottom: '20px', fontSize: '0.88rem' }}>
+                    <strong style={{ color: '#22c55e', display: 'block', marginBottom: '4px' }}>Additional Group Members:</strong>
+                    <div style={{ whiteSpace: 'pre-line' }}>{selectedApplicant.additionalMembers}</div>
+                  </div>
+                )}
 
                 {/* Additional Notes */}
                 {selectedApplicant.notes && (
@@ -1181,7 +1860,7 @@ export default function AdminPortal({ onClose }) {
                       <CreditCardOutlined /> Payment Proof Screenshot
                     </strong>
                     <span className="badge badge-success" style={{ fontSize: '0.75rem', padding: '3px 10px', borderRadius: '10px', background: 'rgba(34, 197, 94, 0.15)', color: '#22c55e' }}>
-                      ₹{selectedApplicant.amountPaid || 500} Advance Confirmed
+                      ₹{selectedApplicant.amountPaid || 500} Registration Fee Confirmed
                     </span>
                   </div>
 
@@ -1294,7 +1973,6 @@ export default function AdminPortal({ onClose }) {
             </div>
           )}
         </Modal>
-
       </div>
     </div>
   );

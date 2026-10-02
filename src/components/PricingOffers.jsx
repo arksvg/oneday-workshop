@@ -7,7 +7,10 @@ import {
   TagOutlined,
   CheckCircleOutlined,
   GlobalOutlined,
-  MailOutlined
+  MailOutlined,
+  CalendarOutlined,
+  ClockCircleOutlined,
+  ArrowRightOutlined
 } from '@ant-design/icons';
 
 export default function PricingOffers() {
@@ -24,180 +27,248 @@ export default function PricingOffers() {
             Registration &amp; <span className="gradient-text-gold">Workshop Fees</span>
           </h2>
           <p style={{ fontSize: '1.05rem', opacity: 0.9, lineHeight: '1.6' }}>
-            Lock in your seat with our advance registration fee. Call our admissions desk to confirm your slot and unlock exclusive group enrollment discounts.
+            Register with our one-time registration fee for Sam&apos;s Culinary Art Class. Workshop fee is ₹3,999 for the complete masterclass on Oct 24 (10:00 AM to 5:00 PM). Group discounts available!
           </p>
         </div>
 
-        {/* 2-Card Pricing Columns */}
+        {/* Unified Single Pricing Card */}
         <div
           style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '28px',
-            maxWidth: '900px',
-            margin: '0 auto 40px'
+            maxWidth: '860px',
+            margin: '0 auto 48px',
+            background: 'radial-gradient(ellipse at top center, rgba(232, 167, 16, 0.14) 0%, var(--bg-surface-elevated) 70%)',
+            border: '2px solid var(--mango-yellow)',
+            borderRadius: '24px',
+            padding: '42px 32px 36px',
+            position: 'relative',
+            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(232, 167, 16, 0.16)'
           }}
         >
-          {/* Card 1: Advance Registration Fee */}
+          {/* Top Floating Badge */}
           <div
             style={{
-              background: 'var(--bg-surface-elevated)',
-              border: '2px solid var(--mango-yellow)',
-              borderRadius: '20px',
-              padding: '36px 28px',
-              position: 'relative',
-              boxShadow: '0 16px 40px rgba(232, 167, 16, 0.15)'
+              position: 'absolute',
+              top: '-15px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              background: 'linear-gradient(135deg, var(--mango-yellow) 0%, #d4900a 100%)',
+              color: '#000000',
+              padding: '6px 24px',
+              borderRadius: '30px',
+              fontSize: '0.82rem',
+              fontWeight: '800',
+              letterSpacing: '0.8px',
+              textTransform: 'uppercase',
+              boxShadow: '0 4px 14px rgba(232, 167, 16, 0.35)',
+              whiteSpace: 'nowrap'
             }}
           >
+            ALL-INCLUSIVE WORKSHOP PACKAGE
+          </div>
+
+          {/* Card Header */}
+          <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+            <h3 style={{ fontSize: '1.75rem', fontWeight: '800', color: 'var(--text-dark)', marginBottom: '8px' }}>
+              One Day Vegetable Carving Workshop
+            </h3>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'var(--mango-yellow)', fontSize: '0.92rem', fontWeight: '700' }}>
+              <CalendarOutlined />
+              <span>Date: Oct 24</span>
+              <span style={{ opacity: 0.5 }}>|</span>
+              <ClockCircleOutlined />
+              <span>10:00 AM to 5:00 PM</span>
+            </div>
+          </div>
+
+          {/* Pricing Formula Breakdown Box: Reg Fee + Workshop Fee = Total */}
+          <div
+            style={{
+              background: 'rgba(0, 0, 0, 0.45)',
+              border: '1px solid rgba(232, 167, 16, 0.35)',
+              borderRadius: '20px',
+              padding: '28px 24px',
+              marginBottom: '32px',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+              gap: '20px',
+              alignItems: 'stretch'
+            }}
+          >
+            {/* Box 1: One-time Registration Fee */}
             <div
               style={{
-                position: 'absolute',
-                top: '-14px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                background: 'var(--mango-yellow)',
-                color: '#000000',
-                padding: '4px 16px',
-                borderRadius: '20px',
-                fontSize: '0.78rem',
-                fontWeight: '800',
-                letterSpacing: '0.5px',
-                textTransform: 'uppercase'
+                background: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                borderRadius: '16px',
+                padding: '20px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between'
               }}
             >
-              Seat Advance
+              <div>
+                <span style={{ fontSize: '0.74rem', textTransform: 'uppercase', letterSpacing: '0.8px', color: 'var(--mango-yellow)', fontWeight: '800', display: 'inline-block', marginBottom: '8px' }}>
+                  Step 1 • Registration Fee
+                </span>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'nowrap', marginBottom: '10px' }}>
+                  <span style={{ fontSize: '2.2rem', fontWeight: '900', color: 'var(--mango-yellow)', lineHeight: 1, whiteSpace: 'nowrap' }}>
+                    Rs. 500
+                  </span>
+                  <span style={{ fontSize: '0.82rem', opacity: 0.75, whiteSpace: 'nowrap' }}>/ one-time</span>
+                </div>
+              </div>
+              <p style={{ fontSize: '0.82rem', opacity: 0.85, margin: 0, lineHeight: '1.45' }}>
+                One-time registration fee for entire Sam&apos;s Culinary Art Class.
+              </p>
             </div>
 
-            <h3 style={{ fontSize: '1.35rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-dark)' }}>
-              Advance Registration Fee
-            </h3>
-            <p style={{ fontSize: '0.88rem', opacity: 0.8, marginBottom: '20px' }}>
-              Mandatory advance deposit to lock your vegetable carving station &amp; toolkit.
-            </p>
-
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '24px' }}>
-              <span style={{ fontSize: '3rem', fontWeight: '900', color: 'var(--mango-yellow)', lineHeight: 1 }}>
-                Rs. 500
-              </span>
-              <span style={{ fontSize: '0.9rem', opacity: 0.7 }}>/ participant</span>
+            {/* Box 2: Workshop Fee */}
+            <div
+              style={{
+                background: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                borderRadius: '16px',
+                padding: '20px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between'
+              }}
+            >
+              <div>
+                <span style={{ fontSize: '0.74rem', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#22c55e', fontWeight: '800', display: 'inline-block', marginBottom: '8px' }}>
+                  Step 2 • Workshop Fee
+                </span>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'nowrap', marginBottom: '10px' }}>
+                  <span style={{ fontSize: '2.2rem', fontWeight: '900', color: '#22c55e', lineHeight: 1, whiteSpace: 'nowrap' }}>
+                    + Rs. 3,999
+                  </span>
+                  <span style={{ fontSize: '0.82rem', opacity: 0.75, whiteSpace: 'nowrap' }}>/ participant</span>
+                </div>
+              </div>
+              <p style={{ fontSize: '0.82rem', opacity: 0.85, margin: 0, lineHeight: '1.45' }}>
+                Full-day hands-on masterclass with Sun TV MasterChef Manikandan on Oct 24.
+              </p>
             </div>
 
-            <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 28px 0', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.9rem' }}>
-                <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '16px' }} />
-                <span>Immediate confirmed seat allocation</span>
-              </li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.9rem' }}>
-                <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '16px' }} />
-                <span>Vegetable carving kit &amp; tools reserved in your name</span>
-              </li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.9rem' }}>
-                <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '16px' }} />
-                <span>Adjusted towards total workshop fee on arrival</span>
-              </li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.9rem' }}>
-                <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '16px' }} />
-                <span>Instant confirmation slip generated online</span>
-              </li>
-            </ul>
+            {/* Box 3: Total Fee */}
+            <div
+              style={{
+                background: 'linear-gradient(145deg, rgba(232, 167, 16, 0.15) 0%, rgba(20, 36, 23, 0.85) 100%)',
+                border: '1.5px solid var(--mango-yellow)',
+                borderRadius: '16px',
+                padding: '20px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                textAlign: 'center',
+                boxShadow: '0 8px 24px rgba(232, 167, 16, 0.12)'
+              }}
+            >
+              <div>
+                <span style={{ fontSize: '0.74rem', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#ffffff', fontWeight: '800', display: 'inline-block', marginBottom: '8px' }}>
+                  Total Fee
+                </span>
+                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '6px', flexWrap: 'nowrap', marginBottom: '6px' }}>
+                  <span style={{ fontSize: '2.4rem', fontWeight: '900', color: 'var(--mango-yellow)', lineHeight: 1, whiteSpace: 'nowrap' }}>
+                    Rs. 4,499
+                  </span>
+                  <span style={{ fontSize: '0.82rem', opacity: 0.8, whiteSpace: 'nowrap' }}>/ total</span>
+                </div>
+              </div>
+              <div style={{ fontSize: '0.78rem', color: '#22c55e', fontWeight: '700', padding: '6px 10px', background: 'rgba(0, 0, 0, 0.4)', borderRadius: '8px' }}>
+                Rs. 500 Reg Fee + Rs. 3,999 Workshop Fee
+              </div>
+            </div>
+          </div>
 
+          {/* Key Inclusions Grid */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: '14px',
+              marginBottom: '32px'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '0.92rem' }}>
+              <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '18px', marginTop: '3px' }} />
+              <span><strong>Take-Home Vegetable Bouquet:</strong> Crafted and sculpted by you during this workshop</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '0.92rem' }}>
+              <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '18px', marginTop: '3px' }} />
+              <span><strong>MasterChef Personal Mentorship:</strong> Direct hands-on guidance from MasterChef Manikandan</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '0.92rem' }}>
+              <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '18px', marginTop: '3px' }} />
+              <span><strong>All Tools Provided:</strong> Specialized carving knives, fresh vegetables &amp; gear in class</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '0.92rem' }}>
+              <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '18px', marginTop: '3px' }} />
+              <span><strong>Recognized Certificate:</strong> Completion certificate signed by MasterChef Manikandan &amp; Chef Vahitha</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '0.92rem' }}>
+              <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '18px', marginTop: '3px' }} />
+              <span><strong>Veg Lunch &amp; Refreshments:</strong> Gourmet hot vegetarian lunch, tea, coffee &amp; beverages</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '0.92rem' }}>
+              <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '18px', marginTop: '3px' }} />
+              <span><strong>One-Time Lifetime Registration:</strong> Valid across all future Sam&apos;s Culinary Art Class courses</span>
+            </div>
+          </div>
+
+          {/* Action CTAs */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', alignItems: 'center', justifyContent: 'center' }}>
             <a
               href="#register"
               className="btn-primary"
               style={{
-                display: 'block',
-                textAlign: 'center',
-                padding: '14px',
-                fontWeight: '700',
-                borderRadius: '12px'
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '10px',
+                padding: '16px 36px',
+                fontSize: '1.05rem',
+                fontWeight: '800',
+                borderRadius: '30px'
               }}
             >
-              Pay Rs. 500 &amp; Register Now
+              <CheckCircleOutlined style={{ fontSize: '18px' }} />
+              <span>Register Now</span>
+              <ArrowRightOutlined />
             </a>
-          </div>
 
-          {/* Card 2: Total Workshop Fees & Enrollment Call */}
-          <div
-            style={{
-              background: 'var(--bg-surface-elevated)',
-              border: '1px solid var(--border-color)',
-              borderRadius: '20px',
-              padding: '36px 28px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between'
-            }}
-          >
-            <div>
-              <div
-                style={{
-                  display: 'inline-block',
-                  background: 'rgba(46, 102, 58, 0.25)',
-                  color: 'var(--text-dark)',
-                  padding: '4px 14px',
-                  borderRadius: '20px',
-                  fontSize: '0.78rem',
-                  fontWeight: '700',
-                  marginBottom: '16px'
-                }}
-              >
-                Direct Support &amp; Enquiries
-              </div>
+            <a
+              href="https://wa.me/918939648457?text=Hi%20Sam's%20Culinary%20Art%20Class,%20I%20am%20enquiring%20about%20the%20One%20Day%20Vegetable%20Carving%20Workshop%20(Rs.%20500%20Reg%20Fee%20+%20Rs.%203999%20Workshop%20Fee)%20and%20group%20discounts."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-outline"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '15px 24px',
+                fontSize: '0.95rem',
+                borderRadius: '30px'
+              }}
+            >
+              <WhatsAppOutlined />
+              <span>Group Offers on WhatsApp</span>
+            </a>
 
-              <h3 style={{ fontSize: '1.35rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-dark)' }}>
-                Full Workshop Fees
-              </h3>
-              <p style={{ fontSize: '0.88rem', opacity: 0.8, marginBottom: '20px' }}>
-                Call our coordinator directly to reserve your slot and receive full tuition details.
-              </p>
-
-              <div style={{ background: 'rgba(255, 255, 255, 0.04)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '16px', marginBottom: '20px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
-                  <PhoneOutlined style={{ color: 'var(--mango-yellow)', fontSize: '18px' }} />
-                  <strong style={{ fontSize: '1.15rem' }}>+91 8939648457</strong>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.85rem', opacity: 0.85 }}>
-                  <MailOutlined style={{ color: 'var(--mango-yellow)' }} />
-                  <span>samsculinaryartclass@gmail.com</span>
-                </div>
-              </div>
-
-              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px 0', display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.9rem' }}>
-                <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <CheckCircleOutlined style={{ color: '#22c55e' }} />
-                  <span>Individual &amp; professional pricing available</span>
-                </li>
-                <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <CheckCircleOutlined style={{ color: '#22c55e' }} />
-                  <span>Catering &amp; hotel management student rates</span>
-                </li>
-                <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <CheckCircleOutlined style={{ color: '#22c55e' }} />
-                  <span>Special weekend slots available upon request</span>
-                </li>
-              </ul>
-            </div>
-
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <a
-                href="tel:+918939648457"
-                className="btn-outline"
-                style={{ flex: 1, textAlign: 'center', padding: '12px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
-              >
-                <PhoneOutlined />
-                <span>Call Now</span>
-              </a>
-              <a
-                href="https://wa.me/918939648457?text=Hi%20Sam's%20Culinary%20Art%20Class,%20please%20share%20the%20complete%20workshop%20fees%20for%20Chef%20Manikandan's%20One%20day%20Workshop%20for%20Master%20class."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary"
-                style={{ flex: 1, textAlign: 'center', padding: '12px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
-              >
-                <WhatsAppOutlined />
-                <span>WhatsApp</span>
-              </a>
-            </div>
+            <a
+              href="tel:+918939648457"
+              className="btn-outline"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '15px 22px',
+                fontSize: '0.95rem',
+                borderRadius: '30px'
+              }}
+            >
+              <PhoneOutlined />
+              <span>Call +91 8939648457</span>
+            </a>
           </div>
         </div>
 

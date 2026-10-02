@@ -12,12 +12,12 @@ export default function AnnouncementBar() {
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: '12px', fontSize: '0.86rem' }}>
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
           <ThunderboltFilled style={{ color: 'var(--mango-yellow)' }} />
-          <strong>One Day Vegetable Carving Workshop:</strong> Master class with Sun TV MasterChef Manikandan
+          <strong>One Day Vegetable Carving Workshop:</strong>with Sun TV MasterChef Manikandan
         </span>
         <span style={{ opacity: 0.5, display: 'inline-block' }}>|</span>
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
           <CalendarOutlined style={{ color: 'var(--mango-yellow)' }} />
-          10:00 AM to 5:00 PM
+          <strong>Date:</strong> Oct 24 | 10:00 AM to 5:00 PM
         </span>
         <span style={{ opacity: 0.5, display: 'inline-block' }}>|</span>
         <a

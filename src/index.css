@@ -1274,8 +1274,7 @@ textarea::placeholder {
 /* Ensure Ant Design inner inputs are never contaminated by generic dark input background or borders */
 .dark .ant-picker input,
 .dark .ant-select input,
-.dark .ant-input,
-.dark [class*="ant-"] input {
+.dark .ant-input-affix-wrapper > input.ant-input {
   background-color: transparent !important;
   border-color: transparent !important;
   box-shadow: none !important;
@@ -5303,9 +5302,37 @@ textarea::placeholder {
 }
 
 @media print {
+  @page {
+    size: A4 portrait;
+    margin: 8mm 12mm;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #111111 !important;
+    font-size: 11pt !important;
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Completely hide all extraneous website elements */
+  .workshop-announcement-bar,
   .header-wrapper,
   .footer-wrapper,
   .page-hero-banner,
+  #overview,
+  #chef,
+  #inclusions,
+  #pricing,
+  #faq,
+  .floating-sticky-actions,
+  #register > .container > .text-center,
+  .hero-badge-glow,
+  .receipt-actions,
+  .no-print,
+  button,
   .btn-primary,
   .btn-outline,
   .btn-text,
@@ -5314,11 +5341,52 @@ textarea::placeholder {
   .admin-major-tabs-nav {
     display: none !important;
   }
-  .application-slip-box {
-    border: 2px solid #000 !important;
-    background: #fff !important;
-    color: #000 !important;
+
+  #register {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+  }
+
+  #register .container {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .onboarding-success-card {
+    background: #ffffff !important;
+    border: 2px solid #194121 !important;
+    border-radius: 12px !important;
+    padding: 20px 24px !important;
+    color: #111111 !important;
     box-shadow: none !important;
+    margin: 0 auto !important;
+    max-width: 100% !important;
+    page-break-inside: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  .onboarding-success-card * {
+    color: #111111 !important;
+    text-shadow: none !important;
+  }
+
+  .onboarding-success-card h3 {
+    color: #194121 !important;
+  }
+
+  .print-only-header {
+    display: block !important;
+  }
+
+  .application-slip-box {
+    border: 1px solid #d1d5db !important;
+    background: #f9fafb !important;
+    color: #111111 !important;
+    box-shadow: none !important;
+    padding: 16px !important;
+    border-radius: 8px !important;
   }
 }
 

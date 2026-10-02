@@ -17,23 +17,23 @@ export default function FAQSection() {
   const faqData = [
     {
       question: 'Is this a hands-on Vegetable Carving workshop?',
-      answer: 'Yes! This is an intensive, 100% hands-on One Day Vegetable Carving & Knife Skills Masterclass. Under the personal mentorship of Sun TV MasterChef Manikandan (International Gold Medalist in Carving), you will master Thai carving knife techniques, floral sculpting from vegetables (carrot roses, radish lotus, beetroot blossoms, cucumber leaves), and assemble your own edible floral bouquet centerpiece to take home.'
+      answer: 'Yes! This is an intensive, 100% hands-on One Day Vegetable Carving Workshop on Oct 24 (10:00 AM to 5:00 PM). Under the personal mentorship of Sun TV MasterChef Manikandan (International Gold Medalist in Carving), you will master precision carving knife techniques, vegetable sculpting, and foundational culinary knife skills to take home.'
     },
     {
       question: 'Who can attend this One Day Workshop?',
       answer: 'This workshop is open to anyone passionate about culinary arts—complete beginners, home cooking enthusiasts, hotel management students, aspiring food entrepreneurs, and professional catering staff. No prior carving experience is needed as Chef Manikandan begins from foundational knife holding and safety principles.'
     },
     {
-      question: 'What is included in the workshop kit provided to participants?',
-      answer: 'Each registered student receives a dedicated workshop kit containing specialized Thai carving knives, precision paring instruments, floral arrangement skewers, botanical display foam, and step-by-step carving reference sheets to practice at home.'
+      question: 'Do I get to take home what I create in the workshop?',
+      answer: 'Yes! You take home the handcrafted artisanal vegetable bouquet that you carve and assemble during this workshop.'
     },
     {
       question: 'Is lunch and refreshments provided during the day?',
       answer: 'Yes! A gourmet, freshly cooked vegetarian lunch is provided to all participants at 1:15 PM, along with tea, coffee, and refreshing beverages throughout the morning and afternoon sessions.'
     },
     {
-      question: 'How does the Rs. 500 advance registration fee work?',
-      answer: 'The Rs. 500 advance fee confirms and locks your seat, workstation, and personal workshop kit. Because seats are strictly limited to ensure 1-on-1 attention from Chef Manikandan, this advance ensures your spot is secured. The balance workshop fee is payable upon arrival.'
+      question: 'How does the Rs. 500 registration fee work?',
+      answer: "The Rs. 500 is a one-time registration fee for the entire Sam's Culinary Art Class. The workshop fee for this masterclass is ₹3,999."
     },
     {
       question: 'How do I claim group registration offers or discounts?',

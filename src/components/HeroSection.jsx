@@ -2,6 +2,7 @@ import React from 'react';
 import {
   TrophyOutlined,
   ClockCircleOutlined,
+  CalendarOutlined,
   PhoneOutlined,
   WhatsAppOutlined,
   SafetyCertificateOutlined,
@@ -28,10 +29,7 @@ export default function HeroSection() {
 
             {/* Main Headline */}
             <h1 style={{ fontSize: 'clamp(2.1rem, 4.2vw, 3.2rem)', fontWeight: '800', lineHeight: '1.18', marginBottom: '16px' }}>
-              One day Workshop for Master class:{' '}
-              <span className="gradient-text-gold" style={{ display: 'inline-block' }}>
-                Vegetable Carving &amp; Basic Knife Skills
-              </span>
+              One Day <span className="gradient-text-gold">Vegetable Carving Workshop</span>
             </h1>
 
             {/* Mentor Highlight Banner */}
@@ -59,13 +57,17 @@ export default function HeroSection() {
             </div>
 
             <p style={{ fontSize: '1.08rem', lineHeight: '1.65', opacity: '0.9', marginBottom: '24px', maxWidth: '620px' }}>
-              Master professional <strong>Vegetable Carving</strong>, Thai botanical floral techniques (roses, lotus, leaves &amp; lilies), and foundational culinary knife skills in an exclusive, hands-on 1-day masterclass.
+              Master professional <strong>Vegetable Carving</strong> and foundational culinary knife skills in an exclusive, hands-on 1-day masterclass.
             </p>
 
             {/* Timing & Format Badges */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '28px' }}>
               <div className="time-pill">
-                {/* <span className="live-pulse-dot"></span> */}
+                <CalendarOutlined style={{ color: 'var(--mango-yellow)' }} />
+                <span><strong>Date:</strong> Oct 24</span>
+              </div>
+
+              <div className="time-pill">
                 <ClockCircleOutlined style={{ color: 'var(--mango-yellow)' }} />
                 <span><strong>Timing:</strong> 10:00 AM to 5:00 PM</span>
               </div>
@@ -87,7 +89,7 @@ export default function HeroSection() {
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'rgba(255, 255, 255, 0.04)', border: '1px solid var(--border-color)', padding: '10px 14px', borderRadius: '10px' }}>
                 <TrophyOutlined style={{ color: 'var(--mango-yellow)', fontSize: '18px' }} />
-                <span style={{ fontSize: '0.86rem', fontWeight: '600' }}>Vegetable Carving Kit</span>
+                <span style={{ fontSize: '0.86rem', fontWeight: '600' }}>All Tools Provided in Class</span>
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'rgba(255, 255, 255, 0.04)', border: '1px solid var(--border-color)', padding: '10px 14px', borderRadius: '10px' }}>
@@ -102,12 +104,12 @@ export default function HeroSection() {
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'rgba(255, 255, 255, 0.04)', border: '1px solid var(--border-color)', padding: '10px 14px', borderRadius: '10px' }}>
                 <GiftOutlined style={{ color: 'var(--mango-yellow)', fontSize: '18px' }} />
-                <span style={{ fontSize: '0.86rem', fontWeight: '600' }}>Take-Home Floral Bouquet</span>
+                <span style={{ fontSize: '0.86rem', fontWeight: '600' }}>Take-Home Vegetable Bouquet</span>
               </div>
             </div>
 
-            {/* CTA Buttons */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', alignItems: 'center' }}>
+            {/* CTA Button */}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
               <a
                 href="#register"
                 className="btn-primary"
@@ -115,33 +117,15 @@ export default function HeroSection() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '10px',
-                  padding: '14px 28px',
-                  fontSize: '1rem',
+                  padding: '14px 32px',
+                  fontSize: '1.05rem',
                   fontWeight: '700',
                   borderRadius: '30px'
                 }}
               >
-                <CheckCircleOutlined style={{ fontSize: '18px' }} />
-                <span>Reserve Seat (Rs. 500 Advance)</span>
+                <span>Register Now</span>
                 <ArrowRightOutlined />
               </a>
-
-              <a
-                href="tel:+918939648457"
-                className="btn-outline"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '13px 22px',
-                  fontSize: '0.95rem',
-                  borderRadius: '30px'
-                }}
-              >
-                <PhoneOutlined />
-                <span>Call for Fees &amp; Offers</span>
-              </a>
-
             </div>
           </div>
 
@@ -225,31 +209,26 @@ export default function HeroSection() {
                 background: 'rgba(255, 255, 255, 0.03)',
                 border: '1px solid rgba(255, 255, 255, 0.08)',
                 borderRadius: '16px',
-                padding: '16px 20px'
+                padding: '16px 20px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                gap: '12px'
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', marginBottom: '10px' }}>
-                <div>
-                  <strong style={{ fontSize: '1.1rem', color: '#ffffff', display: 'block' }}>
-                    Chef Manikandan
-                  </strong>
-                  <span style={{ fontSize: '0.82rem', color: 'var(--mango-yellow)', fontWeight: '600' }}>
-                    SICA &amp; Sri Lanka Carving Gold Medalist
-                  </span>
-                </div>
-                <div style={{ textAlign: 'right' }}>
-                  <span style={{ fontSize: '0.72rem', opacity: 0.7, textTransform: 'uppercase', display: 'block' }}>
-                    Advance Seat
-                  </span>
-                  <strong style={{ fontSize: '1.2rem', color: '#22c55e', fontWeight: '800' }}>
-                    Rs. 500/-
-                  </strong>
-                </div>
+              <div>
+                <strong style={{ fontSize: '1.15rem', color: '#ffffff', display: 'block' }}>
+                  Chef Manikandan
+                </strong>
+                <span style={{ fontSize: '0.85rem', color: 'var(--mango-yellow)', fontWeight: '600' }}>
+                  SICA &amp; Sri Lanka Carving Gold Medalist
+                </span>
               </div>
-
-              <div style={{ paddingTop: '10px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8rem', opacity: 0.85 }}>
-                <span>Group Discounts on Call</span>
-                <span style={{ color: 'var(--mango-yellow)', fontWeight: '600' }}>Vegetable Carving Kit Included</span>
+              <div style={{ textAlign: 'right' }}>
+                <span style={{ color: 'var(--mango-yellow)', fontWeight: '700', fontSize: '0.88rem' }}>
+                  Take-Home Bouquet Included
+                </span>
               </div>
             </div>
           </div>

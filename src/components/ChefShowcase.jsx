@@ -39,11 +39,6 @@ export default function ChefShowcase() {
 
   const galleryItems = [
     {
-      src: '/images/chef-manikandan-peacock.jpg',
-      title: 'Grand Royal Peacock Sculpture',
-      subtitle: 'Hand-carved from white radish, carrot feathers, and edible botanical garnishes by Chef Manikandan.'
-    },
-    {
       src: '/images/carved-bouquet.jpg',
       title: 'Artisanal Vegetable Floral Bouquet',
       subtitle: 'Elaborate carrot leaves, white radish roses, and beetroot blossoms—the exact bouquet technique taught in this masterclass.'
@@ -129,9 +124,8 @@ export default function ChefShowcase() {
 
           <div
             style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: '24px'
+              maxWidth: '680px',
+              margin: '0 auto'
             }}
           >
             {galleryItems.map((item, idx) => (

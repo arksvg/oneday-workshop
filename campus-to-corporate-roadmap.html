@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>From Campus to Corporate: A Practical Roadmap to Getting Placed in the IT Industry</title>
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #0f172a;        /* Deep Slate */
+      --primary-accent: #4f46e5; /* Indigo */
+      --secondary: #0284c7;      /* Ocean Blue */
+      --emerald: #059669;        /* Success */
+      --amber: #d97706;          /* Attention */
+      --rose: #e11d48;           /* Caution */
+      
+      --bg-canvas: #090d16;      /* Dark Canvas for Screen */
+      --page-bg: #ffffff;        /* White Print/Slide Canvas */
+      --card-bg: #f8fafc;
+      --card-border: #e2e8f0;
+      
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-light: #64748b;
+      
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      font-family: var(--font-body);
+      color: var(--text-main);
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 40px;
+    }
+
+    /* Sticky Action Bar (Screen Only) */
+    .action-bar {
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 12px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .brand-title {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .brand-subtitle {
+      font-size: 0.74rem;
+      color: #38bdf8;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-export {
+      background: linear-gradient(135deg, #4f46e5, #0284c7);
+      color: #ffffff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.15s ease;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+    }
+
+    .btn-export:hover {
+      transform: translateY(-1px);
+    }
+
+    /* Document Wrapper */
+    .document-wrapper {
+      max-width: 297mm;
+      margin: 24px auto 0;
+      padding: 0 12px;
+    }
+
+    /* A4 Landscape Page: 297mm x 210mm */
+    .page {
+      background: var(--page-bg);
+      width: 297mm;
+      height: 210mm;
+      padding: 16mm 20mm 12mm 20mm;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-radius: 6px;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .page-content {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header Bar */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 2px solid var(--primary-accent);
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+    }
+
+    .step-tag {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--primary-accent);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 2px;
+    }
+
+    .page-header h2 {
+      font-family: var(--font-heading);
+      font-size: 1.45rem;
+      color: var(--primary);
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .cue-pill {
+      background: #f1f5f9;
+      border-left: 3px solid var(--secondary);
+      padding: 4px 10px;
+      border-radius: 0 4px 4px 0;
+      font-size: 0.72rem;
+      color: #334155;
+      font-weight: 600;
+    }
+
+    /* Footer */
+    .page-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--card-border);
+      padding-top: 6px;
+      font-size: 0.7rem;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+
+    .page-footer .num {
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    /* Step Grid Layouts */
+    .steps-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .steps-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .steps-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    /* Step Card */
+    .step-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .step-card.top-indigo { border-top: 3px solid var(--primary-accent); }
+    .step-card.top-cyan { border-top: 3px solid var(--secondary); }
+    .step-card.top-emerald { border-top: 3px solid var(--emerald); }
+    .step-card.top-amber { border-top: 3px solid var(--amber); }
+    .step-card.top-rose { border-top: 3px solid var(--rose); }
+
+    .step-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+      padding: 2px 7px;
+      border-radius: 12px;
+      width: fit-content;
+    }
+
+    .badge-indigo { background: #e0e7ff; color: #3730a3; }
+    .badge-cyan { background: #e0f2fe; color: #0369a1; }
+    .badge-emerald { background: #d1fae5; color: #065f46; }
+    .badge-amber { background: #fef3c7; color: #92400e; }
+    .badge-rose { background: #ffe4e6; color: #9f1239; }
+
+    .step-title {
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    /* Clean Bullet Points */
+    .point-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .point-list li {
+      position: relative;
+      padding-left: 16px;
+      font-size: 0.77rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      line-height: 1.35;
+    }
+
+    .point-list li::before {
+      content: "•";
+      position: absolute;
+      left: 3px;
+      color: var(--primary-accent);
+      font-weight: 800;
+      font-size: 0.9rem;
+    }
+
+    .check-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .check-list li {
+      position: relative;
+      padding-left: 18px;
+      font-size: 0.77rem;
+      color: var(--text-main);
+      margin-bottom: 4px;
+      line-height: 1.35;
+    }
+
+    .check-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--emerald);
+      font-weight: 800;
+    }
+
+    .cross-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .cross-list li {
+      position: relative;
+      padding-left: 18px;
+      font-size: 0.77rem;
+      color: var(--text-main);
+      margin-bottom: 4px;
+      line-height: 1.35;
+    }
+
+    .cross-list li::before {
+      content: "✕";
+      position: absolute;
+      left: 0;
+      color: var(--rose);
+      font-weight: 800;
+    }
+
+    /* Takeaway Bar */
+    .takeaway-bar {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 6px;
+      padding: 7px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .takeaway-icon {
+      font-size: 1rem;
+    }
+
+    .takeaway-text {
+      font-size: 0.76rem;
+      color: #166534;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+
+    .takeaway-text strong {
+      color: #14532d;
+    }
+
+    /* Mini Table */
+    .simple-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.76rem;
+      margin-top: 4px;
+    }
+
+    .simple-table th, .simple-table td {
+      border: 1px solid var(--card-border);
+      padding: 5px 8px;
+      text-align: left;
+    }
+
+    .simple-table th {
+      background: #f1f5f9;
+      color: var(--primary);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+    }
+
+    /* Print Styles */
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+
+    @media print {
+      body {
+        background-color: #ffffff !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        padding-bottom: 0 !important;
+      }
+
+      .action-bar {
+        display: none !important;
+      }
+
+      .document-wrapper {
+        margin: 0 !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+      }
+
+      .page {
+        box-shadow: none !important;
+        margin: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        width: 297mm !important;
+        height: 210mm !important;
+        page-break-after: always !important;
+        page-break-inside: avoid !important;
+        padding: 14mm 18mm 10mm 18mm !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Action Bar -->
+  <div class="action-bar">
+    <div>
+      <div class="brand-title">From Campus to Corporate: Placement Roadmap</div>
+      <div class="brand-subtitle">Step-by-Step Practical IT Placement Blueprint &bull; A4 Landscape</div>
+    </div>
+    <button onclick="window.print();" class="btn-export">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+        <rect x="6" y="14" width="12" height="8"></rect>
+      </svg>
+      Export as PDF / Print
+    </button>
+  </div>
+
+  <div class="document-wrapper">
+
+    <!-- ==========================================================================
+         PAGE 1: CLEAN COVER (NO TARGET AUDIENCE/DOCUMENT TYPE METADATA)
+         ========================================================================== -->
+    <div class="page">
+      <div class="page-content" style="justify-content: center; align-items: center; text-align: center; padding: 20px 10px;">
+        
+        <div style="background: #eef2ff; color: var(--primary-accent); padding: 5px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px; width: fit-content;">
+          CAMPUS TO CORPORATE MASTERCLASS
+        </div>
+
+        <h1 style="font-family: var(--font-heading); font-size: 2.5rem; font-weight: 800; color: var(--primary); line-height: 1.2; margin-bottom: 12px; max-width: 820px;">
+          From Campus to Corporate:<br>
+          <span style="background: linear-gradient(135deg, #4f46e5, #0284c7); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            A Practical Roadmap
+          </span> to Getting Placed in the IT Industry
+        </h1>
+
+        <p style="font-size: 0.98rem; color: var(--text-muted); max-width: 680px; margin-bottom: 24px; line-height: 1.5;">
+          A lightweight, step-by-step presentation blueprint covering industry reality checks, skill stacks, resume rules, and interview execution.
+        </p>
+
+        <!-- 10 Agenda Items Quick Grid -->
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; width: 100%; max-width: 880px;">
+          <div style="background: #f8fafc; border: 1px solid var(--card-border); padding: 8px 10px; border-radius: 6px; font-size: 0.75rem; text-align: left;">
+            <strong style="color: var(--primary-accent); display: block;">01</strong> Industry &amp; Career
+          </div>
+          <div style="background: #f8fafc; border: 1px solid var(--card-border); padding: 8px 10px; border-radius: 6px; font-size: 0.75rem; text-align: left;">
+            <strong style="color: var(--primary-accent); display: block;">02</strong> Industry Readiness
+          </div>
+          <div style="background: #f8fafc; border: 1px solid var(--card-border); padding: 8px 10px; border-radius: 6px; font-size: 0.75rem; text-align: left;">
+            <strong style="color: var(--primary-accent); display: block;">03</strong> Choosing Track
+          </div>
+          <div style="background: #f8fafc; border: 1px solid var(--card-border); padding: 8px 10px; border-radius: 6px; font-size: 0.75rem; text-align: left;">
+            <strong style="color: var(--primary-accent); display: block;">04</strong> Preparation Sprint
+          </div>
+          <div style="background: #f8fafc; border: 1px solid var(--card-border); padding: 8px 10px; border-radius: 6px; font-size: 0.75rem; text-align: left;">
+            <strong style="color: var(--primary-accent); display: block;">05</strong> Resume &amp; LinkedIn
+          </div>
+          <div style="background: #f8fafc; border: 1px solid var(--card-border); padding: 8px 10px; border-radius: 6px; font-size: 0.75rem; text-align: left;">
+            <strong style="color: var(--primary-accent); display: block;">06</strong> Industry Projects
+          </div>
+          <div style="background: #f8fafc; border: 1px solid var(--card-border); padding: 8px 10px; border-radius: 6px; font-size: 0.75rem; text-align: left;">
+            <strong style="color: var(--primary-accent); display: block;">07</strong> Technical Round
+          </div>
+          <div style="background: #f8fafc; border: 1px solid var(--card-border); padding: 8px 10px; border-radius: 6px; font-size: 0.75rem; text-align: left;">
+            <strong style="color: var(--primary-accent); display: block;">08</strong> HR &amp; Managerial
+          </div>
+          <div style="background: #f8fafc; border: 1px solid var(--card-border); padding: 8px 10px; border-radius: 6px; font-size: 0.75rem; text-align: left;">
+            <strong style="color: var(--primary-accent); display: block;">09</strong> Stand Out Edge
+          </div>
+          <div style="background: #f8fafc; border: 1px solid var(--card-border); padding: 8px 10px; border-radius: 6px; font-size: 0.75rem; text-align: left;">
+            <strong style="color: var(--primary-accent); display: block;">10</strong> Practical Q&amp;A
+          </div>
+        </div>
+
+      </div>
+
+      <div class="page-footer">
+        <span>From Campus to Corporate: IT Placement Roadmap</span>
+        <span class="num">PAGE 01</span>
+      </div>
+    </div>
+
+
+    <!-- ==========================================================================
+         PAGE 2: STEP 01 - UNDERSTANDING THE IT INDUSTRY
+         ========================================================================== -->
+    <div class="page">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <div class="step-tag">Step 01 &bull; Industry Landscape</div>
+            <h2>Understanding the IT Industry &amp; Opportunities</h2>
+          </div>
+          <div class="cue-pill">Focus: Package tiers &amp; hiring filters</div>
+        </div>
+
+        <div class="steps-grid-4">
+          <div class="step-card top-indigo">
+            <span class="step-badge badge-indigo">Tier 1: Mass Hires</span>
+            <div class="step-title">Service Companies</div>
+            <ul class="point-list">
+              <li><strong>Companies:</strong> TCS, Infosys, Wipro, CTS.</li>
+              <li><strong>Package:</strong> ₹3.6 - ₹5.5 LPA.</li>
+              <li><strong>Hiring Test:</strong> Quantitative Aptitude, English grammar, Basic C/Java coding.</li>
+              <li><strong>Key Trait:</strong> Mass hiring volume.</li>
+            </ul>
+          </div>
+
+          <div class="step-card top-cyan">
+            <span class="step-badge badge-cyan">Tier 2: Global Hubs</span>
+            <div class="step-title">GCC Centers</div>
+            <ul class="point-list">
+              <li><strong>Companies:</strong> JPMC, Wells Fargo, Target.</li>
+              <li><strong>Package:</strong> ₹8.0 - ₹16.0 LPA.</li>
+              <li><strong>Hiring Test:</strong> Data Structures, OOPs, SQL queries, System design basics.</li>
+              <li><strong>Key Trait:</strong> High work-life balance.</li>
+            </ul>
+          </div>
+
+          <div class="step-card top-emerald">
+            <span class="step-badge badge-emerald">Tier 3: Tech Giants</span>
+            <div class="step-title">Product Companies</div>
+            <ul class="point-list">
+              <li><strong>Companies:</strong> Amazon, Adobe, Atlassian.</li>
+              <li><strong>Package:</strong> ₹18.0 - ₹45.0+ LPA.</li>
+              <li><strong>Hiring Test:</strong> Hard DSA (Trees, Graphs, DP), Low-Level Design.</li>
+              <li><strong>Key Trait:</strong> Strict problem-solving bar.</li>
+            </ul>
+          </div>
+
+          <div class="step-card top-amber">
+            <span class="step-badge badge-amber">Tier 4: High Growth</span>
+            <div class="step-title">Product Startups</div>
+            <ul class="point-list">
+              <li><strong>Companies:</strong> Razorpay, Postman, CRED.</li>
+              <li><strong>Package:</strong> ₹10.0 - ₹25.0 LPA.</li>
+              <li><strong>Hiring Test:</strong> Machine coding, Next.js, APIs, Git proof of work.</li>
+              <li><strong>Key Trait:</strong> Skills first over college tier.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="takeaway-bar">
+          <span class="takeaway-icon">💡</span>
+          <span class="takeaway-text">
+            <strong>Key Speaker Takeaway:</strong> "Service companies test whether you can be trained; Product companies test whether you can solve problems on Day 1."
+          </span>
+        </div>
+
+      </div>
+      <div class="page-footer">
+        <span>From Campus to Corporate: IT Placement Roadmap</span>
+        <span class="num">PAGE 02</span>
+      </div>
+    </div>
+
+
+    <!-- ==========================================================================
+         PAGE 3: STEP 02 - BECOMING INDUSTRY-READY
+         ========================================================================== -->
+    <div class="page">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <div class="step-tag">Step 02 &bull; Readiness Mindset</div>
+            <h2>Becoming Industry-Ready: 4 Practical Steps</h2>
+          </div>
+          <div class="cue-pill">Focus: Breaking out of college syllabus limits</div>
+        </div>
+
+        <div class="steps-grid-4">
+          <div class="step-card top-rose">
+            <span class="step-badge badge-rose">Step 1: Unlearn</span>
+            <div class="step-title">Stop Rote Syllabus</div>
+            <ul class="point-list">
+              <li>Delete Turbo C++ and textbook code.</li>
+              <li>Move to modern tools: VS Code, Linux terminal, Git.</li>
+              <li>Stop memorizing definitions; focus on writing runnable code.</li>
+            </ul>
+          </div>
+
+          <div class="step-card top-indigo">
+            <span class="step-badge badge-indigo">Step 2: Pick 1 Language</span>
+            <div class="step-title">Depth over Breadth</div>
+            <ul class="point-list">
+              <li>Pick <strong>ONE</strong> language: Java, C++, or Python.</li>
+              <li>Master standard libraries (Java Collections / C++ STL).</li>
+              <li>Don't jump languages every two weeks.</li>
+            </ul>
+          </div>
+
+          <div class="step-card top-cyan">
+            <span class="step-badge badge-cyan">Step 3: Tool Fluency</span>
+            <div class="step-title">Developer Essentials</div>
+            <ul class="point-list">
+              <li>Learn 10 essential Git commands (commit, push, branch, PR).</li>
+              <li>Know how REST APIs communicate (GET, POST, JSON).</li>
+              <li>Deploy code to a free cloud host (Vercel, Render).</li>
+            </ul>
+          </div>
+
+          <div class="step-card top-emerald">
+            <span class="step-badge badge-emerald">Step 4: Daily Habit</span>
+            <div class="step-title">The 2-Hour Habit</div>
+            <ul class="point-list">
+              <li><strong>Hour 1:</strong> 1-2 LeetCode problems every evening.</li>
+              <li><strong>Hour 2:</strong> Build features on your personal project.</li>
+              <li>Consistency beats 14-hour weekend cram sessions.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="takeaway-bar">
+          <span class="takeaway-icon">💡</span>
+          <span class="takeaway-text">
+            <strong>Key Speaker Takeaway:</strong> "Industry readiness is not having 10 languages on your resume. It is knowing 1 language so deeply that you can debug it under pressure."
+          </span>
+        </div>
+
+      </div>
+      <div class="page-footer">
+        <span>From Campus to Corporate: IT Placement Roadmap</span>
+        <span class="num">PAGE 03</span>
+      </div>
+    </div>
+
+
+    <!-- ==========================================================================
+         PAGE 4: STEP 03 - CHOOSING THE RIGHT CAREER PATH
+         ========================================================================== -->
+    <div class="page">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <div class="step-tag">Step 03 &bull; Career Specialization</div>
+            <h2>Choosing the Right Career Path in Software</h2>
+          </div>
+          <div class="cue-pill">Focus: Picking the right stack based on student strengths</div>
+        </div>
+
+        <div class="steps-grid-3">
+          <div class="step-card top-indigo">
+            <span class="step-badge badge-indigo">Track 1: Highest Openings</span>
+            <div class="step-title">Full-Stack Web Dev</div>
+            <ul class="point-list">
+              <li><strong>Stack:</strong> React/Next.js, TypeScript, Node.js, PostgreSQL.</li>
+              <li><strong>What you build:</strong> End-to-end customer web applications and portals.</li>
+              <li><strong>Best for:</strong> Students who enjoy visual building and quick user feedback.</li>
+            </ul>
+          </div>
+
+          <div class="step-card top-cyan">
+            <span class="step-badge badge-cyan">Track 2: Highest Enterprise Pay</span>
+            <div class="step-title">Backend &amp; Systems</div>
+            <ul class="point-list">
+              <li><strong>Stack:</strong> Java Spring Boot / Go, Redis, SQL, Docker.</li>
+              <li><strong>What you build:</strong> High-throughput APIs, database schemas, payment pipelines.</li>
+              <li><strong>Best for:</strong> Students strong in OOPs, databases, and multi-threading.</li>
+            </ul>
+          </div>
+
+          <div class="step-card top-emerald">
+            <span class="step-badge badge-emerald">Track 3: High-Demand Niche</span>
+            <div class="step-title">Cloud &amp; DevOps</div>
+            <ul class="point-list">
+              <li><strong>Stack:</strong> Linux, Docker, AWS/GCP, GitHub Actions CI/CD.</li>
+              <li><strong>What you build:</strong> Deployment pipelines, server monitoring, infrastructure.</li>
+              <li><strong>Best for:</strong> Students who prefer automation, networks, and terminal scripts.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- The AI/ML Reality Check Box -->
+        <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 8px 14px; margin-bottom: 8px;">
+          <div style="font-size: 0.78rem; font-weight: 800; color: #92400e; margin-bottom: 2px;">
+            ⚠️ The AI/ML Warning for Freshers:
+          </div>
+          <p style="font-size: 0.75rem; color: #78350f; line-height: 1.35;">
+            Don't waste 6 months just running basic Jupyter notebooks. Core Data Science requires master's degrees. Instead, learn to be an <strong>AI Application Engineer</strong>—integrate LLM APIs and Vector DBs into real web apps!
+          </p>
+        </div>
+
+        <div class="takeaway-bar">
+          <span class="takeaway-icon">💡</span>
+          <span class="takeaway-text">
+            <strong>Key Speaker Takeaway:</strong> "Pick one track by your 6th semester. Do not mix Flutter, Blockchain, MERN, and AI on the same resume."
+          </span>
+        </div>
+
+      </div>
+      <div class="page-footer">
+        <span>From Campus to Corporate: IT Placement Roadmap</span>
+        <span class="num">PAGE 04</span>
+      </div>
+    </div>
+
+
+    <!-- ==========================================================================
+         PAGE 5: STEP 04 - PLACEMENT PREPARATION ROADMAP
+         ========================================================================== -->
+    <div class="page">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <div class="step-tag">Step 04 &bull; Step-By-Step Timeline</div>
+            <h2>Placement Preparation Roadmap: 4 Simple Phases</h2>
+          </div>
+          <div class="cue-pill">Focus: 6-month clear phased milestones</div>
+        </div>
+
+        <div class="steps-grid-4">
+          <div class="step-card top-indigo">
+            <span class="step-badge badge-indigo">Phase 1: Months 1-2</span>
+            <div class="step-title">DSA Foundation</div>
+            <ul class="point-list">
+              <li>Arrays, Strings, HashMaps.</li>
+              <li>Two-Pointer &amp; Sliding Window.</li>
+              <li>Recursion, Linked Lists, Stacks.</li>
+              <li><strong>Goal:</strong> 60-80 problems solved.</li>
+            </ul>
+          </div>
+
+          <div class="step-card top-cyan">
+            <span class="step-badge badge-cyan">Phase 2: Month 3</span>
+            <div class="step-title">Flagship Project</div>
+            <ul class="point-list">
+              <li>Build 1 solid deployed app.</li>
+              <li>Implement JWT login &amp; database.</li>
+              <li>Add Redis caching or webhooks.</li>
+              <li><strong>Goal:</strong> Working live URL.</li>
+            </ul>
+          </div>
+
+          <div class="step-card top-amber">
+            <span class="step-badge badge-amber">Phase 3: Month 4</span>
+            <div class="step-title">Core CS Subjects</div>
+            <ul class="point-list">
+              <li><strong>DBMS:</strong> SQL Joins, Indexing, ACID.</li>
+              <li><strong>OS:</strong> Process vs Thread, Deadlocks.</li>
+              <li><strong>CN:</strong> TCP/IP, DNS, HTTP/HTTPS.</li>
+              <li><strong>Goal:</strong> Master top 50 CS viva questions.</li>
+            </ul>
+          </div>
+
+          <div class="step-card top-emerald">
+            <span class="step-badge badge-emerald">Phase 4: Months 5-6</span>
+            <div class="step-title">Mocks &amp; Drives</div>
+            <ul class="point-list">
+              <li>Weekly timed aptitude tests.</li>
+              <li>Peer mock interviews (Pramp).</li>
+              <li>STAR story rehearsals for HR.</li>
+              <li><strong>Goal:</strong> 10 job applications/day.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="steps-grid-2" style="margin-top: 4px;">
+          <div style="background: #ffffff; border: 1px solid var(--card-border); padding: 8px 12px; border-radius: 6px;">
+            <strong style="font-size: 0.76rem; color: var(--primary);">DSA Checklist (NeetCode 150):</strong>
+            <p style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">
+              Focus strictly on patterns: Arrays (20) &bull; Binary Search (10) &bull; Trees (20) &bull; Graphs (15) &bull; DP (15).
+            </p>
+          </div>
+          <div style="background: #ffffff; border: 1px solid var(--card-border); padding: 8px 12px; border-radius: 6px;">
+            <strong style="font-size: 0.76rem; color: var(--primary);">Academic CGPA Threshold:</strong>
+            <p style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">
+              Maintain <strong>&gt;= 7.0 CGPA</strong> to bypass 85% of company filters without academic backlogs.
+            </p>
+          </div>
+        </div>
+
+        <div class="takeaway-bar">
+          <span class="takeaway-icon">💡</span>
+          <span class="takeaway-text">
+            <strong>Key Speaker Takeaway:</strong> "Preparation without a calendar is just daydreaming. Break down your placement year into these 4 clear 45-day blocks."
+          </span>
+        </div>
+
+      </div>
+      <div class="page-footer">
+        <span>From Campus to Corporate: IT Placement Roadmap</span>
+        <span class="num">PAGE 05</span>
+      </div>
+    </div>
+
+
+    <!-- ==========================================================================
+         PAGE 6: STEP 05 - RESUME & LINKEDIN PROFILE
+         ========================================================================== -->
+    <div class="page">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <div class="step-tag">Step 05 &bull; Personal Branding</div>
+            <h2>Building an ATS Resume &amp; LinkedIn Profile</h2>
+          </div>
+          <div class="cue-pill">Focus: 1-page rule &amp; Google XYZ formula</div>
+        </div>
+
+        <div class="steps-grid-2">
+          <!-- Resume Rules -->
+          <div class="step-card top-indigo">
+            <span class="step-badge badge-indigo">Resume Blueprint</span>
+            <div class="step-title">Strict 1-Page ATS Rules</div>
+            <ul class="check-list">
+              <li><strong>Strictly 1 Page:</strong> Freshers should never have a 2-page resume.</li>
+              <li><strong>Zero Graphics:</strong> No photos, skill rating bars (e.g. ⭐⭐⭐⭐), or multi-column tables.</li>
+              <li><strong>Clean Header:</strong> Name, Phone, Email, Clean LinkedIn URL, GitHub profile.</li>
+              <li><strong>Clickable Proof:</strong> Add live hosted app link and GitHub repo for every project.</li>
+            </ul>
+          </div>
+
+          <!-- Google XYZ Formula -->
+          <div class="step-card top-emerald">
+            <span class="step-badge badge-emerald">Writing Bullets</span>
+            <div class="step-title">The Google XYZ Formula</div>
+            <p style="font-size: 0.76rem; color: var(--text-muted); margin-bottom: 6px;">
+              Formula: <em>"Accomplished [X] as measured by [Y] by doing [Z]"</em>
+            </p>
+            <div style="background: #fff1f2; padding: 5px 8px; border-radius: 4px; font-size: 0.74rem; color: #9f1239; margin-bottom: 6px;">
+              ✕ Bad: "Built an e-commerce website using React and Node.js."
+            </div>
+            <div style="background: #ecfdf5; padding: 5px 8px; border-radius: 4px; font-size: 0.74rem; color: #065f46;">
+              ✓ Good: "Engineered an order service handling 500 req/sec, reducing API latency by 35% using Redis caching."
+            </div>
+          </div>
+        </div>
+
+        <!-- LinkedIn Steps -->
+        <div class="steps-grid-3" style="margin-top: 4px;">
+          <div style="background: #ffffff; border: 1px solid var(--card-border); padding: 8px 12px; border-radius: 6px;">
+            <strong style="font-size: 0.76rem; color: var(--primary);">1. Clear Headline:</strong>
+            <p style="font-size: 0.74rem; color: var(--text-muted);">
+              "Software Engineer Enthusiast | Java &bull; Spring Boot &bull; Next.js | 300+ LeetCode"
+            </p>
+          </div>
+          <div style="background: #ffffff; border: 1px solid var(--card-border); padding: 8px 12px; border-radius: 6px;">
+            <strong style="font-size: 0.76rem; color: var(--primary);">2. Featured Section:</strong>
+            <p style="font-size: 0.74rem; color: var(--text-muted);">
+              Pin a 1-minute screen recording video walkthrough of your best deployed project.
+            </p>
+          </div>
+          <div style="background: #ffffff; border: 1px solid var(--card-border); padding: 8px 12px; border-radius: 6px;">
+            <strong style="font-size: 0.76rem; color: var(--primary);">3. Cold DM Template:</strong>
+            <p style="font-size: 0.74rem; color: var(--text-muted);">
+              "Hi [Name], loved your post on microservices! I built a replica project [link] solving XYZ. Would value your feedback!"
+            </p>
+          </div>
+        </div>
+
+        <div class="takeaway-bar">
+          <span class="takeaway-icon">💡</span>
+          <span class="takeaway-text">
+            <strong>Key Speaker Takeaway:</strong> "Recruiters spend 6 seconds on a resume. If they don't see clickable links and numbers, it goes straight to the reject pile."
+          </span>
+        </div>
+
+      </div>
+      <div class="page-footer">
+        <span>From Campus to Corporate: IT Placement Roadmap</span>
+        <span class="num">PAGE 06</span>
+      </div>
+    </div>
+
+
+    <!-- ==========================================================================
+         PAGE 7: STEP 06 - DEVELOPING INDUSTRY-ORIENTED PROJECTS
+         ========================================================================== -->
+    <div class="page">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <div class="step-tag">Step 06 &bull; Tangible Artifacts</div>
+            <h2>Developing Industry-Oriented Projects</h2>
+          </div>
+          <div class="cue-pill">Focus: What to avoid vs what to build</div>
+        </div>
+
+        <div class="steps-grid-2">
+          <!-- Banned Projects -->
+          <div class="step-card top-rose">
+            <span class="step-badge badge-rose">❌ Banned: Clichés</span>
+            <div class="step-title">Projects that Get You Rejected</div>
+            <ul class="cross-list">
+              <li>Todo List App / Basic Calculator.</li>
+              <li>Static clone of Netflix / Amazon with no backend.</li>
+              <li>Weather API display app with 1 card.</li>
+              <li>Kaggle Titanic Survival from a tutorial.</li>
+            </ul>
+          </div>
+
+          <!-- What Makes a Project Good -->
+          <div class="step-card top-emerald">
+            <span class="step-badge badge-emerald">✓ Approved: Production Depth</span>
+            <div class="step-title">The 4 Pillars Recruiters Love</div>
+            <ul class="check-list">
+              <li><strong>Real Auth:</strong> JWT with refresh token rotation.</li>
+              <li><strong>Database Logic:</strong> Normalized PostgreSQL schema with indexing.</li>
+              <li><strong>Performance:</strong> Redis caching or Rate Limiting.</li>
+              <li><strong>Live URL:</strong> Deployed on Vercel/Render with custom domain.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 3 Specific Project Ideas -->
+        <div class="steps-grid-3" style="margin-top: 4px;">
+          <div style="background: #ffffff; border: 1px solid var(--card-border); padding: 8px 12px; border-radius: 6px;">
+            <span class="step-badge badge-indigo">Idea 1</span>
+            <div style="font-weight: 700; font-size: 0.82rem; color: var(--primary);">Distributed URL Shortener</div>
+            <p style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">
+              Base62 encoding, Redis caching, click analytics dashboard, rate limiting with Token Bucket.
+            </p>
+          </div>
+          <div style="background: #ffffff; border: 1px solid var(--card-border); padding: 8px 12px; border-radius: 6px;">
+            <span class="step-badge badge-cyan">Idea 2</span>
+            <div style="font-weight: 700; font-size: 0.82rem; color: var(--primary);">Real-Time Whiteboard</div>
+            <p style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">
+              WebSockets / Socket.io, multi-user drawing sync, presence indicators, conflict resolution.
+            </p>
+          </div>
+          <div style="background: #ffffff; border: 1px solid var(--card-border); padding: 8px 12px; border-radius: 6px;">
+            <span class="step-badge badge-emerald">Idea 3</span>
+            <div style="font-weight: 700; font-size: 0.82rem; color: var(--primary);">Automated PR Code Reviewer</div>
+            <p style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">
+              GitHub Webhook listener that triggers AI code review and posts automated line comments.
+            </p>
+          </div>
+        </div>
+
+        <div class="takeaway-bar">
+          <span class="takeaway-icon">💡</span>
+          <span class="takeaway-text">
+            <strong>Key Speaker Takeaway:</strong> "In technical rounds, interviewers say: <em>'Explain your architecture.'</em> If you built a real project, you will control the conversation for 15 minutes."
+          </span>
+        </div>
+
+      </div>
+      <div class="page-footer">
+        <span>From Campus to Corporate: IT Placement Roadmap</span>
+        <span class="num">PAGE 07</span>
+      </div>
+    </div>
+
+
+    <!-- ==========================================================================
+         PAGE 8: STEP 07 - CRACKING THE TECHNICAL INTERVIEW
+         ========================================================================== -->
+    <div class="page">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <div class="step-tag">Step 07 &bull; Live Evaluation</div>
+            <h2>Cracking the Technical Coding Interview</h2>
+          </div>
+          <div class="cue-pill">Focus: 45-minute live coding playbook</div>
+        </div>
+
+        <div class="steps-grid-4">
+          <div class="step-card top-indigo">
+            <span class="step-badge badge-indigo">Min 0 - 5</span>
+            <div class="step-title">1. Clarify First</div>
+            <ul class="point-list">
+              <li>Never code immediately!</li>
+              <li>Ask about edge cases: negatives, duplicates, empty array?</li>
+              <li>Confirm input size constraints (N &lt;= 10⁵).</li>
+            </ul>
+          </div>
+
+          <div class="step-card top-cyan">
+            <span class="step-badge badge-cyan">Min 5 - 15</span>
+            <div class="step-title">2. State Brute Force</div>
+            <ul class="point-list">
+              <li>State the naive O(N²) solution out loud.</li>
+              <li>Explain why it's too slow.</li>
+              <li>Propose optimal approach (HashMaps, Two Pointers).</li>
+            </ul>
+          </div>
+
+          <div class="step-card top-emerald">
+            <span class="step-badge badge-emerald">Min 15 - 35</span>
+            <div class="step-title">3. Code Cleanly</div>
+            <ul class="point-list">
+              <li>Think out loud while typing.</li>
+              <li>Use meaningful variable names.</li>
+              <li>Don't remain silent for more than 40 seconds.</li>
+            </ul>
+          </div>
+
+          <div class="step-card top-amber">
+            <span class="step-badge badge-amber">Min 35 - 45</span>
+            <div class="step-title">4. Dry Run &amp; Big-O</div>
+            <ul class="point-list">
+              <li>Trace your code with an example input manually.</li>
+              <li>Catch your own bugs before they do.</li>
+              <li>State Big-O time and space complexity clearly.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Common CS Fundamentals Table -->
+        <div style="background: #ffffff; border: 1px solid var(--card-border); padding: 8px 12px; border-radius: 6px; margin-top: 4px;">
+          <strong style="font-size: 0.76rem; color: var(--primary);">Top 4 CS Core Questions Always Asked:</strong>
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; font-size: 0.74rem; color: var(--text-muted); margin-top: 4px;">
+            <div><strong>DBMS:</strong> Indexing &amp; ACID properties.</div>
+            <div><strong>OS:</strong> Process vs Thread memory.</div>
+            <div><strong>CN:</strong> What happens when you type google.com?</div>
+            <div><strong>OOP:</strong> Overloading vs Overriding.</div>
+          </div>
+        </div>
+
+        <div class="takeaway-bar">
+          <span class="takeaway-icon">💡</span>
+          <span class="takeaway-text">
+            <strong>Key Speaker Takeaway:</strong> "Technical interviews are not an exam; they are a collaborative debugging session. The interviewer wants to see how you think when you are stuck."
+          </span>
+        </div>
+
+      </div>
+      <div class="page-footer">
+        <span>From Campus to Corporate: IT Placement Roadmap</span>
+        <span class="num">PAGE 08</span>
+      </div>
+    </div>
+
+
+    <!-- ==========================================================================
+         PAGE 9: STEP 08 - CRACKING HR & MANAGERIAL INTERVIEWS
+         ========================================================================== -->
+    <div class="page">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <div class="step-tag">Step 08 &bull; Behavioral Fit</div>
+            <h2>Cracking the HR &amp; Managerial Interview</h2>
+          </div>
+          <div class="cue-pill">Focus: The STAR storytelling technique</div>
+        </div>
+
+        <div class="steps-grid-4">
+          <div class="step-card top-indigo">
+            <span class="step-badge badge-indigo">S: Situation</span>
+            <div class="step-title">Set the Scene</div>
+            <p style="font-size: 0.74rem; color: var(--text-muted);">
+              Describe the context concisely in 15 seconds. College project, hackathon deadline, or club event.
+            </p>
+          </div>
+
+          <div class="step-card top-cyan">
+            <span class="step-badge badge-cyan">T: Task</span>
+            <div class="step-title">State the Goal</div>
+            <p style="font-size: 0.74rem; color: var(--text-muted);">
+              What was your exact responsibility, and what roadblock or team problem appeared?
+            </p>
+          </div>
+
+          <div class="step-card top-emerald">
+            <span class="step-badge badge-emerald">A: Action</span>
+            <div class="step-title">What YOU Did</div>
+            <p style="font-size: 0.74rem; color: var(--text-muted);">
+              Highlight your initiative: research, team collaboration, staying late, debugging, resolving friction.
+            </p>
+          </div>
+
+          <div class="step-card top-amber">
+            <span class="step-badge badge-amber">R: Result</span>
+            <div class="step-title">Quantified Impact</div>
+            <p style="font-size: 0.74rem; color: var(--text-muted);">
+              What happened? Delivered 2 days early, won 2nd prize, improved system speed by 20%.
+            </p>
+          </div>
+        </div>
+
+        <div class="steps-grid-2" style="margin-top: 4px;">
+          <div style="background: #ffffff; border: 1px solid var(--card-border); padding: 8px 12px; border-radius: 6px;">
+            <strong style="font-size: 0.76rem; color: var(--primary);">Tell Me About Yourself Formula:</strong>
+            <p style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">
+              Past (Engineering foundation) ➔ Present (Your core stack &amp; projects) ➔ Future (Why this company excites you). Keep it strictly under 90 seconds.
+            </p>
+          </div>
+
+          <div style="background: #ffffff; border: 1px solid var(--card-border); padding: 8px 12px; border-radius: 6px;">
+            <strong style="font-size: 0.76rem; color: var(--primary);">Questions to Ask the Interviewer:</strong>
+            <p style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">
+              "What does the onboarding cycle look like for an associate engineer in your team?" &bull; "What separates a good fresher from an exceptional one here?"
+            </p>
+          </div>
+        </div>
+
+        <div class="takeaway-bar">
+          <span class="takeaway-icon">💡</span>
+          <span class="takeaway-text">
+            <strong>Key Speaker Takeaway:</strong> "In HR rounds, nobody gets rejected for lack of technical knowledge; they get rejected for arrogance, bad communication, or lack of cultural fit."
+          </span>
+        </div>
+
+      </div>
+      <div class="page-footer">
+        <span>From Campus to Corporate: IT Placement Roadmap</span>
+        <span class="num">PAGE 09</span>
+      </div>
+    </div>
+
+
+    <!-- ==========================================================================
+         PAGE 10: STEP 09 - HOW TO STAND OUT AS A FRESHER
+         ========================================================================== -->
+    <div class="page">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <div class="step-tag">Step 09 &bull; Unfair Advantage</div>
+            <h2>How to Stand Out as a Fresher: 4 Edge Tactics</h2>
+          </div>
+          <div class="cue-pill">Focus: Beating the crowd through proof of work</div>
+        </div>
+
+        <div class="steps-grid-4">
+          <div class="step-card top-indigo">
+            <span class="step-badge badge-indigo">Tactic 1</span>
+            <div class="step-title">Open Source PR</div>
+            <ul class="point-list">
+              <li>Even 1 merged PR to a known open source repo (Hacktoberfest / Supabase).</li>
+              <li>Proves you know Git, code reviews, and reading large repos.</li>
+            </ul>
+          </div>
+
+          <div class="step-card top-cyan">
+            <span class="step-badge badge-cyan">Tactic 2</span>
+            <div class="step-title">Technical Blogs</div>
+            <ul class="point-list">
+              <li>Write 2 short articles on Hashnode or Medium.</li>
+              <li>Topic: "How Redis caching reduced my API latency".</li>
+              <li>Demonstrates rare clarity and communication.</li>
+            </ul>
+          </div>
+
+          <div class="step-card top-emerald">
+            <span class="step-badge badge-emerald">Tactic 3</span>
+            <div class="step-title">Hackathons</div>
+            <ul class="point-list">
+              <li>Participate in 36-hour hackathons (Devfolio / SIH).</li>
+              <li>Proves you can ship code under deadline pressure.</li>
+              <li>Winning or finalists get direct interview fast-tracks.</li>
+            </ul>
+          </div>
+
+          <div class="step-card top-amber">
+            <span class="step-badge badge-amber">Tactic 4</span>
+            <div class="step-title">Off-Campus Hunt</div>
+            <ul class="point-list">
+              <li>Apply directly on <strong>Wellfound (AngelList)</strong> to founders.</li>
+              <li>Message college alumni at target firms on LinkedIn.</li>
+              <li>Search Twitter/X for "hiring junior developer".</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid var(--card-border); padding: 8px 12px; border-radius: 6px; margin-top: 4px;">
+          <strong style="font-size: 0.76rem; color: var(--primary);">The Off-Campus Referral Rule:</strong>
+          <p style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">
+            Never click "Apply on Company Site" cold. Message an engineer on LinkedIn with your <strong>Job ID</strong>, <strong>Resume link</strong>, and <strong>2-line project pitch</strong> to request an internal referral.
+          </p>
+        </div>
+
+        <div class="takeaway-bar">
+          <span class="takeaway-icon">💡</span>
+          <span class="takeaway-text">
+            <strong>Key Speaker Takeaway:</strong> "Your college placement cell is a convenience; your career is your responsibility. The best engineers create their own luck off-campus."
+          </span>
+        </div>
+
+      </div>
+      <div class="page-footer">
+        <span>From Campus to Corporate: IT Placement Roadmap</span>
+        <span class="num">PAGE 10</span>
+      </div>
+    </div>
+
+
+    <!-- ==========================================================================
+         PAGE 11: STEP 10 - INTERACTIVE GUIDANCE & TOUGH Q&A
+         ========================================================================== -->
+    <div class="page">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <div class="step-tag">Step 10 &bull; Interactive Close</div>
+            <h2>Interactive Career Guidance &amp; Top 4 Student FAQs</h2>
+          </div>
+          <div class="cue-pill">Focus: Addressing common student anxieties</div>
+        </div>
+
+        <div class="steps-grid-2">
+          <div class="step-card top-indigo">
+            <span class="step-badge badge-indigo">Q1: Non-CS Student?</span>
+            <div class="step-title">"Can I crack top tech jobs?"</div>
+            <p style="font-size: 0.76rem; color: var(--text-muted);">
+              <strong>Yes!</strong> Over 35% of developers come from Mechanical, ECE, or Civil. Tech companies test code, logic, and problem-solving, not your degree name. Let your LeetCode rating and GitHub projects speak for you.
+            </p>
+          </div>
+
+          <div class="step-card top-cyan">
+            <span class="step-badge badge-cyan">Q2: Low CGPA?</span>
+            <div class="step-title">"Does my 6.5 CGPA ruin my career?"</div>
+            <p style="font-size: 0.76rem; color: var(--text-muted);">
+              <strong>No.</strong> While some campus drives filter below 7.0, 90% of startups and off-campus companies on Wellfound and LinkedIn don't even ask for your marksheet. They only care if your code works.
+            </p>
+          </div>
+
+          <div class="step-card top-amber">
+            <span class="step-badge badge-amber">Q3: AI Threat?</span>
+            <div class="step-title">"Will AI replace fresher developers?"</div>
+            <p style="font-size: 0.76rem; color: var(--text-muted);">
+              <strong>No, but it replaces copy-pasters.</strong> AI speeds up typing code, but companies still need developers who understand architecture, debugging, security, and trade-offs. Learn to code with AI, not avoid it.
+            </p>
+          </div>
+
+          <div class="step-card top-emerald">
+            <span class="step-badge badge-emerald">Q4: Zero Prep Today?</span>
+            <div class="step-title">"What should I do right now?"</div>
+            <p style="font-size: 0.76rem; color: var(--text-muted);">
+              <strong>Follow the 30-Day Sprint:</strong> Solve Blind 75 LeetCode problems, deploy 1 full-stack app on Vercel, format your 1-page ATS resume, and start sending 5 LinkedIn outreach messages every day.
+            </p>
+          </div>
+        </div>
+
+        <!-- Closing Speaker Banner -->
+        <div style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); color: #ffffff; padding: 10px 14px; border-radius: 6px; margin-top: auto; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <div style="font-family: var(--font-heading); font-size: 0.88rem; font-weight: 700; color: #38bdf8;">
+              Final Speaker Closing Thought
+            </div>
+            <div style="font-size: 0.75rem; color: #cbd5e1; margin-top: 2px;">
+              "Consistency beats talent. If you code 2 hours every single day, getting placed in IT is not luck—it is a mathematical guarantee."
+            </div>
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.1); padding: 4px 10px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; white-space: nowrap;">
+            Q&amp;A OPEN 🎙️
+          </div>
+        </div>
+
+      </div>
+      <div class="page-footer">
+        <span>From Campus to Corporate: IT Placement Roadmap</span>
+        <span class="num">PAGE 11</span>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

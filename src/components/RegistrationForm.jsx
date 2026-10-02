@@ -43,6 +43,7 @@ export default function RegistrationForm() {
   // Payment proof preview & upload state
   const [proofPreview, setProofPreview] = useState('');
   const [previewModal, setPreviewModal] = useState({ open: false, url: '', title: '' });
+  const [showGroupModal, setShowGroupModal] = useState(false);
 
   // Admin / Submissions Drawer
   const [showAdminModal, setShowAdminModal] = useState(false);
@@ -55,12 +56,14 @@ export default function RegistrationForm() {
     city: '',
     registrationType: 'Individual', // 'Individual' | 'Group (2 or more)' | 'Student'
     numberOfAttendees: 1,
-    purpose: 'One Day Vegetable Carving & Basic Knife Skills Workshop',
+    purpose: 'One Day Vegetable Carving Workshop',
     bankDetails: '',
-    amountPaid: 500,
+    amountPaid: 4499,
     proofImageUrl: '',
     notes: ''
   });
+
+  const isGroupRegistration = formData.registrationType.includes('Group');
 
   const [errors, setErrors] = useState({});
 
@@ -116,12 +119,65 @@ export default function RegistrationForm() {
     return Object.keys(errs).length === 0;
   };
 
-  const handleNext = () => {
-    if (currentStep === 1 && validateStep1()) {
-      setCurrentStep(2);
-      const target = document.getElementById('register');
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
+  const handleGroupOfferClaim = async () => {
+    if (!validateStep1()) return;
+
+    setIsSubmitting(true);
+    try {
+      const regId = `SAM-GRP-${Date.now().toString().slice(-6)}`;
+      const submission = {
+        ...formData,
+        amountPaid: 0,
+        bankDetails: 'Group Offer Claim - Direct Contact',
+        proofImageUrl: '',
+        registrationId: regId,
+        submittedAt: new Date().toISOString(),
+        status: 'Group Offer Claim'
+      };
+
+      try {
+        await submitWorkshopRegistration(submission);
+      } catch (dbErr) {
+        console.warn('MongoDB Atlas sync fallback for group enquiry:', dbErr);
+      }
+
+      const updatedList = [submission, ...allRegistrations];
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedList));
+      setAllRegistrations(updatedList);
+      window.dispatchEvent(new Event('workshop-registration-updated'));
+
+      setSubmittedData(submission);
+      setShowGroupModal(true);
+
+      try {
+        confetti({
+          particleCount: 120,
+          spread: 80,
+          origin: { y: 0.6 }
+        });
+      } catch (err) {
+        // Safe fallback
+      }
+
+      message.success('Group details registered! Contact admissions to claim your offer.');
+    } catch (err) {
+      message.error('Could not submit group enquiry. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
+  };
+
+  const handleNext = () => {
+    if (!validateStep1()) return;
+
+    if (isGroupRegistration) {
+      handleGroupOfferClaim();
+      return;
+    }
+
+    setCurrentStep(2);
+    const target = document.getElementById('register');
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handlePrev = () => {
@@ -242,9 +298,9 @@ export default function RegistrationForm() {
       city: '',
       registrationType: 'Individual',
       numberOfAttendees: 1,
-      purpose: 'One Day Vegetable Carving & Basic Knife Skills Workshop',
+      purpose: 'One Day Vegetable Carving Workshop',
       bankDetails: '',
-      amountPaid: 500,
+      amountPaid: 4499,
       proofImageUrl: '',
       notes: ''
     });
@@ -255,7 +311,250 @@ export default function RegistrationForm() {
   };
 
   const handlePrint = () => {
-    window.print();
+    if (!submittedData) {
+      window.print();
+      return;
+    }
+
+    const printWin = window.open('', '_blank', 'width=800,height=900');
+    if (!printWin) {
+      window.print();
+      return;
+    }
+
+    const receiptHtml = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Registration_Receipt_${submittedData.registrationId || 'SAMS'}</title>
+          <meta charset="utf-8" />
+          <style>
+            @page {
+              size: A4 portrait;
+              margin: 10mm 14mm;
+            }
+            * {
+              box-sizing: border-box;
+              margin: 0;
+              padding: 0;
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            }
+            body {
+              background: #ffffff;
+              color: #1a1a1a;
+              padding: 16px;
+              font-size: 13px;
+              line-height: 1.45;
+            }
+            .receipt-card {
+              max-width: 660px;
+              margin: 0 auto;
+              border: 2px solid #194121;
+              border-radius: 12px;
+              padding: 22px 26px;
+            }
+            .brand-header {
+              text-align: center;
+              border-bottom: 2px solid #194121;
+              padding-bottom: 12px;
+              margin-bottom: 16px;
+            }
+            .brand-title {
+              font-size: 22px;
+              font-weight: 800;
+              color: #194121;
+              letter-spacing: 0.5px;
+            }
+            .brand-sub {
+              font-size: 11.5px;
+              color: #4b5563;
+              margin-top: 3px;
+            }
+            .receipt-tag {
+              display: inline-block;
+              background: #194121;
+              color: #ffffff;
+              padding: 3px 14px;
+              border-radius: 16px;
+              font-size: 10.5px;
+              font-weight: 700;
+              letter-spacing: 0.8px;
+              text-transform: uppercase;
+              margin-top: 6px;
+            }
+            .status-banner {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              background: #f0fdf4;
+              border: 1px solid #86efac;
+              border-radius: 8px;
+              padding: 10px 14px;
+              margin-bottom: 16px;
+            }
+            .status-badge {
+              color: #166534;
+              font-weight: 800;
+              font-size: 13px;
+            }
+            .reg-id-val {
+              font-size: 14px;
+              font-weight: 800;
+              color: #194121;
+            }
+            .data-table {
+              width: 100%;
+              border-collapse: collapse;
+              margin-bottom: 16px;
+            }
+            .data-table td {
+              padding: 8px 12px;
+              border-bottom: 1px solid #e5e7eb;
+              font-size: 12.5px;
+            }
+            .data-table tr:nth-child(even) {
+              background: #f9fafb;
+            }
+            .label-td {
+              width: 36%;
+              color: #4b5563;
+              font-weight: 600;
+            }
+            .val-td {
+              width: 64%;
+              color: #111827;
+              font-weight: 700;
+            }
+            .price-total {
+              color: #15803d;
+              font-weight: 800;
+              font-size: 13.5px;
+            }
+            .price-breakdown {
+              color: #b45309;
+              font-weight: 700;
+            }
+            .perks-box {
+              background: #f9fafb;
+              border: 1px solid #d1d5db;
+              border-radius: 8px;
+              padding: 10px 14px;
+              margin-bottom: 14px;
+              font-size: 11px;
+              color: #374151;
+              line-height: 1.5;
+            }
+            .perks-head {
+              font-weight: 700;
+              color: #194121;
+              margin-bottom: 4px;
+              font-size: 11.5px;
+            }
+            .footer-legal {
+              text-align: center;
+              font-size: 10px;
+              color: #6b7280;
+              border-top: 1px solid #e5e7eb;
+              padding-top: 10px;
+            }
+            @media print {
+              body { padding: 0; }
+              .receipt-card { border: 2px solid #194121; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="receipt-card">
+            <div class="brand-header">
+              <div class="brand-title">SAM'S CULINARY ART CLASS</div>
+              <div class="brand-sub">"Anbhazhi Bhavanam", No. 18/21, Vishwanathapuram 3rd Street, Kodambakkam, Chennai - 600024</div>
+              <div class="brand-sub">Helpline / WhatsApp: +91 8939648457 | samsculinaryartclass@gmail.com</div>
+              <div class="receipt-tag">Workshop Registration &amp; Payment Receipt</div>
+            </div>
+
+            <div class="status-banner">
+              <div>
+                <span style="font-size: 10.5px; color: #4b5563; display: block; text-transform: uppercase;">Registration Status</span>
+                <span class="status-badge">${submittedData.registrationType?.includes('Group') ? 'GROUP REGISTRATION RECORDED' : 'SEAT RESERVATION CONFIRMED'}</span>
+              </div>
+              <div style="text-align: right;">
+                <span style="font-size: 10.5px; color: #4b5563; display: block; text-transform: uppercase;">Registration ID</span>
+                <span class="reg-id-val">${submittedData.registrationId}</span>
+              </div>
+            </div>
+
+            <table class="data-table">
+              <tr>
+                <td class="label-td">Participant Name</td>
+                <td class="val-td">${submittedData.name}</td>
+              </tr>
+              <tr>
+                <td class="label-td">Mobile / WhatsApp</td>
+                <td class="val-td">${submittedData.phone}</td>
+              </tr>
+              <tr>
+                <td class="label-td">Email Address</td>
+                <td class="val-td">${submittedData.email}</td>
+              </tr>
+              <tr>
+                <td class="label-td">Location / City</td>
+                <td class="val-td">${submittedData.city}</td>
+              </tr>
+              <tr>
+                <td class="label-td">Masterclass</td>
+                <td class="val-td">One Day Vegetable Carving Workshop</td>
+              </tr>
+              <tr>
+                <td class="label-td">Mentor &amp; Instructor</td>
+                <td class="val-td">Sun TV MasterChef Manikandan</td>
+              </tr>
+              <tr>
+                <td class="label-td">Workshop Schedule</td>
+                <td class="val-td">Oct 24, 2026 | 10:00 AM to 5:00 PM</td>
+              </tr>
+              <tr>
+                <td class="label-td">Total Paid Amount</td>
+                <td class="val-td price-total">${submittedData.registrationType?.includes('Group') ? 'Group Concession — Claim on Contact' : `Rs. ${submittedData.amountPaid || 4499}/- (Full Payment Complete)`}</td>
+              </tr>
+              <tr>
+                <td class="label-td">Fee Breakdown</td>
+                <td class="val-td price-breakdown">Rs. 500 Registration Fee + Rs. 3,999 Workshop Fee</td>
+              </tr>
+              <tr>
+                <td class="label-td">Payment Reference / UTR</td>
+                <td class="val-td">${submittedData.bankDetails || 'Confirmed'}</td>
+              </tr>
+              <tr>
+                <td class="label-td">Date Issued</td>
+                <td class="val-td">${new Date(submittedData.submittedAt || Date.now()).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
+              </tr>
+            </table>
+
+            <div class="perks-box">
+              <div class="perks-head">Inclusions Confirmed for Your Reserved Station:</div>
+              <div>• <strong>Take-Home Vegetable Bouquet:</strong> The artisanal bouquet you sculpt &amp; assemble in class</div>
+              <div>• <strong>MasterChef Mentorship:</strong> Full day direct hands-on training with MasterChef Manikandan</div>
+              <div>• <strong>Workshop Kit &amp; Certificate:</strong> Tools provided in class &amp; authorized certificate of completion</div>
+              <div>• <strong>Complimentary Veg Lunch:</strong> Freshly prepared hot lunch, tea &amp; refreshments</div>
+            </div>
+
+            <div class="footer-legal">
+              Official computer-generated receipt issued by Sam's Culinary Art Class. Please present this slip or your Registration ID upon arrival on Oct 24.
+            </div>
+          </div>
+          <script>
+            window.onload = function() {
+              window.focus();
+              window.print();
+            };
+          </script>
+        </body>
+      </html>
+    `;
+
+    printWin.document.open();
+    printWin.document.write(receiptHtml);
+    printWin.document.close();
   };
 
   const exportToCSV = () => {
@@ -314,7 +613,7 @@ export default function RegistrationForm() {
             Reserve Your <span className="gradient-text-gold">Workshop Slot</span>
           </h2>
           <p style={{ fontSize: '1.05rem', opacity: 0.9, maxWidth: '640px', margin: '0 auto', lineHeight: '1.6' }}>
-            Pay the advance seat reservation fee of Rs. 500 to lock in your workstation, vegetable carving kit, and certificate.
+            Complete your registration for Sam&apos;s Culinary Art Class. Total fee: Rs. 4,499 (Rs. 500 Registration Fee + Rs. 3,999 Workshop Fee) for the full-day masterclass on Oct 24.
           </p>
         </div>
 
@@ -323,22 +622,20 @@ export default function RegistrationForm() {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
+              gridTemplateColumns: isGroupRegistration ? '1fr' : '1fr 1fr',
               gap: '12px',
               marginBottom: '32px'
             }}
           >
             <div
-              onClick={() => currentStep === 2 && setCurrentStep(1)}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px',
                 padding: '12px 18px',
                 borderRadius: '12px',
-                background: currentStep === 1 ? 'rgba(232, 167, 16, 0.15)' : 'rgba(255, 255, 255, 0.04)',
-                border: currentStep === 1 ? '1px solid var(--mango-yellow)' : '1px solid var(--border-color)',
-                cursor: currentStep === 2 ? 'pointer' : 'default',
+                background: isGroupRegistration ? 'rgba(34, 197, 94, 0.15)' : 'rgba(232, 167, 16, 0.15)',
+                border: isGroupRegistration ? '1px solid #22c55e' : '1px solid var(--mango-yellow)',
                 transition: 'all 0.2s ease'
               }}
             >
@@ -347,8 +644,8 @@ export default function RegistrationForm() {
                   width: '32px',
                   height: '32px',
                   borderRadius: '50%',
-                  background: currentStep === 1 ? 'var(--mango-yellow)' : currentStep > 1 ? 'var(--green-primary)' : 'rgba(255,255,255,0.1)',
-                  color: currentStep === 1 ? '#000000' : '#ffffff',
+                  background: isGroupRegistration ? '#22c55e' : 'var(--mango-yellow)',
+                  color: '#000000',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -356,51 +653,55 @@ export default function RegistrationForm() {
                   fontSize: '0.9rem'
                 }}
               >
-                {currentStep > 1 ? <CheckCircleOutlined /> : '1'}
+                {isGroupRegistration ? <WhatsAppOutlined style={{ fontSize: '18px' }} /> : '1'}
               </div>
               <div>
-                <div style={{ fontWeight: '700', fontSize: '0.92rem', color: currentStep === 1 ? 'var(--mango-yellow)' : 'var(--text-dark)' }}>
-                  Step 1: Participant Info
+                <div style={{ fontWeight: '700', fontSize: '0.92rem', color: isGroupRegistration ? '#22c55e' : 'var(--mango-yellow)' }}>
+                  {isGroupRegistration ? 'Group Enquiries: WhatsApp Fast-Track' : 'Step 1: Participant Info'}
                 </div>
-                <div style={{ fontSize: '0.76rem', opacity: 0.7 }}>Personal &amp; Contact Details</div>
+                <div style={{ fontSize: '0.76rem', opacity: 0.7 }}>
+                  {isGroupRegistration ? 'Direct admissions support • No form registration needed' : 'Personal & Contact Details'}
+                </div>
               </div>
             </div>
 
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                padding: '12px 18px',
-                borderRadius: '12px',
-                background: currentStep === 2 ? 'rgba(232, 167, 16, 0.15)' : 'rgba(255, 255, 255, 0.04)',
-                border: currentStep === 2 ? '1px solid var(--mango-yellow)' : '1px solid var(--border-color)',
-                transition: 'all 0.2s ease'
-              }}
-            >
+            {!isGroupRegistration && (
               <div
                 style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  background: currentStep === 2 ? 'var(--mango-yellow)' : 'rgba(255,255,255,0.1)',
-                  color: currentStep === 2 ? '#000000' : '#ffffff',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  fontWeight: '800',
-                  fontSize: '0.9rem'
+                  gap: '12px',
+                  padding: '12px 18px',
+                  borderRadius: '12px',
+                  background: currentStep === 2 ? 'rgba(232, 167, 16, 0.15)' : 'rgba(255, 255, 255, 0.04)',
+                  border: currentStep === 2 ? '1px solid var(--mango-yellow)' : '1px solid var(--border-color)',
+                  transition: 'all 0.2s ease'
                 }}
               >
-                2
-              </div>
-              <div>
-                <div style={{ fontWeight: '700', fontSize: '0.92rem', color: currentStep === 2 ? 'var(--mango-yellow)' : 'var(--text-dark)' }}>
-                  Step 2: Advance Payment
+                <div
+                  style={{
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: '50%',
+                    background: currentStep === 2 ? 'var(--mango-yellow)' : 'rgba(255,255,255,0.1)',
+                    color: currentStep === 2 ? '#000000' : '#ffffff',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontWeight: '800',
+                    fontSize: '0.9rem'
+                  }}
+                >
+                  2
                 </div>
-                <div style={{ fontSize: '0.76rem', opacity: 0.7 }}>Rs. 500 UPI / QR Scan &amp; Proof</div>
+                <div>
+                  <div style={{ fontWeight: '700', fontSize: '0.92rem', color: currentStep === 2 ? 'var(--mango-yellow)' : 'var(--text-dark)' }}>
+                    Step 2: Total Payment
+                  </div>
+                  <div style={{ fontSize: '0.76rem', opacity: 0.7 }}>Rs. 4,499 (Reg Fee Rs. 500 + Workshop Fee Rs. 3,999)</div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         )}
 
@@ -424,8 +725,8 @@ export default function RegistrationForm() {
               <CheckCircleOutlined />
             </div>
 
-            <div className="badge badge-success" style={{ padding: '6px 16px', borderRadius: '20px', marginBottom: '12px', display: 'inline-block' }}>
-              SEAT RESERVATION CONFIRMED
+            <div className={`badge ${submittedData.registrationType?.includes('Group') ? 'badge-warning' : 'badge-success'}`} style={{ padding: '6px 16px', borderRadius: '20px', marginBottom: '12px', display: 'inline-block' }}>
+              {submittedData.registrationType?.includes('Group') ? 'GROUP REGISTRATION RECORDED' : 'SEAT RESERVATION CONFIRMED'}
             </div>
 
             <h3 style={{ fontSize: '1.7rem', fontWeight: '800', marginBottom: '8px' }}>
@@ -433,8 +734,21 @@ export default function RegistrationForm() {
             </h3>
 
             <p style={{ maxWidth: '580px', margin: '0 auto 24px', opacity: 0.88, fontSize: '0.98rem', lineHeight: '1.6' }}>
-              Your seat for Chef Manikandan's One Day Workshop has been reserved. Your training station, carving kit, and certificate details have been registered.
+              {submittedData.registrationType?.includes('Group')
+                ? `Your group details for Chef Manikandan's One Day Vegetable Carving Workshop on Oct 24 have been received. Please contact admissions to claim your group offer.`
+                : `Your seat for Chef Manikandan's One Day Vegetable Carving Workshop on Oct 24 has been reserved. Your training station, carving kit, and certificate details have been registered.`}
             </p>
+
+            {submittedData.registrationType?.includes('Group') && (
+              <div style={{ background: 'rgba(232, 167, 16, 0.14)', border: '1px solid var(--mango-yellow)', borderRadius: '14px', padding: '16px 20px', maxWidth: '640px', margin: '0 auto 24px', textAlign: 'center' }}>
+                <strong style={{ color: 'var(--mango-yellow)', fontSize: '1.15rem', display: 'block', marginBottom: '6px' }}>
+                  <TeamOutlined style={{ marginRight: '6px' }} /> Contact for Claim Offer
+                </strong>
+                <p style={{ fontSize: '0.92rem', opacity: 0.95, margin: 0, lineHeight: '1.55' }}>
+                  Call or WhatsApp our admissions desk at <strong>+91 8939648457</strong> to confirm your group participants and finalize your discounted workshop fee!
+                </p>
+              </div>
+            )}
 
             {/* Application Slip */}
             <div className="application-slip-box">
@@ -471,23 +785,31 @@ export default function RegistrationForm() {
                   <div>{submittedData.city}</div>
                 </div>
                 <div>
-                  <strong style={{ opacity: 0.7, display: 'block' }}>Workshop</strong>
-                  <div>One Day Vegetable Carving &amp; Bouquet Masterclass</div>
+                  <strong style={{ opacity: 0.7, display: 'block' }}>Category</strong>
+                  <div>{submittedData.registrationType} {submittedData.numberOfAttendees > 1 ? `(${submittedData.numberOfAttendees} Seats)` : ''}</div>
                 </div>
                 <div>
                   <strong style={{ opacity: 0.7, display: 'block' }}>Instructor</strong>
                   <div>Sun TV MasterChef Manikandan</div>
                 </div>
                 <div>
-                  <strong style={{ opacity: 0.7, display: 'block' }}>Workshop Timing</strong>
-                  <div>10:00 AM to 5:00 PM</div>
+                  <strong style={{ opacity: 0.7, display: 'block' }}>Workshop Date &amp; Timing</strong>
+                  <div>Oct 24 | 10:00 AM to 5:00 PM</div>
                 </div>
                 <div>
-                  <strong style={{ opacity: 0.7, display: 'block' }}>Registration Advance Paid</strong>
-                  <div style={{ color: '#22c55e', fontWeight: '800' }}>Rs. {submittedData.amountPaid}/- (Paid)</div>
+                  <strong style={{ opacity: 0.7, display: 'block' }}>Total Paid Amount</strong>
+                  <div style={{ color: submittedData.registrationType?.includes('Group') ? 'var(--mango-yellow)' : '#22c55e', fontWeight: '800' }}>
+                    {submittedData.registrationType?.includes('Group') ? 'Group Concession — Claim on Contact' : `Rs. ${submittedData.amountPaid || 4499}/- (Full Payment Complete)`}
+                  </div>
                 </div>
                 <div>
-                  <strong style={{ opacity: 0.7, display: 'block' }}>Transaction Reference / ID</strong>
+                  <strong style={{ opacity: 0.7, display: 'block' }}>Fee Breakdown</strong>
+                  <div style={{ color: 'var(--mango-yellow)', fontWeight: '700' }}>
+                    {submittedData.registrationType?.includes('Group') ? 'Special Group Offer Rate' : 'Rs. 500 Reg Fee + Rs. 3,999 Workshop Fee'}
+                  </div>
+                </div>
+                <div>
+                  <strong style={{ opacity: 0.7, display: 'block' }}>Reference Status</strong>
                   <div style={{ color: 'var(--mango-yellow)', fontWeight: '700' }}>{submittedData.bankDetails}</div>
                 </div>
                 <div>
@@ -510,16 +832,24 @@ export default function RegistrationForm() {
             </div>
 
             {/* Actions: WhatsApp confirmation & Print Slip */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', justifyContent: 'center', marginTop: '28px' }}>
+            <div className="no-print receipt-actions" style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', justifyContent: 'center', marginTop: '28px' }}>
               <a
                 href={`https://wa.me/918939648457?text=${encodeURIComponent(
-                  `Hi Chef Vahitha & MasterChef Manikandan, I have paid the Rs. 500 advance registration fee for the One Day Workshop.\n\n` +
-                  `Registration ID: ${submittedData.registrationId}\n` +
-                  `Participant Name: ${submittedData.name}\n` +
-                  `Phone: ${submittedData.phone}\n` +
-                  `City: ${submittedData.city}\n` +
-                  `Transaction ID: ${submittedData.bankDetails}\n\n` +
-                  `Please confirm my seat and kit allocation. Thank you!`
+                  submittedData.registrationType?.includes('Group')
+                    ? `Hi Chef Vahitha & MasterChef Manikandan, I have submitted group details for the One Day Vegetable Carving Workshop on Oct 24.\n\n` +
+                      `Registration ID: ${submittedData.registrationId}\n` +
+                      `Participant Name: ${submittedData.name}\n` +
+                      `Phone: ${submittedData.phone}\n` +
+                      `City: ${submittedData.city}\n` +
+                      `Attendees: ${submittedData.numberOfAttendees || 2} persons\n\n` +
+                      `Please share the group discount offer. Thank you!`
+                    : `Hi Chef Vahitha & MasterChef Manikandan, I have paid the total fee of Rs. 4,499 (Rs. 500 Registration Fee + Rs. 3,999 Workshop Fee) for Sam's Culinary Art Class (One Day Vegetable Carving Workshop on Oct 24).\n\n` +
+                      `Registration ID: ${submittedData.registrationId}\n` +
+                      `Participant Name: ${submittedData.name}\n` +
+                      `Phone: ${submittedData.phone}\n` +
+                      `City: ${submittedData.city}\n` +
+                      `Transaction ID: ${submittedData.bankDetails}\n\n` +
+                      `Please confirm my workshop reservation. Thank you!`
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -533,7 +863,7 @@ export default function RegistrationForm() {
                 }}
               >
                 <WhatsAppOutlined style={{ fontSize: '18px' }} />
-                <span>Confirm on WhatsApp (+91 8939648457)</span>
+                <span>{submittedData.registrationType?.includes('Group') ? 'Claim Group Offer on WhatsApp' : 'Confirm on WhatsApp (+91 8939648457)'}</span>
               </a>
 
               <button
@@ -580,180 +910,335 @@ export default function RegistrationForm() {
                 <div>
                   <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(232, 167, 16, 0.12)', border: '1px solid rgba(232, 167, 16, 0.3)', padding: '6px 14px', borderRadius: '20px', marginBottom: '16px', fontSize: '0.84rem', color: 'var(--mango-yellow)', fontWeight: '700' }}>
                     <TrophyOutlined />
-                    <span>One Day Vegetable Carving &amp; Knife Skills Workshop</span>
+                    <span>One Day Vegetable Carving Workshop</span>
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px' }}>
-                    <UserOutlined style={{ color: 'var(--mango-yellow)', fontSize: '20px' }} />
-                    <h3 style={{ fontSize: '1.25rem', fontWeight: '700', margin: 0 }}>Participant Details</h3>
-                  </div>
-
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px', marginBottom: '20px' }}>
-                    {/* Full Name */}
-                    <div className="form-group-field">
-                      <label className="field-label" htmlFor="w-name">
-                        Full Name <span style={{ color: '#ff4d4f' }}>*</span>
-                      </label>
-                      <div className="custom-input-wrap">
-                        <UserOutlined className="input-prefix-icon" />
-                        <input
-                          id="w-name"
-                          type="text"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleInputChange}
-                          placeholder="e.g. Priyadharshini K."
-                          className={`custom-form-input ${errors.name ? 'has-error' : ''}`}
-                        />
-                      </div>
-                      {errors.name && <span className="field-error-msg">{errors.name}</span>}
-                    </div>
-
-                    {/* Phone / WhatsApp */}
-                    <div className="form-group-field">
-                      <label className="field-label" htmlFor="w-phone">
-                        Phone / WhatsApp Number <span style={{ color: '#ff4d4f' }}>*</span>
-                      </label>
-                      <div className="custom-input-wrap">
-                        <PhoneOutlined className="input-prefix-icon" />
-                        <input
-                          id="w-phone"
-                          type="tel"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleInputChange}
-                          placeholder="e.g. 9876543210"
-                          className={`custom-form-input ${errors.phone ? 'has-error' : ''}`}
-                        />
-                      </div>
-                      {errors.phone && <span className="field-error-msg">{errors.phone}</span>}
-                    </div>
-
-                    {/* Email */}
-                    <div className="form-group-field">
-                      <label className="field-label" htmlFor="w-email">
-                        Email Address <span style={{ color: '#ff4d4f' }}>*</span>
-                      </label>
-                      <div className="custom-input-wrap">
-                        <MailOutlined className="input-prefix-icon" />
-                        <input
-                          id="w-email"
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          placeholder="e.g. yourname@example.com"
-                          className={`custom-form-input ${errors.email ? 'has-error' : ''}`}
-                        />
-                      </div>
-                      {errors.email && <span className="field-error-msg">{errors.email}</span>}
-                    </div>
-
-                    {/* City / Location */}
-                    <div className="form-group-field">
-                      <label className="field-label" htmlFor="w-city">
-                        City / Location <span style={{ color: '#ff4d4f' }}>*</span>
-                      </label>
-                      <div className="custom-input-wrap">
-                        <HomeOutlined className="input-prefix-icon" />
-                        <input
-                          id="w-city"
-                          type="text"
-                          name="city"
-                          value={formData.city}
-                          onChange={handleInputChange}
-                          placeholder="e.g. Chennai, Kodambakkam, Coimbatore"
-                          className={`custom-form-input ${errors.city ? 'has-error' : ''}`}
-                        />
-                      </div>
-                      {errors.city && <span className="field-error-msg">{errors.city}</span>}
-                    </div>
-                  </div>
-
-                  {/* Registration Category */}
-                  <div className="form-group-field" style={{ marginBottom: '22px' }}>
-                    <label className="field-label" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  {/* Registration Category Selector Tabs */}
+                  <div style={{ marginBottom: '24px' }}>
+                    <label className="field-label" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
                       <TeamOutlined style={{ color: 'var(--mango-yellow)' }} />
                       <span>Registration Category</span>
                     </label>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '10px' }}>
-                      {['Individual', 'Group (2 or more)', 'Culinary / College Student'].map((type) => (
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                      {['Individual', 'Group (2 or more)'].map((type) => (
                         <div
                           key={type}
                           onClick={() => setFormData((prev) => ({ ...prev, registrationType: type }))}
                           style={{
-                            padding: '12px',
-                            borderRadius: '10px',
+                            padding: '14px 18px',
+                            borderRadius: '12px',
                             background: formData.registrationType === type ? 'rgba(232, 167, 16, 0.15)' : 'rgba(255, 255, 255, 0.03)',
-                            border: formData.registrationType === type ? '1px solid var(--mango-yellow)' : '1px solid var(--border-color)',
+                            border: formData.registrationType === type ? '1.5px solid var(--mango-yellow)' : '1px solid var(--border-color)',
                             cursor: 'pointer',
                             textAlign: 'center',
-                            fontSize: '0.88rem',
-                            fontWeight: formData.registrationType === type ? '700' : '500',
-                            color: formData.registrationType === type ? 'var(--mango-yellow)' : 'var(--text-dark)'
+                            fontSize: '0.95rem',
+                            fontWeight: formData.registrationType === type ? '800' : '500',
+                            color: formData.registrationType === type ? 'var(--mango-yellow)' : 'var(--text-dark)',
+                            transition: 'all 0.2s ease',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '8px'
                           }}
                         >
-                          {type}
+                          {type === 'Individual' ? <UserOutlined /> : <WhatsAppOutlined style={{ color: '#25D366' }} />}
+                          <span>{type}</span>
                         </div>
                       ))}
                     </div>
-                    {formData.registrationType.includes('Group') && (
-                      <small style={{ display: 'block', marginTop: '6px', color: 'var(--mango-yellow)', fontSize: '0.82rem' }}>
-                        Special group discount will be applied to your final workshop fee! Call +91 8939648457 to verify your group offer.
-                      </small>
-                    )}
                   </div>
 
-                  {/* Notes / Prior Experience */}
-                  <div className="form-group-field" style={{ marginBottom: '28px' }}>
-                    <label className="field-label" htmlFor="w-notes">
-                      Special Interest or Prior Experience (Optional)
-                    </label>
-                    <textarea
-                      id="w-notes"
-                      name="notes"
-                      rows={2}
-                      value={formData.notes}
-                      onChange={handleInputChange}
-                      placeholder="e.g. Complete beginner / Hotel management student / Caterer seeking centerpiece mastery"
-                      className="custom-form-input"
-                      style={{ height: 'auto', padding: '12px' }}
-                    />
-                  </div>
-
-                  {/* Navigation Next Button */}
-                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <button
-                      type="button"
-                      onClick={handleNext}
-                      className="btn-primary"
+                  {/* IF GROUP: Direct WhatsApp Contact (No registration form required!) */}
+                  {isGroupRegistration ? (
+                    <div
                       style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        padding: '12px 30px',
-                        borderRadius: '30px',
-                        fontWeight: '700'
+                        padding: '36px 24px',
+                        background: 'radial-gradient(circle at top, rgba(37, 211, 102, 0.14) 0%, rgba(14, 25, 16, 0.95) 100%)',
+                        border: '1.5px solid #22c55e',
+                        borderRadius: '20px',
+                        textAlign: 'center',
+                        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(37, 211, 102, 0.15)'
                       }}
                     >
-                      <span>Proceed to Payment (Rs. 500)</span>
-                      <ArrowRightOutlined />
-                    </button>
-                  </div>
+                      <div
+                        style={{
+                          width: '64px',
+                          height: '64px',
+                          borderRadius: '50%',
+                          background: 'rgba(37, 211, 102, 0.15)',
+                          border: '2px solid #25D366',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          margin: '0 auto 16px'
+                        }}
+                      >
+                        <WhatsAppOutlined style={{ fontSize: '32px', color: '#25D366' }} />
+                      </div>
+
+                      <span
+                        style={{
+                          display: 'inline-block',
+                          background: 'rgba(37, 211, 102, 0.2)',
+                          color: '#22c55e',
+                          padding: '4px 16px',
+                          borderRadius: '20px',
+                          fontSize: '0.8rem',
+                          fontWeight: '800',
+                          letterSpacing: '0.6px',
+                          marginBottom: '10px',
+                          textTransform: 'uppercase'
+                        }}
+                      >
+                        Direct Group Booking via WhatsApp
+                      </span>
+
+                      <h3 style={{ fontSize: '1.45rem', fontWeight: '800', color: '#ffffff', marginBottom: '10px' }}>
+                        Registering as a Group (2 or More)?
+                      </h3>
+
+                      <p style={{ fontSize: '0.95rem', opacity: 0.9, maxWidth: '540px', margin: '0 auto 24px', lineHeight: '1.6' }}>
+                        You don&apos;t need to fill out this registration form! Group bookings &amp; exclusive discounted concession rates are coordinated directly over WhatsApp with our admissions team.
+                      </p>
+
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', justifyContent: 'center', marginBottom: '24px' }}>
+                        <a
+                          href="https://wa.me/918939648457?text=Hi%20Sam's%20Culinary%20Art%20Class,%20we%20are%20planning%20to%20join%20the%20One%20Day%20Vegetable%20Carving%20Workshop%20on%20Oct%2024%20as%20a%20Group.%20Please%20share%20the%20group%20concession%20details."
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '10px',
+                            padding: '14px 32px',
+                            borderRadius: '30px',
+                            background: 'var(--mango-yellow)',
+                            color: '#000000',
+                            fontWeight: '800',
+                            fontSize: '1.02rem',
+                            textDecoration: 'none',
+                            border: 'none',
+                            boxShadow: '0 4px 18px rgba(232, 167, 16, 0.45)',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease'
+                          }}
+                        >
+                          <WhatsAppOutlined style={{ fontSize: '20px', color: '#000000' }} />
+                          <span>Chat on WhatsApp to Claim Group Offer</span>
+                        </a>
+
+                        <a
+                          href="tel:+918939648457"
+                          className="btn-outline"
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            padding: '14px 24px',
+                            borderRadius: '30px',
+                            fontSize: '0.95rem'
+                          }}
+                        >
+                          <PhoneOutlined />
+                          <span>Call: +91 8939648457</span>
+                        </a>
+                      </div>
+
+                      <div
+                        style={{
+                          display: 'grid',
+                          gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+                          gap: '12px',
+                          paddingTop: '20px',
+                          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+                          maxWidth: '620px',
+                          margin: '0 auto',
+                          fontSize: '0.85rem'
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', opacity: 0.85 }}>
+                          <CheckCircleOutlined style={{ color: '#22c55e' }} />
+                          <span>Exclusive Group Concessions</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', opacity: 0.85 }}>
+                          <CheckCircleOutlined style={{ color: '#22c55e' }} />
+                          <span>Adjacent Workstations</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', opacity: 0.85 }}>
+                          <CheckCircleOutlined style={{ color: '#22c55e' }} />
+                          <span>Instant WhatsApp Confirmation</span>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    /* IF INDIVIDUAL: Normal Registration Form */
+                    <>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px' }}>
+                        <UserOutlined style={{ color: 'var(--mango-yellow)', fontSize: '20px' }} />
+                        <h3 style={{ fontSize: '1.25rem', fontWeight: '700', margin: 0 }}>Participant Details</h3>
+                      </div>
+
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px', marginBottom: '20px' }}>
+                        {/* Full Name */}
+                        <div className="form-group-field">
+                          <label className="field-label" htmlFor="w-name">
+                            Full Name <span style={{ color: '#ff4d4f' }}>*</span>
+                          </label>
+                          <div className="custom-input-wrap">
+                            <UserOutlined className="input-prefix-icon" />
+                            <input
+                              id="w-name"
+                              type="text"
+                              name="name"
+                              value={formData.name}
+                              onChange={handleInputChange}
+                              placeholder="e.g. Priyadharshini K."
+                              className={`custom-form-input ${errors.name ? 'has-error' : ''}`}
+                            />
+                          </div>
+                          {errors.name && <span className="field-error-msg">{errors.name}</span>}
+                        </div>
+
+                        {/* Phone / WhatsApp */}
+                        <div className="form-group-field">
+                          <label className="field-label" htmlFor="w-phone">
+                            Phone / WhatsApp Number <span style={{ color: '#ff4d4f' }}>*</span>
+                          </label>
+                          <div className="custom-input-wrap">
+                            <PhoneOutlined className="input-prefix-icon" />
+                            <input
+                              id="w-phone"
+                              type="tel"
+                              name="phone"
+                              value={formData.phone}
+                              onChange={handleInputChange}
+                              placeholder="e.g. 9876543210"
+                              className={`custom-form-input ${errors.phone ? 'has-error' : ''}`}
+                            />
+                          </div>
+                          {errors.phone && <span className="field-error-msg">{errors.phone}</span>}
+                        </div>
+
+                        {/* Email */}
+                        <div className="form-group-field">
+                          <label className="field-label" htmlFor="w-email">
+                            Email Address <span style={{ color: '#ff4d4f' }}>*</span>
+                          </label>
+                          <div className="custom-input-wrap">
+                            <MailOutlined className="input-prefix-icon" />
+                            <input
+                              id="w-email"
+                              type="email"
+                              name="email"
+                              value={formData.email}
+                              onChange={handleInputChange}
+                              placeholder="e.g. yourname@example.com"
+                              className={`custom-form-input ${errors.email ? 'has-error' : ''}`}
+                            />
+                          </div>
+                          {errors.email && <span className="field-error-msg">{errors.email}</span>}
+                        </div>
+
+                        {/* City / Location */}
+                        <div className="form-group-field">
+                          <label className="field-label" htmlFor="w-city">
+                            City / Location <span style={{ color: '#ff4d4f' }}>*</span>
+                          </label>
+                          <div className="custom-input-wrap">
+                            <HomeOutlined className="input-prefix-icon" />
+                            <input
+                              id="w-city"
+                              type="text"
+                              name="city"
+                              value={formData.city}
+                              onChange={handleInputChange}
+                              placeholder="e.g. Chennai, Kodambakkam, Coimbatore"
+                              className={`custom-form-input ${errors.city ? 'has-error' : ''}`}
+                            />
+                          </div>
+                          {errors.city && <span className="field-error-msg">{errors.city}</span>}
+                        </div>
+                      </div>
+
+                      {/* Notes / Prior Experience */}
+                      <div className="form-group-field" style={{ marginBottom: '28px' }}>
+                        <label className="field-label" htmlFor="w-notes">
+                          Special Interest or Prior Experience (Optional)
+                        </label>
+                        <textarea
+                          id="w-notes"
+                          name="notes"
+                          rows={2}
+                          value={formData.notes}
+                          onChange={handleInputChange}
+                          placeholder="e.g. Complete beginner / Caterer seeking centerpiece mastery"
+                          className="custom-form-input"
+                          style={{ height: 'auto', padding: '12px' }}
+                        />
+                      </div>
+
+                      {/* Navigation Next Button */}
+                      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <button
+                          type="button"
+                          onClick={handleNext}
+                          disabled={isSubmitting}
+                          className="btn-primary"
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            padding: '12px 30px',
+                            borderRadius: '30px',
+                            fontWeight: '700'
+                          }}
+                        >
+                          <span>Proceed to Total Payment (Rs. 4,499)</span>
+                          <ArrowRightOutlined />
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </div>
               )}
 
-              {/* STEP 2: ADVANCE PAYMENT (Rs. 500) */}
+              {/* STEP 2: TOTAL PAYMENT (Rs. 4,499) */}
               {currentStep === 2 && (
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px', flexWrap: 'wrap', gap: '8px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                       <CreditCardOutlined style={{ color: 'var(--mango-yellow)', fontSize: '20px' }} />
-                      <h3 style={{ fontSize: '1.25rem', fontWeight: '700', margin: 0 }}>Advance Seat Payment</h3>
+                      <h3 style={{ fontSize: '1.25rem', fontWeight: '700', margin: 0 }}>Total Payment (Registration + Workshop Fee)</h3>
                     </div>
-                    <span style={{ fontSize: '0.95rem', color: '#22c55e', fontWeight: '800' }}>
-                      Fee: Rs. 500/-
+                    <span style={{ fontSize: '1.05rem', color: '#22c55e', fontWeight: '800' }}>
+                      Total Fee: Rs. 4,499/-
                     </span>
+                  </div>
+
+                  {/* Fee Breakdown Banner */}
+                  <div
+                    style={{
+                      background: 'rgba(232, 167, 16, 0.1)',
+                      border: '1px solid rgba(232, 167, 16, 0.35)',
+                      borderRadius: '12px',
+                      padding: '14px 18px',
+                      marginBottom: '22px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      flexWrap: 'wrap',
+                      gap: '10px'
+                    }}
+                  >
+                    <div style={{ fontSize: '0.88rem' }}>
+                      <span style={{ opacity: 0.8 }}>Fee Breakdown: </span>
+                      <strong style={{ color: 'var(--mango-yellow)' }}>Rs. 500 Registration Fee</strong>
+                      <span style={{ opacity: 0.6, margin: '0 8px' }}>+</span>
+                      <strong style={{ color: '#22c55e' }}>Rs. 3,999 Workshop Fee</strong>
+                    </div>
+                    <div style={{ fontSize: '0.95rem', fontWeight: '800', color: '#ffffff' }}>
+                      Total Payable: <span style={{ color: 'var(--mango-yellow)', fontSize: '1.2rem', marginLeft: '4px' }}>Rs. 4,499/-</span>
+                    </div>
                   </div>
 
                   {/* Payment Methods Grid */}
@@ -769,7 +1254,7 @@ export default function RegistrationForm() {
                     <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid var(--border-color)', borderRadius: '14px', padding: '20px', textAlign: 'center' }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '12px' }}>
                         <QrcodeOutlined style={{ color: 'var(--mango-yellow)', fontSize: '18px' }} />
-                        <strong style={{ fontSize: '0.98rem' }}>Scan UPI QR Code</strong>
+                        <strong style={{ fontSize: '0.98rem' }}>Scan UPI QR Code (Pay Rs. 4,499)</strong>
                       </div>
 
                       <div style={{ background: '#ffffff', padding: '10px', borderRadius: '12px', display: 'inline-block', marginBottom: '10px' }}>
@@ -826,12 +1311,12 @@ export default function RegistrationForm() {
                       <div style={{ background: 'rgba(0, 0, 0, 0.25)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '12px', fontSize: '0.82rem', lineHeight: '1.6' }}>
                         <div><strong style={{ opacity: 0.7 }}>Account Holder:</strong> Vahitha Jeevanandam</div>
                         <div><strong style={{ opacity: 0.7 }}>Bank:</strong> State Bank of India (SBI)</div>
-                        <div><strong style={{ opacity: 0.7 }}>Purpose:</strong> One Day Workshop Advance</div>
+                        <div><strong style={{ opacity: 0.7 }}>Purpose:</strong> Sam&apos;s Culinary Art Class Workshop Total Fee (Rs. 4,499)</div>
                       </div>
 
                       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '0.8rem', opacity: 0.85, background: 'rgba(232, 167, 16, 0.08)', padding: '10px', borderRadius: '8px', border: '1px solid rgba(232, 167, 16, 0.2)' }}>
                         <InfoCircleOutlined style={{ color: 'var(--mango-yellow)', marginTop: '2px' }} />
-                        <span>After transferring Rs. 500, enter the 12-digit UTR/UPI reference ID below and attach your payment screenshot.</span>
+                        <span>After transferring the total payment of Rs. 4,499 (Rs. 500 Registration Fee + Rs. 3,999 Workshop Fee), enter the 12-digit UTR/UPI reference ID below and attach your payment screenshot.</span>
                       </div>
                     </div>
                   </div>
@@ -939,7 +1424,7 @@ export default function RegistrationForm() {
                       ) : (
                         <>
                           <CheckCircleOutlined />
-                          <span>Complete Registration &amp; Lock Seat</span>
+                          <span>Complete Registration</span>
                         </>
                       )}
                     </button>
@@ -1026,6 +1511,193 @@ export default function RegistrationForm() {
               </table>
             </div>
           )}
+        </Modal>
+        {/* Modal: Group Offer Claim Popup with End Message */}
+        <Modal
+          open={showGroupModal}
+          onCancel={() => setShowGroupModal(false)}
+          footer={null}
+          centered
+          width={540}
+          className="group-offer-claim-modal"
+          styles={{
+            content: {
+              background: '#0d1a10',
+              border: '1px solid rgba(232, 167, 16, 0.4)',
+              borderRadius: '20px',
+              padding: '30px 24px',
+              boxShadow: '0 20px 60px rgba(0,0,0,0.8), 0 0 30px rgba(232, 167, 16, 0.2)'
+            }
+          }}
+        >
+          <div style={{ textAlign: 'center' }}>
+            <div
+              style={{
+                width: '68px',
+                height: '68px',
+                borderRadius: '50%',
+                background: 'rgba(232, 167, 16, 0.15)',
+                border: '1px solid var(--mango-yellow)',
+                color: 'var(--mango-yellow)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '32px',
+                margin: '0 auto 16px',
+                boxShadow: '0 0 20px rgba(232, 167, 16, 0.25)'
+              }}
+            >
+              <TeamOutlined />
+            </div>
+
+            <div
+              style={{
+                display: 'inline-block',
+                background: 'rgba(34, 197, 94, 0.15)',
+                border: '1px solid #22c55e',
+                color: '#22c55e',
+                padding: '4px 16px',
+                borderRadius: '20px',
+                fontSize: '0.78rem',
+                fontWeight: '800',
+                letterSpacing: '0.5px',
+                textTransform: 'uppercase',
+                marginBottom: '12px'
+              }}
+            >
+              GROUP REGISTRATION RECORDED
+            </div>
+
+            <h3 style={{ fontSize: '1.65rem', fontWeight: '800', color: '#ffffff', marginBottom: '8px' }}>
+              Special Group Concession
+            </h3>
+
+            {/* End message callout box */}
+            <div
+              style={{
+                background: 'rgba(232, 167, 16, 0.12)',
+                border: '1px solid var(--mango-yellow)',
+                borderRadius: '16px',
+                padding: '20px 18px',
+                margin: '20px 0 24px',
+                textAlign: 'center'
+              }}
+            >
+              <div style={{ fontSize: '0.78rem', color: 'var(--mango-yellow)', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '6px' }}>
+                Next Action Required
+              </div>
+              <div style={{ fontSize: '1.4rem', fontWeight: '900', color: 'var(--mango-yellow)', marginBottom: '8px' }}>
+                Contact for Claim Offer
+              </div>
+              <p style={{ fontSize: '0.94rem', color: 'var(--text-dark)', opacity: 0.95, margin: 0, lineHeight: '1.6' }}>
+                Hi <strong>{submittedData?.name || formData.name}</strong>, special group discounts apply for batches of 2 or more! Please contact our admissions desk now to confirm your group size and claim your discounted workshop fee.
+              </p>
+            </div>
+
+            {/* Summary details */}
+            <div
+              style={{
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                borderRadius: '12px',
+                padding: '14px 18px',
+                marginBottom: '24px',
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '10px',
+                textAlign: 'left',
+                fontSize: '0.85rem'
+              }}
+            >
+              <div>
+                <span style={{ opacity: 0.6, fontSize: '0.75rem', display: 'block' }}>Registration ID</span>
+                <strong style={{ color: 'var(--mango-yellow)' }}>{submittedData?.registrationId || 'Generating...'}</strong>
+              </div>
+              <div>
+                <span style={{ opacity: 0.6, fontSize: '0.75rem', display: 'block' }}>Workshop</span>
+                <span>Oct 24 (10 AM - 5 PM)</span>
+              </div>
+              <div>
+                <span style={{ opacity: 0.6, fontSize: '0.75rem', display: 'block' }}>Contact Phone</span>
+                <span>{submittedData?.phone || formData.phone}</span>
+              </div>
+              <div>
+                <span style={{ opacity: 0.6, fontSize: '0.75rem', display: 'block' }}>City</span>
+                <span>{submittedData?.city || formData.city}</span>
+              </div>
+            </div>
+
+            {/* Direct Contact CTAs */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <a
+                href={`https://wa.me/918939648457?text=${encodeURIComponent(
+                  `Hi Chef Vahitha & MasterChef Manikandan, I have submitted group details for the One Day Vegetable Carving Workshop on Oct 24.\n\n` +
+                  `Registration ID: ${submittedData?.registrationId || ''}\n` +
+                  `Name: ${submittedData?.name || formData.name}\n` +
+                  `Phone: ${submittedData?.phone || formData.phone}\n` +
+                  `City: ${submittedData?.city || formData.city}\n` +
+                  `Attendees: ${submittedData?.numberOfAttendees || 2} persons\n\n` +
+                  `Please share the group discount offer for our seats. Thank you!`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  padding: '14px',
+                  borderRadius: '12px',
+                  fontSize: '1rem',
+                  fontWeight: '700',
+                  background: 'var(--mango-yellow)',
+                  color: '#000000',
+                  textDecoration: 'none',
+                  boxShadow: '0 4px 18px rgba(232, 167, 16, 0.45)'
+                }}
+              >
+                <WhatsAppOutlined style={{ fontSize: '20px', color: '#000000' }} />
+                <span>Claim Group Offer on WhatsApp</span>
+              </a>
+
+              <a
+                href="tel:+918939648457"
+                className="btn-outline"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  padding: '12px',
+                  borderRadius: '12px',
+                  fontSize: '0.95rem',
+                  fontWeight: '700',
+                  textDecoration: 'none',
+                  color: '#ffffff'
+                }}
+              >
+                <PhoneOutlined />
+                <span>Call Admissions: +91 8939648457</span>
+              </a>
+
+              <button
+                type="button"
+                onClick={() => setShowGroupModal(false)}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: 'var(--text-muted)',
+                  fontSize: '0.85rem',
+                  cursor: 'pointer',
+                  padding: '6px',
+                  textDecoration: 'underline'
+                }}
+              >
+                Close &amp; View Registration Slip
+              </button>
+            </div>
+          </div>
         </Modal>
       </div>
     </section>

@@ -17,12 +17,12 @@ export default function WorkshopInclusions() {
     {
       icon: <CoffeeOutlined />,
       title: 'Veg Lunch & Refreshing Beverages',
-      desc: 'Complimentary gourmet hot vegetarian lunch freshly cooked at the academy, accompanied by energizing tea, coffee, and chilled beverages throughout the entire workshop duration.'
+      desc: 'Complimentary gourmet hot vegetarian lunch freshly cooked at the academy, accompanied by energizing tea / coffee during the workshop.'
     },
     {
       icon: <GiftOutlined />,
-      title: 'Complete Vegetable Carving Kit',
-      desc: 'Take home your personal workshop kit including specialized Thai vegetable carving knives, floral assembly skewers, sharpening tools, and instructional diagram sheets.'
+      title: 'Take-Home Vegetable Bouquet',
+      desc: 'Take home the beautiful artisanal vegetable bouquet that you carve and assemble during this workshop to proudly showcase to your family and friends.'
     },
     {
       icon: <StarFilled />,

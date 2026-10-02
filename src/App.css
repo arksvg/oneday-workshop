@@ -631,23 +631,85 @@ body.admin-view-active::after {
   background: rgba(232, 167, 16, 0.12) !important;
 }
 
-/* Admin Login Inputs */
-.admin-login-input {
+/* Admin Login & Modal Form Inputs - Rock-solid visible borders */
+.admin-login-input,
+input.admin-login-input,
+textarea.admin-login-input,
+select.admin-login-input,
+.ant-modal input.admin-login-input,
+.ant-modal textarea.admin-login-input,
+.ant-modal select.admin-login-input,
+.dark .ant-modal-content input.admin-login-input,
+.dark .ant-modal-content textarea.admin-login-input,
+.dark .ant-modal-content select.admin-login-input {
   width: 100%;
-  padding: 11px 14px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  background: rgba(255, 255, 255, 0.05) !important;
+  padding: 10px 14px;
+  border-radius: 8px !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.45) !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  background-color: rgba(255, 255, 255, 0.06) !important;
   color: #ffffff !important;
   font-size: 0.9rem !important;
-  box-sizing: border-box;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box !important;
+  outline: none !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
-.admin-login-input:focus {
-  border-color: var(--mango-yellow) !important;
-  box-shadow: 0 0 0 2px rgba(232, 167, 16, 0.25) !important;
+.admin-login-input:hover,
+input.admin-login-input:hover,
+.ant-modal input.admin-login-input:hover {
+  border-color: rgba(255, 255, 255, 0.75) !important;
+  background-color: rgba(255, 255, 255, 0.09) !important;
+}
+
+.admin-login-input:focus,
+input.admin-login-input:focus,
+.ant-modal input.admin-login-input:focus {
+  border-color: #22c55e !important;
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3) !important;
+}
+
+/* Prevent Double Scrollbars on Admin Modals */
+html.ant-scrolling-effect,
+body.ant-scrolling-effect,
+html:has(.ant-modal-open),
+body:has(.ant-modal-open) {
+  overflow: hidden !important;
+  overflow-y: hidden !important;
+}
+
+.admin-clean-modal-wrap {
+  overflow: hidden !important;
+  overflow-y: hidden !important;
+}
+
+/* Modal Internal Body Scroll - Smooth single scroll */
+.admin-modal-scroll-body {
+  max-height: calc(85vh - 140px);
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding-right: 8px;
+  padding-bottom: 6px;
+}
+
+.admin-modal-scroll-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.admin-modal-scroll-body::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.admin-modal-scroll-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.admin-modal-scroll-body::-webkit-scrollbar-thumb:hover {
+  background: var(--mango-yellow);
 }
 
 

@@ -81,22 +81,22 @@ export default function Footer({ onOpenAdmin }) {
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.88rem' }}>
               <li>
                 <a href="#overview" style={{ color: 'var(--text-dark)', opacity: 0.85, textDecoration: 'none' }}>
-                  Overview &amp; Timing (10 AM - 5 PM)
+                  Overview &amp; Schedule (Oct 24, 10 AM - 5 PM)
                 </a>
               </li>
               <li>
                 <a href="#chef" style={{ color: 'var(--text-dark)', opacity: 0.85, textDecoration: 'none' }}>
-                  Chef Manikandan's Accolades
+                  Chef Manikandan&apos;s Accolades
                 </a>
               </li>
               <li>
                 <a href="#inclusions" style={{ color: 'var(--text-dark)', opacity: 0.85, textDecoration: 'none' }}>
-                  Kit, Certificate &amp; Veg Lunch
+                  Vegetable Bouquet, Certificate &amp; Veg Lunch
                 </a>
               </li>
               <li>
                 <a href="#pricing" style={{ color: 'var(--text-dark)', opacity: 0.85, textDecoration: 'none' }}>
-                  Advance Fee (Rs. 500) &amp; Group Offers
+                  Registration Fee (Rs. 500) &amp; Workshop Fee (Rs. 3,999)
                 </a>
               </li>
             </ul>
