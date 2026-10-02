@@ -169,8 +169,9 @@ export default function HeroSection() {
             <div
               style={{
                 position: 'relative',
-                width: '280px',
-                height: '280px',
+                width: 'clamp(210px, 65vw, 280px)',
+                height: 'clamp(210px, 65vw, 280px)',
+                aspectRatio: '1 / 1',
                 maxWidth: '100%',
                 borderRadius: '50%',
                 padding: '5px',

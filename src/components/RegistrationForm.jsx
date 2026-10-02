@@ -619,30 +619,19 @@ export default function RegistrationForm() {
 
         {/* Step Indicator Header */}
         {!submittedData && (
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: isGroupRegistration ? '1fr' : '1fr 1fr',
-              gap: '12px',
-              marginBottom: '32px'
-            }}
-          >
+          <div className={`registration-stepper-grid ${isGroupRegistration ? 'single-col' : ''}`}>
             <div
+              className="registration-step-card"
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                padding: '12px 18px',
-                borderRadius: '12px',
                 background: isGroupRegistration ? 'rgba(34, 197, 94, 0.15)' : 'rgba(232, 167, 16, 0.15)',
-                border: isGroupRegistration ? '1px solid #22c55e' : '1px solid var(--mango-yellow)',
-                transition: 'all 0.2s ease'
+                border: isGroupRegistration ? '1px solid #22c55e' : '1px solid var(--mango-yellow)'
               }}
             >
               <div
                 style={{
                   width: '32px',
                   height: '32px',
+                  minWidth: '32px',
                   borderRadius: '50%',
                   background: isGroupRegistration ? '#22c55e' : 'var(--mango-yellow)',
                   color: '#000000',
@@ -650,12 +639,13 @@ export default function RegistrationForm() {
                   alignItems: 'center',
                   justifyContent: 'center',
                   fontWeight: '800',
-                  fontSize: '0.9rem'
+                  fontSize: '0.9rem',
+                  flexShrink: 0
                 }}
               >
                 {isGroupRegistration ? <WhatsAppOutlined style={{ fontSize: '18px' }} /> : '1'}
               </div>
-              <div>
+              <div style={{ minWidth: 0, flex: 1 }}>
                 <div style={{ fontWeight: '700', fontSize: '0.92rem', color: isGroupRegistration ? '#22c55e' : 'var(--mango-yellow)' }}>
                   {isGroupRegistration ? 'Group Enquiries: WhatsApp Fast-Track' : 'Step 1: Participant Info'}
                 </div>
@@ -667,21 +657,17 @@ export default function RegistrationForm() {
 
             {!isGroupRegistration && (
               <div
+                className="registration-step-card"
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  padding: '12px 18px',
-                  borderRadius: '12px',
                   background: currentStep === 2 ? 'rgba(232, 167, 16, 0.15)' : 'rgba(255, 255, 255, 0.04)',
-                  border: currentStep === 2 ? '1px solid var(--mango-yellow)' : '1px solid var(--border-color)',
-                  transition: 'all 0.2s ease'
+                  border: currentStep === 2 ? '1px solid var(--mango-yellow)' : '1px solid var(--border-color)'
                 }}
               >
                 <div
                   style={{
                     width: '32px',
                     height: '32px',
+                    minWidth: '32px',
                     borderRadius: '50%',
                     background: currentStep === 2 ? 'var(--mango-yellow)' : 'rgba(255,255,255,0.1)',
                     color: currentStep === 2 ? '#000000' : '#ffffff',
@@ -689,12 +675,13 @@ export default function RegistrationForm() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     fontWeight: '800',
-                    fontSize: '0.9rem'
+                    fontSize: '0.9rem',
+                    flexShrink: 0
                   }}
                 >
                   2
                 </div>
-                <div>
+                <div style={{ minWidth: 0, flex: 1 }}>
                   <div style={{ fontWeight: '700', fontSize: '0.92rem', color: currentStep === 2 ? 'var(--mango-yellow)' : 'var(--text-dark)' }}>
                     Step 2: Total Payment
                   </div>
@@ -903,7 +890,7 @@ export default function RegistrationForm() {
           </div>
         ) : (
           /* FORM CONTAINER */
-          <div className="onboarding-form-card" style={{ padding: '34px 28px' }}>
+          <div className="onboarding-form-card">
             <form onSubmit={handleSubmit}>
               {/* STEP 1: PARTICIPANT INFORMATION */}
               {currentStep === 1 && (
@@ -919,26 +906,17 @@ export default function RegistrationForm() {
                       <TeamOutlined style={{ color: 'var(--mango-yellow)' }} />
                       <span>Registration Category</span>
                     </label>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                    <div className="reg-category-grid">
                       {['Individual', 'Group (2 or more)'].map((type) => (
                         <div
                           key={type}
                           onClick={() => setFormData((prev) => ({ ...prev, registrationType: type }))}
+                          className="reg-category-btn"
                           style={{
-                            padding: '14px 18px',
-                            borderRadius: '12px',
                             background: formData.registrationType === type ? 'rgba(232, 167, 16, 0.15)' : 'rgba(255, 255, 255, 0.03)',
                             border: formData.registrationType === type ? '1.5px solid var(--mango-yellow)' : '1px solid var(--border-color)',
-                            cursor: 'pointer',
-                            textAlign: 'center',
-                            fontSize: '0.95rem',
                             fontWeight: formData.registrationType === type ? '800' : '500',
-                            color: formData.registrationType === type ? 'var(--mango-yellow)' : 'var(--text-dark)',
-                            transition: 'all 0.2s ease',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            gap: '8px'
+                            color: formData.registrationType === type ? 'var(--mango-yellow)' : 'var(--text-dark)'
                           }}
                         >
                           {type === 'Individual' ? <UserOutlined /> : <WhatsAppOutlined style={{ color: '#25D366' }} />}
@@ -1078,7 +1056,7 @@ export default function RegistrationForm() {
                         <h3 style={{ fontSize: '1.25rem', fontWeight: '700', margin: 0 }}>Participant Details</h3>
                       </div>
 
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px', marginBottom: '20px' }}>
+                      <div className="form-fields-grid">
                         {/* Full Name */}
                         <div className="form-group-field">
                           <label className="field-label" htmlFor="w-name">
@@ -1178,7 +1156,7 @@ export default function RegistrationForm() {
                       </div>
 
                       {/* Navigation Next Button */}
-                      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                      <div className="form-action-nav-row">
                         <button
                           type="button"
                           onClick={handleNext}
@@ -1187,8 +1165,9 @@ export default function RegistrationForm() {
                           style={{
                             display: 'inline-flex',
                             alignItems: 'center',
+                            justifyContent: 'center',
                             gap: '8px',
-                            padding: '12px 30px',
+                            padding: '13px 30px',
                             borderRadius: '30px',
                             fontWeight: '700'
                           }}
@@ -1242,14 +1221,7 @@ export default function RegistrationForm() {
                   </div>
 
                   {/* Payment Methods Grid */}
-                  <div
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                      gap: '20px',
-                      marginBottom: '26px'
-                    }}
-                  >
+                  <div className="payment-methods-grid">
                     {/* QR Code Card */}
                     <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid var(--border-color)', borderRadius: '14px', padding: '20px', textAlign: 'center' }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '12px' }}>
@@ -1395,12 +1367,12 @@ export default function RegistrationForm() {
                   </div>
 
                   {/* Form Step 2 Buttons */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div className="form-action-nav-row" style={{ justifyContent: 'space-between' }}>
                     <button
                       type="button"
                       onClick={handlePrev}
                       className="btn-outline"
-                      style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 24px', borderRadius: '30px' }}
+                      style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '12px 24px', borderRadius: '30px' }}
                     >
                       <ArrowLeftOutlined />
                       <span>Back to Details</span>
@@ -1413,6 +1385,7 @@ export default function RegistrationForm() {
                       style={{
                         display: 'inline-flex',
                         alignItems: 'center',
+                        justifyContent: 'center',
                         gap: '8px',
                         padding: '12px 32px',
                         borderRadius: '30px',

@@ -32,18 +32,7 @@ export default function PricingOffers() {
         </div>
 
         {/* Unified Single Pricing Card */}
-        <div
-          style={{
-            maxWidth: '860px',
-            margin: '0 auto 48px',
-            background: 'radial-gradient(ellipse at top center, rgba(232, 167, 16, 0.14) 0%, var(--bg-surface-elevated) 70%)',
-            border: '2px solid var(--mango-yellow)',
-            borderRadius: '24px',
-            padding: '42px 32px 36px',
-            position: 'relative',
-            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(232, 167, 16, 0.16)'
-          }}
-        >
+        <div className="pricing-unified-card">
           {/* Top Floating Badge */}
           <div
             style={{
@@ -53,68 +42,52 @@ export default function PricingOffers() {
               transform: 'translateX(-50%)',
               background: 'linear-gradient(135deg, var(--mango-yellow) 0%, #d4900a 100%)',
               color: '#000000',
-              padding: '6px 24px',
+              padding: '6px 20px',
               borderRadius: '30px',
-              fontSize: '0.82rem',
+              fontSize: 'clamp(0.72rem, 2.5vw, 0.82rem)',
               fontWeight: '800',
               letterSpacing: '0.8px',
               textTransform: 'uppercase',
               boxShadow: '0 4px 14px rgba(232, 167, 16, 0.35)',
-              whiteSpace: 'nowrap'
+              whiteSpace: 'nowrap',
+              maxWidth: '92%',
+              textAlign: 'center'
             }}
           >
             ALL-INCLUSIVE WORKSHOP PACKAGE
           </div>
 
           {/* Card Header */}
-          <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-            <h3 style={{ fontSize: '1.75rem', fontWeight: '800', color: 'var(--text-dark)', marginBottom: '8px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '24px', marginTop: '4px' }}>
+            <h3 style={{ fontSize: 'clamp(1.4rem, 4vw, 1.8rem)', fontWeight: '800', color: 'var(--text-dark)', marginBottom: '8px' }}>
               One Day Vegetable Carving Workshop
             </h3>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'var(--mango-yellow)', fontSize: '0.92rem', fontWeight: '700' }}>
-              <CalendarOutlined />
-              <span>Date: Oct 24</span>
+            <div style={{ display: 'inline-flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center', gap: '8px', color: 'var(--mango-yellow)', fontSize: '0.92rem', fontWeight: '700' }}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <CalendarOutlined />
+                <span>Date: Oct 24</span>
+              </span>
               <span style={{ opacity: 0.5 }}>|</span>
-              <ClockCircleOutlined />
-              <span>10:00 AM to 5:00 PM</span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <ClockCircleOutlined />
+                <span>10:00 AM to 5:00 PM</span>
+              </span>
             </div>
           </div>
 
           {/* Pricing Formula Breakdown Box: Reg Fee + Workshop Fee = Total */}
-          <div
-            style={{
-              background: 'rgba(0, 0, 0, 0.45)',
-              border: '1px solid rgba(232, 167, 16, 0.35)',
-              borderRadius: '20px',
-              padding: '28px 24px',
-              marginBottom: '32px',
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-              gap: '20px',
-              alignItems: 'stretch'
-            }}
-          >
+          <div className="pricing-formula-box">
             {/* Box 1: One-time Registration Fee */}
-            <div
-              style={{
-                background: 'rgba(255, 255, 255, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                borderRadius: '16px',
-                padding: '20px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between'
-              }}
-            >
+            <div className="pricing-step-item">
               <div>
                 <span style={{ fontSize: '0.74rem', textTransform: 'uppercase', letterSpacing: '0.8px', color: 'var(--mango-yellow)', fontWeight: '800', display: 'inline-block', marginBottom: '8px' }}>
                   Step 1 • Registration Fee
                 </span>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'nowrap', marginBottom: '10px' }}>
-                  <span style={{ fontSize: '2.2rem', fontWeight: '900', color: 'var(--mango-yellow)', lineHeight: 1, whiteSpace: 'nowrap' }}>
+                <div className="pricing-rate-row">
+                  <span className="pricing-rate-val" style={{ color: 'var(--mango-yellow)' }}>
                     Rs. 500
                   </span>
-                  <span style={{ fontSize: '0.82rem', opacity: 0.75, whiteSpace: 'nowrap' }}>/ one-time</span>
+                  <span className="pricing-rate-sub">/ one-time</span>
                 </div>
               </div>
               <p style={{ fontSize: '0.82rem', opacity: 0.85, margin: 0, lineHeight: '1.45' }}>
@@ -123,26 +96,16 @@ export default function PricingOffers() {
             </div>
 
             {/* Box 2: Workshop Fee */}
-            <div
-              style={{
-                background: 'rgba(255, 255, 255, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                borderRadius: '16px',
-                padding: '20px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between'
-              }}
-            >
+            <div className="pricing-step-item">
               <div>
                 <span style={{ fontSize: '0.74rem', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#22c55e', fontWeight: '800', display: 'inline-block', marginBottom: '8px' }}>
                   Step 2 • Workshop Fee
                 </span>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'nowrap', marginBottom: '10px' }}>
-                  <span style={{ fontSize: '2.2rem', fontWeight: '900', color: '#22c55e', lineHeight: 1, whiteSpace: 'nowrap' }}>
+                <div className="pricing-rate-row">
+                  <span className="pricing-rate-val" style={{ color: '#22c55e' }}>
                     + Rs. 3,999
                   </span>
-                  <span style={{ fontSize: '0.82rem', opacity: 0.75, whiteSpace: 'nowrap' }}>/ participant</span>
+                  <span className="pricing-rate-sub">/ participant</span>
                 </div>
               </div>
               <p style={{ fontSize: '0.82rem', opacity: 0.85, margin: 0, lineHeight: '1.45' }}>
@@ -151,82 +114,64 @@ export default function PricingOffers() {
             </div>
 
             {/* Box 3: Total Fee */}
-            <div
-              style={{
-                background: 'linear-gradient(145deg, rgba(232, 167, 16, 0.15) 0%, rgba(20, 36, 23, 0.85) 100%)',
-                border: '1.5px solid var(--mango-yellow)',
-                borderRadius: '16px',
-                padding: '20px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                textAlign: 'center',
-                boxShadow: '0 8px 24px rgba(232, 167, 16, 0.12)'
-              }}
-            >
+            <div className="pricing-step-item total-box">
               <div>
                 <span style={{ fontSize: '0.74rem', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#ffffff', fontWeight: '800', display: 'inline-block', marginBottom: '8px' }}>
                   Total Fee
                 </span>
-                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '6px', flexWrap: 'nowrap', marginBottom: '6px' }}>
-                  <span style={{ fontSize: '2.4rem', fontWeight: '900', color: 'var(--mango-yellow)', lineHeight: 1, whiteSpace: 'nowrap' }}>
+                <div className="pricing-rate-row center">
+                  <span className="pricing-rate-val large" style={{ color: 'var(--mango-yellow)' }}>
                     Rs. 4,499
                   </span>
-                  <span style={{ fontSize: '0.82rem', opacity: 0.8, whiteSpace: 'nowrap' }}>/ total</span>
+                  <span className="pricing-rate-sub">/ total</span>
                 </div>
               </div>
-              <div style={{ fontSize: '0.78rem', color: '#22c55e', fontWeight: '700', padding: '6px 10px', background: 'rgba(0, 0, 0, 0.4)', borderRadius: '8px' }}>
+              <div style={{ fontSize: '0.78rem', color: '#22c55e', fontWeight: '700', padding: '6px 10px', background: 'rgba(0, 0, 0, 0.4)', borderRadius: '8px', wordBreak: 'break-word' }}>
                 Rs. 500 Reg Fee + Rs. 3,999 Workshop Fee
               </div>
             </div>
           </div>
 
           {/* Key Inclusions Grid */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '14px',
-              marginBottom: '32px'
-            }}
-          >
+          <div className="pricing-inclusions-grid">
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '0.92rem' }}>
-              <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '18px', marginTop: '3px' }} />
+              <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '18px', marginTop: '3px', flexShrink: 0 }} />
               <span><strong>Take-Home Vegetable Bouquet:</strong> Crafted and sculpted by you during this workshop</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '0.92rem' }}>
-              <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '18px', marginTop: '3px' }} />
+              <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '18px', marginTop: '3px', flexShrink: 0 }} />
               <span><strong>MasterChef Personal Mentorship:</strong> Direct hands-on guidance from MasterChef Manikandan</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '0.92rem' }}>
-              <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '18px', marginTop: '3px' }} />
+              <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '18px', marginTop: '3px', flexShrink: 0 }} />
               <span><strong>All Tools Provided:</strong> Specialized carving knives, fresh vegetables &amp; gear in class</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '0.92rem' }}>
-              <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '18px', marginTop: '3px' }} />
+              <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '18px', marginTop: '3px', flexShrink: 0 }} />
               <span><strong>Recognized Certificate:</strong> Completion certificate signed by MasterChef Manikandan &amp; Chef Vahitha</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '0.92rem' }}>
-              <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '18px', marginTop: '3px' }} />
+              <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '18px', marginTop: '3px', flexShrink: 0 }} />
               <span><strong>Veg Lunch &amp; Refreshments:</strong> Gourmet hot vegetarian lunch, tea, coffee &amp; beverages</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '0.92rem' }}>
-              <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '18px', marginTop: '3px' }} />
+              <CheckCircleOutlined style={{ color: '#22c55e', fontSize: '18px', marginTop: '3px', flexShrink: 0 }} />
               <span><strong>One-Time Lifetime Registration:</strong> Valid across all future Sam&apos;s Culinary Art Class courses</span>
             </div>
           </div>
 
           {/* Action CTAs */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', alignItems: 'center', justifyContent: 'center' }}>
+          <div className="pricing-cta-row">
             <a
               href="#register"
               className="btn-primary"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
+                justifyContent: 'center',
                 gap: '10px',
-                padding: '16px 36px',
-                fontSize: '1.05rem',
+                padding: '14px 32px',
+                fontSize: '1rem',
                 fontWeight: '800',
                 borderRadius: '30px'
               }}
@@ -244,9 +189,10 @@ export default function PricingOffers() {
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
+                justifyContent: 'center',
                 gap: '8px',
-                padding: '15px 24px',
-                fontSize: '0.95rem',
+                padding: '13px 22px',
+                fontSize: '0.92rem',
                 borderRadius: '30px'
               }}
             >
@@ -260,9 +206,10 @@ export default function PricingOffers() {
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
+                justifyContent: 'center',
                 gap: '8px',
-                padding: '15px 22px',
-                fontSize: '0.95rem',
+                padding: '13px 20px',
+                fontSize: '0.92rem',
                 borderRadius: '30px'
               }}
             >
