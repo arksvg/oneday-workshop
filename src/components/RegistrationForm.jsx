@@ -891,7 +891,7 @@ export default function RegistrationForm() {
         ) : (
           /* FORM CONTAINER */
           <div className="onboarding-form-card">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} style={{margin:"16px"}}>
               {/* STEP 1: PARTICIPANT INFORMATION */}
               {currentStep === 1 && (
                 <div>
