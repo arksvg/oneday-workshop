@@ -96,7 +96,7 @@ export default function Footer({ onOpenAdmin }) {
               </li>
               <li>
                 <a href="#pricing" style={{ color: 'var(--text-dark)', opacity: 0.85, textDecoration: 'none' }}>
-                  Registration Fee (Rs. 500) &amp; Workshop Fee (Rs. 3,999)
+                  Registration Fee (Rs. 500) &amp; Workshop Fee (Call &amp; Ask)
                 </a>
               </li>
             </ul>

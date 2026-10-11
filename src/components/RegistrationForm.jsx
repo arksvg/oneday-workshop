@@ -58,7 +58,7 @@ export default function RegistrationForm() {
     numberOfAttendees: 1,
     purpose: 'One Day Vegetable Carving Workshop',
     bankDetails: '',
-    amountPaid: 4499,
+    amountPaid: 500,
     proofImageUrl: '',
     notes: ''
   });
@@ -300,7 +300,7 @@ export default function RegistrationForm() {
       numberOfAttendees: 1,
       purpose: 'One Day Vegetable Carving Workshop',
       bankDetails: '',
-      amountPaid: 4499,
+      amountPaid: 500,
       proofImageUrl: '',
       notes: ''
     });
@@ -513,12 +513,12 @@ export default function RegistrationForm() {
                 <td class="val-td">Oct 24, 2026 | 10:00 AM to 5:00 PM</td>
               </tr>
               <tr>
-                <td class="label-td">Total Paid Amount</td>
-                <td class="val-td price-total">${submittedData.registrationType?.includes('Group') ? 'Group Concession — Claim on Contact' : `Rs. ${submittedData.amountPaid || 4499}/- (Full Payment Complete)`}</td>
+                <td class="label-td">Reservation Fee Paid</td>
+                <td class="val-td price-total">${submittedData.registrationType?.includes('Group') ? 'Group Concession — Claim on Contact' : `Rs. ${submittedData.amountPaid || 500}/- (Registration Fee Confirmed)`}</td>
               </tr>
               <tr>
-                <td class="label-td">Fee Breakdown</td>
-                <td class="val-td price-breakdown">Rs. 500 Registration Fee + Rs. 3,999 Workshop Fee</td>
+                <td class="label-td">Workshop Fee Status</td>
+                <td class="val-td price-breakdown">Call &amp; Enquire (+91 8939648457)</td>
               </tr>
               <tr>
                 <td class="label-td">Payment Reference / UTR</td>
@@ -613,7 +613,7 @@ export default function RegistrationForm() {
             Reserve Your <span className="gradient-text-gold">Workshop Slot</span>
           </h2>
           <p style={{ fontSize: '1.05rem', opacity: 0.9, maxWidth: '640px', margin: '0 auto', lineHeight: '1.6' }}>
-            Complete your registration for Sam&apos;s Culinary Art Class. Total fee: Rs. 4,499 (Rs. 500 Registration Fee + Rs. 3,999 Workshop Fee) for the full-day masterclass on Oct 24.
+            Reserve your seat by paying only the one-time Registration Fee (Rs. 500) now. For workshop fee details, concessions &amp; group offers, call or WhatsApp our admissions team.
           </p>
         </div>
 
@@ -683,9 +683,9 @@ export default function RegistrationForm() {
                 </div>
                 <div style={{ minWidth: 0, flex: 1 }}>
                   <div style={{ fontWeight: '700', fontSize: '0.92rem', color: currentStep === 2 ? 'var(--mango-yellow)' : 'var(--text-dark)' }}>
-                    Step 2: Total Payment
+                    Step 2: Seat Reservation (Reg Fee)
                   </div>
-                  <div style={{ fontSize: '0.76rem', opacity: 0.7 }}>Rs. 4,499 (Reg Fee Rs. 500 + Workshop Fee Rs. 3,999)</div>
+                  <div style={{ fontSize: '0.76rem', opacity: 0.7 }}>Rs. 500 to reserve seat (Workshop fee: Call &amp; Ask)</div>
                 </div>
               </div>
             )}
@@ -784,15 +784,15 @@ export default function RegistrationForm() {
                   <div>Oct 24 | 10:00 AM to 5:00 PM</div>
                 </div>
                 <div>
-                  <strong style={{ opacity: 0.7, display: 'block' }}>Total Paid Amount</strong>
+                  <strong style={{ opacity: 0.7, display: 'block' }}>Reservation Fee Paid</strong>
                   <div style={{ color: submittedData.registrationType?.includes('Group') ? 'var(--mango-yellow)' : '#22c55e', fontWeight: '800' }}>
-                    {submittedData.registrationType?.includes('Group') ? 'Group Concession — Claim on Contact' : `Rs. ${submittedData.amountPaid || 4499}/- (Full Payment Complete)`}
+                    {submittedData.registrationType?.includes('Group') ? 'Group Concession — Claim on Contact' : `Rs. ${submittedData.amountPaid || 500}/- (Registration Fee Confirmed)`}
                   </div>
                 </div>
                 <div>
-                  <strong style={{ opacity: 0.7, display: 'block' }}>Fee Breakdown</strong>
+                  <strong style={{ opacity: 0.7, display: 'block' }}>Workshop Fee Status</strong>
                   <div style={{ color: 'var(--mango-yellow)', fontWeight: '700' }}>
-                    {submittedData.registrationType?.includes('Group') ? 'Special Group Offer Rate' : 'Rs. 500 Reg Fee + Rs. 3,999 Workshop Fee'}
+                    {submittedData.registrationType?.includes('Group') ? 'Special Group Concession' : 'Call & Ask (+91 8939648457)'}
                   </div>
                 </div>
                 <div>
@@ -830,13 +830,13 @@ export default function RegistrationForm() {
                       `City: ${submittedData.city}\n` +
                       `Attendees: ${submittedData.numberOfAttendees || 2} persons\n\n` +
                       `Please share the group discount offer. Thank you!`
-                    : `Hi Chef Vahitha & MasterChef Manikandan, I have paid the total fee of Rs. 4,499 (Rs. 500 Registration Fee + Rs. 3,999 Workshop Fee) for Sam's Culinary Art Class (One Day Vegetable Carving Workshop on Oct 24).\n\n` +
+                    : `Hi Chef Vahitha & MasterChef Manikandan, I have paid the Registration Fee of Rs. 500 to reserve my seat for Sam's Culinary Art Class (One Day Vegetable Carving Workshop on Oct 24).\n\n` +
                       `Registration ID: ${submittedData.registrationId}\n` +
                       `Participant Name: ${submittedData.name}\n` +
                       `Phone: ${submittedData.phone}\n` +
                       `City: ${submittedData.city}\n` +
                       `Transaction ID: ${submittedData.bankDetails}\n\n` +
-                      `Please confirm my workshop reservation. Thank you!`
+                      `Please confirm my workshop reservation and share workshop fee details. Thank you!`
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -1172,7 +1172,7 @@ export default function RegistrationForm() {
                             fontWeight: '700'
                           }}
                         >
-                          <span>Proceed to Total Payment (Rs. 4,499)</span>
+                          <span>Proceed to Seat Reservation (Pay Rs. 500 Reg Fee)</span>
                           <ArrowRightOutlined />
                         </button>
                       </div>
@@ -1181,16 +1181,16 @@ export default function RegistrationForm() {
                 </div>
               )}
 
-              {/* STEP 2: TOTAL PAYMENT (Rs. 4,499) */}
+              {/* STEP 2: SEAT RESERVATION PAYMENT (Rs. 500 REGISTRATION FEE) */}
               {currentStep === 2 && (
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px', flexWrap: 'wrap', gap: '8px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                       <CreditCardOutlined style={{ color: 'var(--mango-yellow)', fontSize: '20px' }} />
-                      <h3 style={{ fontSize: '1.25rem', fontWeight: '700', margin: 0 }}>Total Payment (Registration + Workshop Fee)</h3>
+                      <h3 style={{ fontSize: '1.25rem', fontWeight: '700', margin: 0 }}>Seat Reservation Payment (Registration Fee)</h3>
                     </div>
                     <span style={{ fontSize: '1.05rem', color: '#22c55e', fontWeight: '800' }}>
-                      Total Fee: Rs. 4,499/-
+                      Registration Fee: Rs. 500/-
                     </span>
                   </div>
 
@@ -1210,13 +1210,14 @@ export default function RegistrationForm() {
                     }}
                   >
                     <div style={{ fontSize: '0.88rem' }}>
-                      <span style={{ opacity: 0.8 }}>Fee Breakdown: </span>
-                      <strong style={{ color: 'var(--mango-yellow)' }}>Rs. 500 Registration Fee</strong>
-                      <span style={{ opacity: 0.6, margin: '0 8px' }}>+</span>
-                      <strong style={{ color: '#22c55e' }}>Rs. 3,999 Workshop Fee</strong>
+                      <span style={{ opacity: 0.8 }}>Pay Now to Book Seat: </span>
+                      <strong style={{ color: 'var(--mango-yellow)', fontSize: '1rem' }}>Rs. 500 Registration Fee</strong>
+                      <span style={{ opacity: 0.6, margin: '0 8px' }}>•</span>
+                      <span style={{ opacity: 0.85 }}>Workshop Fee: </span>
+                      <strong style={{ color: '#22c55e' }}>Call &amp; Ask (+91 8939648457)</strong>
                     </div>
                     <div style={{ fontSize: '0.95rem', fontWeight: '800', color: '#ffffff' }}>
-                      Total Payable: <span style={{ color: 'var(--mango-yellow)', fontSize: '1.2rem', marginLeft: '4px' }}>Rs. 4,499/-</span>
+                      Payable Now: <span style={{ color: 'var(--mango-yellow)', fontSize: '1.2rem', marginLeft: '4px' }}>Rs. 500/-</span>
                     </div>
                   </div>
 
@@ -1226,7 +1227,7 @@ export default function RegistrationForm() {
                     <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid var(--border-color)', borderRadius: '14px', padding: '20px', textAlign: 'center' }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '12px' }}>
                         <QrcodeOutlined style={{ color: 'var(--mango-yellow)', fontSize: '18px' }} />
-                        <strong style={{ fontSize: '0.98rem' }}>Scan UPI QR Code (Pay Rs. 4,499)</strong>
+                        <strong style={{ fontSize: '0.98rem' }}>Scan UPI QR Code (Pay Rs. 500)</strong>
                       </div>
 
                       <div style={{ background: '#ffffff', padding: '10px', borderRadius: '12px', display: 'inline-block', marginBottom: '10px' }}>
@@ -1283,12 +1284,12 @@ export default function RegistrationForm() {
                       <div style={{ background: 'rgba(0, 0, 0, 0.25)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '12px', fontSize: '0.82rem', lineHeight: '1.6' }}>
                         <div><strong style={{ opacity: 0.7 }}>Account Holder:</strong> Vahitha Jeevanandam</div>
                         <div><strong style={{ opacity: 0.7 }}>Bank:</strong> State Bank of India (SBI)</div>
-                        <div><strong style={{ opacity: 0.7 }}>Purpose:</strong> Sam&apos;s Culinary Art Class Workshop Total Fee (Rs. 4,499)</div>
+                        <div><strong style={{ opacity: 0.7 }}>Purpose:</strong> Sam&apos;s Culinary Art Class Workshop Seat Reservation (Rs. 500)</div>
                       </div>
 
                       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '0.8rem', opacity: 0.85, background: 'rgba(232, 167, 16, 0.08)', padding: '10px', borderRadius: '8px', border: '1px solid rgba(232, 167, 16, 0.2)' }}>
                         <InfoCircleOutlined style={{ color: 'var(--mango-yellow)', marginTop: '2px' }} />
-                        <span>After transferring the total payment of Rs. 4,499 (Rs. 500 Registration Fee + Rs. 3,999 Workshop Fee), enter the 12-digit UTR/UPI reference ID below and attach your payment screenshot.</span>
+                        <span>After transferring the registration fee of Rs. 500 to reserve your seat, enter the 12-digit UTR/UPI reference ID below and attach your payment screenshot. For workshop fee details, call or WhatsApp +91 8939648457.</span>
                       </div>
                     </div>
                   </div>

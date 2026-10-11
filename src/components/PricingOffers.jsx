@@ -27,7 +27,7 @@ export default function PricingOffers() {
             Registration &amp; <span className="gradient-text-gold">Workshop Fees</span>
           </h2>
           <p style={{ fontSize: '1.05rem', opacity: 0.9, lineHeight: '1.6' }}>
-            Register with our one-time registration fee for Sam&apos;s Culinary Art Class. Workshop fee is ₹3,999 for the complete masterclass on Oct 24 (10:00 AM to 5:00 PM). Group discounts available!
+            Pay only the one-time registration fee (Rs. 500) now to reserve your seat in Sam&apos;s Culinary Art Class. For workshop fee details, student concessions, and group discounts, call or WhatsApp our admissions team directly!
           </p>
         </div>
 
@@ -75,7 +75,7 @@ export default function PricingOffers() {
             </div>
           </div>
 
-          {/* Pricing Formula Breakdown Box: Reg Fee + Workshop Fee = Total */}
+          {/* Pricing Formula Breakdown Box: Reg Fee + Workshop Fee (Call & Ask) */}
           <div className="pricing-formula-box">
             {/* Box 1: One-time Registration Fee */}
             <div className="pricing-step-item">
@@ -87,47 +87,49 @@ export default function PricingOffers() {
                   <span className="pricing-rate-val" style={{ color: 'var(--mango-yellow)' }}>
                     Rs. 500
                   </span>
-                  <span className="pricing-rate-sub">/ one-time</span>
+                  <span className="pricing-rate-sub">/ one-time (Pay Now)</span>
                 </div>
               </div>
-              <p style={{ fontSize: '0.82rem', opacity: 0.85, margin: 0, lineHeight: '1.45' }}>
-                One-time registration fee for entire Sam&apos;s Culinary Art Class.
+              <p style={{ fontSize: '0.84rem', opacity: 0.85, margin: 0, lineHeight: '1.45' }}>
+                One-time registration fee for Sam&apos;s Culinary Art Class. Pay now to reserve and lock your seat!
               </p>
             </div>
 
             {/* Box 2: Workshop Fee */}
-            <div className="pricing-step-item">
+            <div className="pricing-step-item" style={{ borderColor: 'rgba(34, 197, 94, 0.35)' }}>
               <div>
                 <span style={{ fontSize: '0.74rem', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#22c55e', fontWeight: '800', display: 'inline-block', marginBottom: '8px' }}>
                   Step 2 • Workshop Fee
                 </span>
                 <div className="pricing-rate-row">
-                  <span className="pricing-rate-val" style={{ color: '#22c55e' }}>
-                    + Rs. 3,999
+                  <span className="pricing-rate-val" style={{ color: '#22c55e', fontSize: 'clamp(1.5rem, 4.5vw, 1.85rem)' }}>
+                    Call &amp; Ask
                   </span>
-                  <span className="pricing-rate-sub">/ participant</span>
+                  <span className="pricing-rate-sub" style={{ color: '#22c55e', fontWeight: '600' }}>/ Enquire for Details</span>
                 </div>
               </div>
-              <p style={{ fontSize: '0.82rem', opacity: 0.85, margin: 0, lineHeight: '1.45' }}>
-                Full-day hands-on masterclass with Sun TV MasterChef Manikandan on Oct 24.
+              <p style={{ fontSize: '0.84rem', opacity: 0.85, margin: 0, lineHeight: '1.45' }}>
+                Full-day hands-on masterclass with Sun TV MasterChef Manikandan on Oct 24. Call or WhatsApp to know workshop fee details, student concessions &amp; group discounts!
               </p>
-            </div>
-
-            {/* Box 3: Total Fee */}
-            <div className="pricing-step-item total-box">
-              <div>
-                <span style={{ fontSize: '0.74rem', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#ffffff', fontWeight: '800', display: 'inline-block', marginBottom: '8px' }}>
-                  Total Fee
-                </span>
-                <div className="pricing-rate-row center">
-                  <span className="pricing-rate-val large" style={{ color: 'var(--mango-yellow)' }}>
-                    Rs. 4,499
-                  </span>
-                  <span className="pricing-rate-sub">/ total</span>
-                </div>
-              </div>
-              <div style={{ fontSize: '0.78rem', color: '#22c55e', fontWeight: '700', padding: '6px 10px', background: 'rgba(0, 0, 0, 0.4)', borderRadius: '8px', wordBreak: 'break-word' }}>
-                Rs. 500 Reg Fee + Rs. 3,999 Workshop Fee
+              <div style={{ marginTop: '10px' }}>
+                <a
+                  href="tel:+918939648457"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    fontSize: '0.82rem',
+                    color: '#22c55e',
+                    fontWeight: '700',
+                    background: 'rgba(34, 197, 94, 0.12)',
+                    padding: '5px 12px',
+                    borderRadius: '8px',
+                    textDecoration: 'none'
+                  }}
+                >
+                  <PhoneOutlined />
+                  <span>Call +91 8939648457 to Inquire</span>
+                </a>
               </div>
             </div>
           </div>
@@ -182,7 +184,7 @@ export default function PricingOffers() {
             </a>
 
             <a
-              href="https://wa.me/918939648457?text=Hi%20Sam's%20Culinary%20Art%20Class,%20I%20am%20enquiring%20about%20the%20One%20Day%20Vegetable%20Carving%20Workshop%20(Rs.%20500%20Reg%20Fee%20+%20Rs.%203999%20Workshop%20Fee)%20and%20group%20discounts."
+              href="https://wa.me/918939648457?text=Hi%20Sam's%20Culinary%20Art%20Class,%20I%20am%20enquiring%20about%20the%20One%20Day%20Vegetable%20Carving%20Workshop%20(Rs.%20500%20Registration%20Fee)%20and%20workshop%20fee%20details."
               target="_blank"
               rel="noopener noreferrer"
               className="btn-outline"

@@ -5736,21 +5736,22 @@ img, svg, video, canvas {
   }
 }
 
-/* Pricing Formula 3-Box Grid */
+/* Pricing Formula 2-Box Grid */
 .pricing-formula-box {
   background: rgba(0, 0, 0, 0.45);
   border: 1px solid rgba(232, 167, 16, 0.35);
   border-radius: 20px;
   padding: 24px 20px;
-  margin-bottom: 32px;
+  margin: 0 auto 32px;
+  max-width: 820px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
   align-items: stretch;
   box-sizing: border-box;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .pricing-formula-box {
     grid-template-columns: 1fr !important;
     gap: 14px !important;

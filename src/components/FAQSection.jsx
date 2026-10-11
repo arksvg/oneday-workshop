@@ -33,7 +33,7 @@ export default function FAQSection() {
     },
     {
       question: 'How does the Rs. 500 registration fee work?',
-      answer: "The Rs. 500 is a one-time registration fee for the entire Sam's Culinary Art Class. The workshop fee for this masterclass is ₹3,999."
+      answer: "The Rs. 500 is a one-time registration fee to reserve your seat in Sam's Culinary Art Class. For workshop fee details, student concessions, and group discounts, please call or WhatsApp us at +91 8939648457."
     },
     {
       question: 'How do I claim group registration offers or discounts?',

@@ -78,10 +78,10 @@ export default function AdminPortal({ onClose }) {
     groupName: '',
     additionalMembers: '',
     purpose: 'One Day Vegetable Carving Workshop',
-    amountPaid: 4499,
-    feeBreakdown: 'Rs. 500 Reg Fee + Rs. 3,999 Workshop Fee',
+    amountPaid: 500,
+    feeBreakdown: 'Rs. 500 Reg Fee (Workshop Fee: Call & Ask)',
     paymentMode: 'Cash (Paid at Academy Desk)',
-    paymentStatus: 'Full Payment Complete (Rs. 4,499)',
+    paymentStatus: 'Advance / Reg Fee Paid (Rs. 500)',
     bankDetails: 'Cash Received at Academy Desk',
     proofImageUrl: '',
     notes: '',
@@ -391,8 +391,8 @@ export default function AdminPortal({ onClose }) {
         groupName: newRegForm.groupName.trim() || '',
         additionalMembers: newRegForm.additionalMembers.trim() || '',
         purpose: 'One Day Vegetable Carving Workshop',
-        amountPaid: Number(newRegForm.amountPaid) || 4499,
-        feeBreakdown: newRegForm.feeBreakdown || (Number(newRegForm.amountPaid) === 4499 ? 'Rs. 500 Reg Fee + Rs. 3,999 Workshop Fee' : `Agreed Fee: Rs. ${newRegForm.amountPaid}`),
+        amountPaid: Number(newRegForm.amountPaid) || 500,
+        feeBreakdown: newRegForm.feeBreakdown || (Number(newRegForm.amountPaid) === 500 ? 'Rs. 500 Reg Fee (Workshop Fee: Call & Ask)' : `Agreed Fee: Rs. ${newRegForm.amountPaid}`),
         paymentMode: newRegForm.paymentMode,
         paymentStatus: newRegForm.paymentStatus,
         bankDetails: newRegForm.bankDetails.trim() || newRegForm.paymentMode,
@@ -1826,7 +1826,7 @@ export default function AdminPortal({ onClose }) {
                   )}
                   <div>
                     <span style={{ fontSize: '0.75rem', opacity: 0.6, textTransform: 'uppercase', display: 'block' }}>Fee Amount</span>
-                    <strong style={{ fontSize: '0.95rem', color: 'var(--mango-yellow)' }}>₹{selectedApplicant.amountPaid || 4499}</strong>
+                    <strong style={{ fontSize: '0.95rem', color: 'var(--mango-yellow)' }}>₹{selectedApplicant.amountPaid || 500}</strong>
                   </div>
                   <div>
                     <span style={{ fontSize: '0.75rem', opacity: 0.6, textTransform: 'uppercase', display: 'block' }}>Transaction Reference / UTR</span>
