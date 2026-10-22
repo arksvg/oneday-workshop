@@ -5,8 +5,7 @@ import {
   EnvironmentOutlined,
   GlobalOutlined,
   ArrowUpOutlined,
-  CopyrightOutlined,
-  SettingOutlined
+  CopyrightOutlined
 } from '@ant-design/icons';
 
 export default function Footer({ onOpenAdmin }) {
@@ -172,30 +171,6 @@ export default function Footer({ onOpenAdmin }) {
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <CopyrightOutlined /> {new Date().getFullYear()} Sam&apos;s Culinary Art Classes. All Rights Reserved.
             </div>
-
-            <button
-              type="button"
-              onClick={onOpenAdmin}
-              className="footer-admin-link"
-              style={{
-                background: 'rgba(232, 167, 16, 0.1)',
-                border: '1px solid rgba(232, 167, 16, 0.3)',
-                color: 'var(--mango-yellow)',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                fontSize: '0.82rem',
-                fontWeight: '600',
-                padding: '4px 12px',
-                borderRadius: '16px',
-                transition: 'all 0.2s ease'
-              }}
-              title="Open Workshop Administration & Registrations"
-            >
-              <SettingOutlined style={{ fontSize: '13px' }} />
-              <span>Admin Portal</span>
-            </button>
           </div>
 
           <div>

@@ -1268,9 +1268,9 @@ textarea::placeholder {
   opacity: 0.75;
 }
 
-.dark input:not([class*="ant-"]):not(.admin-search-input):not(.admin-login-input),
-.dark textarea:not([class*="ant-"]),
-.dark select:not([class*="ant-"]),
+.dark input:not([class*="ant-"]):not(.admin-search-input):not(.admin-login-input):not(#ff-compose *):not([class*="ff-"]):not([id*="ff-"]),
+.dark textarea:not([class*="ant-"]):not(#ff-compose *):not([class*="ff-"]):not([id*="ff-"]),
+.dark select:not([class*="ant-"]):not(#ff-compose *):not([class*="ff-"]):not([id*="ff-"]),
 .dark .form-input {
   color: #f1f6f2 !important;
   background-color: rgba(18, 38, 22, 0.95) !important;
@@ -1296,15 +1296,15 @@ textarea::placeholder {
   cursor: pointer;
 }
 
-.dark input::placeholder,
-.dark textarea::placeholder {
+.dark input:not(#ff-compose *)::placeholder,
+.dark textarea:not(#ff-compose *)::placeholder {
   color: #a0c2a7 !important;
   opacity: 0.85;
 }
 
-.dark input:focus,
-.dark textarea:focus,
-.dark select:focus,
+.dark input:not(#ff-compose *):not([class*="ff-"]):focus,
+.dark textarea:not(#ff-compose *):not([class*="ff-"]):focus,
+.dark select:not(#ff-compose *):not([class*="ff-"]):focus,
 .dark .form-input:focus {
   border-color: var(--mango-yellow) !important;
   box-shadow: 0 0 0 3px rgba(252, 237, 126, 0.18) !important;
@@ -4590,9 +4590,9 @@ textarea::placeholder {
   font-weight: 600 !important;
 }
 
-.dark input:not([class*="ant-"]):not(.admin-search-input):not(.admin-login-input),
-.dark textarea:not([class*="ant-"]),
-.dark select:not([class*="ant-"]),
+.dark input:not([class*="ant-"]):not(.admin-search-input):not(.admin-login-input):not(#ff-compose *):not([class*="ff-"]):not([id*="ff-"]),
+.dark textarea:not([class*="ant-"]):not(#ff-compose *):not([class*="ff-"]):not([id*="ff-"]),
+.dark select:not([class*="ant-"]):not(#ff-compose *):not([class*="ff-"]):not([id*="ff-"]),
 .dark .form-input,
 .dark .webinar-search-input {
   color: #ffffff !important;
@@ -5973,7 +5973,6 @@ img, svg, video, canvas {
   }
 }
 
-/* Onboarding Form Card Mobile Padding */
 @media (max-width: 640px) {
   .onboarding-form-card {
     padding: 20px 14px !important;
@@ -5982,5 +5981,120 @@ img, svg, video, canvas {
   .group-offer-banner {
     padding: 20px 16px !important;
     border-radius: 16px !important;
+  }
+}
+
+/* FormFacade Embedded Registration Form & Input Styling Fixes */
+.formfacade-embed-card {
+  background: #ffffff !important;
+  color: #1f2937 !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#ff-compose {
+  width: 100%;
+  position: relative;
+  color-scheme: light !important;
+  color: #1f2937 !important;
+}
+
+#ff-compose * {
+  box-sizing: border-box;
+}
+
+#ff-compose .ff-default,
+#ff-compose .ff-form {
+  font-family: inherit;
+  color: #1f2937 !important;
+  background-color: #ffffff !important;
+}
+
+#ff-compose iframe {
+  width: 100% !important;
+  border: none !important;
+}
+
+/* 1. Standalone Input Fields (Email, Name, Phone, Number, Textarea) */
+#ff-compose input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="file"]),
+#ff-compose textarea,
+#ff-compose select {
+  color: #111827 !important;
+  background-color: #ffffff !important;
+  border: 1.5px solid #d1d5db !important;
+  border-radius: 8px !important;
+  font-size: 15px !important;
+  color-scheme: light !important;
+  box-shadow: none !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+#ff-compose input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="file"]):focus,
+#ff-compose textarea:focus,
+#ff-compose select:focus {
+  border-color: #5d33fb !important;
+  box-shadow: 0 0 0 3px rgba(93, 51, 251, 0.2) !important;
+  background-color: #ffffff !important;
+  color: #111827 !important;
+  outline: none !important;
+}
+
+/* 2. Clean Seamless "Other" Option Input Styling */
+#ff-compose .ff-form-check-other input[type="text"],
+#ff-compose input[name*="other_option_response"],
+#ff-compose input[id*="other_option_response"],
+#ff-compose .ff-choices input[type="text"],
+#ff-compose .ff-choice input[type="text"],
+#ff-compose [class*="choice"] input[type="text"],
+#ff-compose [class*="other"] input[type="text"],
+#ff-compose [class*="Option"] input[type="text"],
+#ff-compose [class*="option"] input[type="text"] {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-bottom: 1.5px solid #9ca3af !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: #111827 !important;
+  padding: 4px 6px !important;
+  font-size: 14.5px !important;
+  outline: none !important;
+}
+
+#ff-compose .ff-form-check-other input[type="text"]:focus,
+#ff-compose input[name*="other_option_response"]:focus,
+#ff-compose input[id*="other_option_response"]:focus,
+#ff-compose .ff-choices input[type="text"]:focus,
+#ff-compose .ff-choice input[type="text"]:focus,
+#ff-compose [class*="choice"] input[type="text"]:focus,
+#ff-compose [class*="other"] input[type="text"]:focus {
+  background: transparent !important;
+  background-color: transparent !important;
+  border-bottom: 2px solid #5d33fb !important;
+  box-shadow: none !important;
+  color: #111827 !important;
+  outline: none !important;
+}
+
+/* 3. Browser Autofill (Saved Values) Color Pattern Fix */
+#ff-compose input:-webkit-autofill,
+#ff-compose input:-webkit-autofill:hover,
+#ff-compose input:-webkit-autofill:focus,
+#ff-compose input:-webkit-autofill:active,
+#ff-compose textarea:-webkit-autofill,
+#ff-compose textarea:-webkit-autofill:hover,
+#ff-compose textarea:-webkit-autofill:focus,
+#ff-compose textarea:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  box-shadow: 0 0 0 1000px #ffffff inset !important;
+  -webkit-text-fill-color: #111827 !important;
+  color: #111827 !important;
+  caret-color: #111827 !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+@media (max-width: 640px) {
+  .formfacade-embed-card {
+    padding: 16px 10px !important;
+    border-radius: 14px !important;
   }
 }
