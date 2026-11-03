@@ -1140,7 +1140,7 @@ export default function AdminPortal({ onClose }) {
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px', background: 'rgba(232, 167, 16, 0.08)', border: '1px solid rgba(232, 167, 16, 0.25)', padding: '10px 14px', borderRadius: '10px', marginBottom: '16px', fontSize: '0.84rem' }}>
                   <div>
                     <strong style={{ color: 'var(--mango-yellow)' }}>One Day Vegetable Carving Workshop</strong>
-                    <span style={{ opacity: 0.7, marginLeft: '8px' }}>• Oct 24 (10:00 AM to 5:00 PM)</span>
+                    <span style={{ opacity: 0.7, marginLeft: '8px' }}>• Nov 15 (10:00 AM to 5:00 PM)</span>
                   </div>
                   <div style={{ color: '#22c55e', fontWeight: '700' }}>
                     Mentor: Sun TV MasterChef Manikandan
@@ -1186,7 +1186,7 @@ export default function AdminPortal({ onClose }) {
                         <option value="GPay / PhonePe UPI">GPay / PhonePe / Paytm UPI</option>
                         <option value="Bank Transfer (NEFT/IMPS)">Bank Transfer (NEFT / IMPS)</option>
                         <option value="Card Swipe / POS">Card Swipe / POS Terminal</option>
-                        <option value="Pending - Pay on Arrival">Pending - Pay on Arrival (Oct 24)</option>
+                        <option value="Pending - Pay on Arrival">Pending - Pay on Arrival (Nov 15)</option>
                       </select>
                     </div>
 

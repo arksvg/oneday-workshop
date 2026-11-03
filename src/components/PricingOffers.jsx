@@ -65,7 +65,7 @@ export default function PricingOffers() {
             <div style={{ display: 'inline-flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center', gap: '8px', color: 'var(--mango-yellow)', fontSize: '0.92rem', fontWeight: '700' }}>
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
                 <CalendarOutlined />
-                <span>Date: Oct 24</span>
+                <span>Date: Nov 15</span>
               </span>
               <span style={{ opacity: 0.5 }}>|</span>
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
@@ -109,7 +109,7 @@ export default function PricingOffers() {
                 </div>
               </div>
               <p style={{ fontSize: '0.84rem', opacity: 0.85, margin: 0, lineHeight: '1.45' }}>
-                Full-day hands-on masterclass with Sun TV MasterChef Manikandan on Oct 24. Call or WhatsApp to know workshop fee details, student concessions &amp; group discounts!
+                Full-day hands-on masterclass with Sun TV MasterChef Manikandan on Nov 15. Call or WhatsApp to know workshop fee details, student concessions &amp; group discounts!
               </p>
               <div style={{ marginTop: '10px' }}>
                 <a

@@ -17,7 +17,7 @@ export default function FAQSection() {
   const faqData = [
     {
       question: 'Is this a hands-on Vegetable Carving workshop?',
-      answer: 'Yes! This is an intensive, 100% hands-on One Day Vegetable Carving Workshop on Oct 24 (10:00 AM to 5:00 PM). Under the personal mentorship of Sun TV MasterChef Manikandan (International Gold Medalist in Carving), you will master precision carving knife techniques, vegetable sculpting, and foundational culinary knife skills to take home.'
+      answer: 'Yes! This is an intensive, 100% hands-on One Day Vegetable Carving Workshop on Nov 15 (10:00 AM to 5:00 PM). Under the personal mentorship of Sun TV MasterChef Manikandan (International Gold Medalist in Carving), you will master precision carving knife techniques, vegetable sculpting, and foundational culinary knife skills to take home.'
     },
     {
       question: 'Who can attend this One Day Workshop?',

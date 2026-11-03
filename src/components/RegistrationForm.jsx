@@ -220,7 +220,7 @@ export default function RegistrationForm() {
               }}
             >
               <CalendarOutlined />
-              <span>Sat, Oct 24 • 9:00 AM – 5:00 PM</span>
+              <span>Sun, Nov 15 • 10:00 AM – 5:00 PM</span>
             </div>
 
             <div
@@ -396,7 +396,7 @@ export default function RegistrationForm() {
                   <span>Open Form in New Tab</span>
                 </a>
                 <a
-                  href="https://wa.me/918939648457?text=Hi%20Sam's%20Culinary%20Art%20Class,%20I%20would%20like%20to%20register%20for%20the%20Vegetable%20Carving%20Workshop%20on%20Oct%2024."
+                  href="https://wa.me/918939648457?text=Hi%20Sam's%20Culinary%20Art%20Class,%20I%20would%20like%20to%20register%20for%20the%20Vegetable%20Carving%20Workshop%20on%20Nov%2015."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-outline"

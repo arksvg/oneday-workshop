@@ -80,7 +80,7 @@ export default function Footer({ onOpenAdmin }) {
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.88rem' }}>
               <li>
                 <a href="#overview" style={{ color: 'var(--text-dark)', opacity: 0.85, textDecoration: 'none' }}>
-                  Overview &amp; Schedule (Oct 24, 10 AM - 5 PM)
+                  Overview &amp; Schedule (Nov 15, 10 AM - 5 PM)
                 </a>
               </li>
               <li>

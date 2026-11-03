@@ -17,7 +17,7 @@ export default function AnnouncementBar() {
         <span style={{ opacity: 0.5, display: 'inline-block' }}>|</span>
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
           <CalendarOutlined style={{ color: 'var(--mango-yellow)' }} />
-          <strong>Date:</strong> Oct 24 | 10:00 AM to 5:00 PM
+          <strong>Date:</strong> Nov 15 | 10:00 AM to 5:00 PM
         </span>
         <span style={{ opacity: 0.5, display: 'inline-block' }}>|</span>
         <a

@@ -64,7 +64,7 @@ export default function HeroSection() {
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '28px' }}>
               <div className="time-pill">
                 <CalendarOutlined style={{ color: 'var(--mango-yellow)' }} />
-                <span><strong>Date:</strong> Oct 24</span>
+                <span><strong>Date:</strong> Nov 15</span>
               </div>
 
               <div className="time-pill">
