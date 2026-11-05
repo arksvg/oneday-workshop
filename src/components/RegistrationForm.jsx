@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+
+import React from 'react';
 import {
   SafetyCertificateOutlined,
   PhoneOutlined,
@@ -6,166 +7,43 @@ import {
   CalendarOutlined,
   EnvironmentOutlined,
   TrophyOutlined,
-  LoadingOutlined,
   CheckCircleOutlined,
   ExportOutlined,
-  ReloadOutlined
+  FormOutlined
 } from '@ant-design/icons';
 
-const FORMFACADE_SCRIPT_URL =
-  'https://formfacade.com/include/102129220728346922387/form/1FAIpQLSdti3LHROPRiCsNIQWYgga34XuZL2vpHDPNfEvHnTei_-wNkA/classic.js?div=ff-compose';
+const GOOGLE_FORM_REGISTER_URL =
+  'https://forms.gle/apADmiAttyFzYj516';
+
+const WHATSAPP_REGISTER_URL =
+  `https://wa.me/918939648457?text=${encodeURIComponent(
+    "Hi Sam's Culinary Art Class, I would like to register for the Vegetable Carving Workshop on Nov 15."
+  )}`;
+
+const WHATSAPP_SUPPORT_URL =
+  `https://wa.me/918939648457?text=${encodeURIComponent(
+    "Hi Sam's Culinary Art Class, I have a question about the Vegetable Carving Workshop registration."
+  )}`;
 
 export default function RegistrationForm() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
-
-  useEffect(() => {
-    let checkInterval = null;
-    let timeoutId = null;
-
-    const loadFormFacade = () => {
-      setIsLoading(true);
-      setHasError(false);
-
-      // 1. If window.formFacade already exists, try invoking its load method
-      if (window.formFacade && typeof window.formFacade.load === 'function') {
-        try {
-          window.formFacade.load('#ff-compose');
-        } catch (err) {
-          console.warn('FormFacade load error, will re-inject script:', err);
-        }
-      }
-
-      // 2. Remove existing script tag if any to allow fresh execution
-      const existingScript = document.getElementById('formfacade-script');
-      if (existingScript) {
-        existingScript.remove();
-      }
-
-      // 3. Inject new script tag
-      const script = document.createElement('script');
-      script.id = 'formfacade-script';
-      script.src = FORMFACADE_SCRIPT_URL;
-      script.async = true;
-      script.defer = true;
-
-      script.onload = () => {
-        // Script loaded successfully; wait a brief moment for form DOM population
-        timeoutId = setTimeout(() => {
-          setIsLoading(false);
-        }, 800);
-      };
-
-      script.onerror = () => {
-        setIsLoading(false);
-        setHasError(true);
-      };
-
-      document.body.appendChild(script);
-
-      // 4. Polling check to hide loading state as soon as FormFacade renders its child elements
-      checkInterval = setInterval(() => {
-        const composeEl = document.getElementById('ff-compose');
-        if (composeEl && composeEl.children.length > 0) {
-          setIsLoading(false);
-          if (checkInterval) clearInterval(checkInterval);
-        }
-      }, 300);
-    };
-
-    loadFormFacade();
-
-    // Prevent clicking/focusing the "Other" text input from unselecting the checkbox/radio
-    const isOtherInput = (el) => {
-      if (!el || el.tagName !== 'INPUT' || el.type !== 'text') return false;
-      return (
-        el.name?.includes('other_option_response') ||
-        el.id?.includes('other_option_response') ||
-        Boolean(el.closest('.ff-form-check-other')) ||
-        Boolean(el.closest('[class*="other"]'))
-      );
-    };
-
-    const handleOtherClickCapture = (e) => {
-      const target = e.target;
-      if (isOtherInput(target)) {
-        // Stop click from bubbling up to FormFacade's parent div inline onclick handler
-        e.stopPropagation();
-
-        // Ensure the associated checkbox/radio remains or becomes checked
-        const container = target.closest('.ff-form-check-other') || target.closest('.ff-form-check') || target.parentElement;
-        if (container) {
-          const checkInput = container.querySelector('input[type="checkbox"], input[type="radio"]');
-          if (checkInput && !checkInput.checked) {
-            checkInput.checked = true;
-            checkInput.dispatchEvent(new Event('change', { bubbles: true }));
-            checkInput.dispatchEvent(new Event('input', { bubbles: true }));
-          }
-        }
-      }
-    };
-
-    const handleOtherFocusCapture = (e) => {
-      const target = e.target;
-      if (isOtherInput(target)) {
-        const container = target.closest('.ff-form-check-other') || target.closest('.ff-form-check') || target.parentElement;
-        if (container) {
-          const checkInput = container.querySelector('input[type="checkbox"], input[type="radio"]');
-          if (checkInput && !checkInput.checked) {
-            checkInput.checked = true;
-            checkInput.dispatchEvent(new Event('change', { bubbles: true }));
-            checkInput.dispatchEvent(new Event('input', { bubbles: true }));
-          }
-        }
-      }
-    };
-
-    document.addEventListener('click', handleOtherClickCapture, true);
-    document.addEventListener('focusin', handleOtherFocusCapture, true);
-
-    return () => {
-      if (checkInterval) clearInterval(checkInterval);
-      if (timeoutId) clearTimeout(timeoutId);
-      document.removeEventListener('click', handleOtherClickCapture, true);
-      document.removeEventListener('focusin', handleOtherFocusCapture, true);
-    };
-  }, []);
-
-  const handleReload = () => {
-    const composeEl = document.getElementById('ff-compose');
-    if (composeEl) {
-      composeEl.innerHTML = '';
-    }
-    setIsLoading(true);
-    setHasError(false);
-
-    const existingScript = document.getElementById('formfacade-script');
-    if (existingScript) existingScript.remove();
-
-    const script = document.createElement('script');
-    script.id = 'formfacade-script';
-    script.src = `${FORMFACADE_SCRIPT_URL}&_r=${Date.now()}`;
-    script.async = true;
-    script.defer = true;
-    script.onload = () => setIsLoading(false);
-    script.onerror = () => {
-      setIsLoading(false);
-      setHasError(true);
-    };
-    document.body.appendChild(script);
-  };
-
   return (
     <section
       id="register"
       style={{
         padding: '70px 16px 90px',
-        background: 'radial-gradient(circle at center top, rgba(232, 167, 16, 0.09) 0%, transparent 65%)'
+        background:
+          'radial-gradient(circle at center top, rgba(232, 167, 16, 0.09) 0%, transparent 65%)'
       }}
     >
-      <div className="container" style={{ maxWidth: '920px', margin: '0 auto' }}>
+      <div
+        className="container"
+        style={{ maxWidth: '920px', margin: '0 auto' }}
+      >
         {/* Section Header */}
-        <div className="text-center" style={{ marginBottom: '32px' }}>
+        <div
+          className="text-center"
+          style={{ marginBottom: '32px' }}
+        >
           <div className="hero-badge-glow">
             <SafetyCertificateOutlined />
             <span>OFFICIAL WORKSHOP REGISTRATION PORTAL</span>
@@ -179,7 +57,10 @@ export default function RegistrationForm() {
               letterSpacing: '-0.5px'
             }}
           >
-            Reserve Your <span className="gradient-text-gold">Workshop Slot</span>
+            Reserve Your{' '}
+            <span className="gradient-text-gold">
+              Workshop Slot
+            </span>
           </h2>
 
           <p
@@ -191,7 +72,10 @@ export default function RegistrationForm() {
               lineHeight: '1.6'
             }}
           >
-            Fill out the official registration form below to secure your workstation. Pay ₹500 registration fee to confirm your seat (for group-of-2 bookings, registration is adjusted on arrival).
+            Fill out the official registration form to secure
+            your workstation. Pay ₹500 registration fee to
+            confirm your seat (for group-of-2 bookings,
+            registration is adjusted on arrival).
           </p>
 
           {/* Quick Details Badges */}
@@ -237,8 +121,12 @@ export default function RegistrationForm() {
                 fontWeight: '600'
               }}
             >
-              <EnvironmentOutlined style={{ color: 'var(--mango-yellow)' }} />
-              <span>Sam's Culinary Art Class, Kodambakkam, Chennai</span>
+              <EnvironmentOutlined
+                style={{ color: 'var(--mango-yellow)' }}
+              />
+              <span>
+                Sam's Culinary Art Class, Kodambakkam, Chennai
+              </span>
             </div>
 
             <div
@@ -256,167 +144,339 @@ export default function RegistrationForm() {
               }}
             >
               <CheckCircleOutlined />
-              <span>Direct Mentorship with Chef Manikandan</span>
+              <span>
+                Direct Mentorship with Chef Manikandan
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Embedded FormFacade Container Card */}
+        {/* Quick Registration Action Banner Card */}
         <div
-          className="formfacade-embed-card"
+          style={{
+            background:
+              'linear-gradient(135deg, rgba(232, 167, 16, 0.12) 0%, rgba(20, 28, 22, 0.95) 100%)',
+            border: '2px solid rgba(232, 167, 16, 0.5)',
+            borderRadius: '20px',
+            padding: '28px 24px',
+            marginBottom: '28px',
+            boxShadow: '0 12px 36px rgba(0, 0, 0, 0.35)',
+            textAlign: 'center'
+          }}
+        >
+          <h3
+            style={{
+              fontSize: '1.35rem',
+              fontWeight: '800',
+              marginBottom: '10px',
+              color: '#ffffff'
+            }}
+          >
+            Ready to Enroll? Instant Google Form Registration
+          </h3>
+
+          <p
+            style={{
+              fontSize: '0.95rem',
+              color: '#d1d5db',
+              maxWidth: '620px',
+              margin: '0 auto 20px',
+              lineHeight: '1.5'
+            }}
+          >
+            Click below to open the official registration form
+            directly in Google Forms, submit your details, and
+            lock your seat in just 2 minutes!
+          </p>
+
+          <div
+            style={{
+              display: 'flex',
+              gap: '14px',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexWrap: 'wrap'
+            }}
+          >
+            <a
+              href={GOOGLE_FORM_REGISTER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '10px',
+                padding: '14px 28px',
+                fontSize: '1.05rem',
+                fontWeight: '800',
+                borderRadius: '30px',
+                textDecoration: 'none',
+                boxShadow:
+                  '0 4px 20px rgba(232, 167, 16, 0.4)'
+              }}
+            >
+              <FormOutlined style={{ fontSize: '18px' }} />
+              <span>Open Official Google Form</span>
+              <ExportOutlined />
+            </a>
+
+            <a
+              href={WHATSAPP_REGISTER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-outline"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '10px',
+                padding: '14px 24px',
+                fontSize: '0.98rem',
+                fontWeight: '700',
+                borderRadius: '30px',
+                textDecoration: 'none'
+              }}
+            >
+              <WhatsAppOutlined
+                style={{ color: '#25D366', fontSize: '18px' }}
+              />
+              <span>Register via WhatsApp</span>
+            </a>
+          </div>
+
+          {/* 3 Step Process */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns:
+                'repeat(auto-fit, minmax(200px, 1fr))',
+              gap: '16px',
+              marginTop: '26px',
+              textAlign: 'left'
+            }}
+          >
+            <div
+              style={{
+                background: 'rgba(255, 255, 255, 0.04)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                padding: '14px 16px',
+                borderRadius: '12px'
+              }}
+            >
+              <div
+                style={{
+                  color: 'var(--mango-yellow)',
+                  fontWeight: '800',
+                  fontSize: '0.85rem',
+                  marginBottom: '4px'
+                }}
+              >
+                STEP 1
+              </div>
+
+              <div
+                style={{
+                  fontSize: '0.92rem',
+                  fontWeight: '700',
+                  color: '#ffffff',
+                  marginBottom: '4px'
+                }}
+              >
+                Fill Form Details
+              </div>
+
+              <div
+                style={{
+                  fontSize: '0.8rem',
+                  color: '#9ca3af'
+                }}
+              >
+                Enter your name, mobile, city, and dietary preference.
+              </div>
+            </div>
+
+            <div
+              style={{
+                background: 'rgba(255, 255, 255, 0.04)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                padding: '14px 16px',
+                borderRadius: '12px'
+              }}
+            >
+              <div
+                style={{
+                  color: 'var(--mango-yellow)',
+                  fontWeight: '800',
+                  fontSize: '0.85rem',
+                  marginBottom: '4px'
+                }}
+              >
+                STEP 2
+              </div>
+
+              <div
+                style={{
+                  fontSize: '0.92rem',
+                  fontWeight: '700',
+                  color: '#ffffff',
+                  marginBottom: '4px'
+                }}
+              >
+                ₹500 Seat Advance
+              </div>
+
+              <div
+                style={{
+                  fontSize: '0.8rem',
+                  color: '#9ca3af'
+                }}
+              >
+                Pay registration fee via UPI / GPay to confirm workstation.
+              </div>
+            </div>
+
+            <div
+              style={{
+                background: 'rgba(255, 255, 255, 0.04)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                padding: '14px 16px',
+                borderRadius: '12px'
+              }}
+            >
+              <div
+                style={{
+                  color: '#22c55e',
+                  fontWeight: '800',
+                  fontSize: '0.85rem',
+                  marginBottom: '4px'
+                }}
+              >
+                STEP 3
+              </div>
+
+              <div
+                style={{
+                  fontSize: '0.92rem',
+                  fontWeight: '700',
+                  color: '#ffffff',
+                  marginBottom: '4px'
+                }}
+              >
+                Instant Confirmation
+              </div>
+
+              <div
+                style={{
+                  fontSize: '0.8rem',
+                  color: '#9ca3af'
+                }}
+              >
+                Get workshop admission pass & schedule on WhatsApp.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Direct Google Form Registration Card */}
+        <div
+          className="googleform-embed-card"
           style={{
             background: '#ffffff',
             border: '2px solid rgba(232, 167, 16, 0.45)',
             borderRadius: '20px',
-            boxShadow: '0 16px 48px rgba(0, 0, 0, 0.35), 0 0 30px rgba(232, 167, 16, 0.1)',
-            padding: '24px 20px',
-            position: 'relative',
-            overflow: 'hidden',
-            minHeight: '620px'
+            boxShadow: '0 16px 48px rgba(0, 0, 0, 0.35)',
+            padding: '40px 24px',
+            textAlign: 'center'
           }}
         >
-          {/* Top Card Bar */}
           <div
             style={{
+              width: '76px',
+              height: '76px',
+              margin: '0 auto 20px',
+              borderRadius: '50%',
+              background: 'rgba(232, 167, 16, 0.12)',
               display: 'flex',
-              justifyContent: 'space-between',
               alignItems: 'center',
-              borderBottom: '1px solid #e5e7eb',
-              paddingBottom: '14px',
-              marginBottom: '20px',
-              flexWrap: 'wrap',
-              gap: '10px'
+              justifyContent: 'center'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <TrophyOutlined style={{ color: '#d97706', fontSize: '18px' }} />
-              <span style={{ fontWeight: '800', fontSize: '0.98rem', letterSpacing: '0.2px', color: '#111827' }}>
-                Vegetable Carving Workshop Registration Form
-              </span>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <button
-                type="button"
-                onClick={handleReload}
-                title="Reload Registration Form"
-                style={{
-                  background: '#f3f4f6',
-                  border: '1px solid #d1d5db',
-                  color: '#374151',
-                  borderRadius: '16px',
-                  padding: '6px 14px',
-                  fontSize: '0.8rem',
-                  fontWeight: '600',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                <ReloadOutlined />
-                <span>Reload</span>
-              </button>
-
-              <a
-                href="https://docs.google.com/forms/d/e/1FAIpQLSdti3LHROPRiCsNIQWYgga34XuZL2vpHDPNfEvHnTei_-wNkA/viewform"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Open directly in Google Forms"
-                style={{
-                  background: '#fef3c7',
-                  border: '1px solid #f59e0b',
-                  color: '#92400e',
-                  borderRadius: '16px',
-                  padding: '6px 14px',
-                  fontSize: '0.8rem',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  textDecoration: 'none',
-                  fontWeight: '700'
-                }}
-              >
-                <span>Google Form Direct Link</span>
-                <ExportOutlined />
-              </a>
-            </div>
+            <FormOutlined
+              style={{
+                fontSize: '36px',
+                color: '#d97706'
+              }}
+            />
           </div>
 
-          {/* Loading Indicator */}
-          {isLoading && (
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '60px 20px',
-                minHeight: '400px'
-              }}
-            >
-              <LoadingOutlined style={{ fontSize: '38px', color: '#d97706', marginBottom: '16px' }} spin />
-              <p style={{ fontSize: '1.05rem', fontWeight: '700', color: '#111827', marginBottom: '6px' }}>
-                Loading Registration Form...
-              </p>
-              <p style={{ fontSize: '0.88rem', color: '#6b7280', maxWidth: '420px', textAlign: 'center' }}>
-                Connecting to official FormFacade registration portal. Please wait a moment.
-              </p>
-            </div>
-          )}
-
-          {/* Error Fallback */}
-          {hasError && !isLoading && (
-            <div
-              style={{
-                padding: '36px 20px',
-                textAlign: 'center',
-                background: 'rgba(239, 68, 68, 0.08)',
-                border: '1px solid rgba(239, 68, 68, 0.3)',
-                borderRadius: '14px',
-                margin: '20px 0'
-              }}
-            >
-              <h4 style={{ color: '#ef4444', marginBottom: '10px', fontSize: '1.15rem', fontWeight: '700' }}>
-                Unable to load embedded form automatically
-              </h4>
-              <p style={{ fontSize: '0.9rem', opacity: 0.85, maxWidth: '480px', margin: '0 auto 18px', lineHeight: '1.5' }}>
-                This can happen due to strict browser tracking prevention or ad-blockers. You can directly access the official Google Form below or reach out via WhatsApp.
-              </p>
-              <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-                <a
-                  href="https://docs.google.com/forms/d/e/1FAIpQLSdti3LHROPRiCsNIQWYgga34XuZL2vpHDPNfEvHnTei_-wNkA/viewform"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-primary"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 20px', borderRadius: '24px' }}
-                >
-                  <ExportOutlined />
-                  <span>Open Form in New Tab</span>
-                </a>
-                <a
-                  href="https://wa.me/918939648457?text=Hi%20Sam's%20Culinary%20Art%20Class,%20I%20would%20like%20to%20register%20for%20the%20Vegetable%20Carving%20Workshop%20on%20Nov%2015."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-outline"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 20px', borderRadius: '24px' }}
-                >
-                  <WhatsAppOutlined style={{ color: '#25D366' }} />
-                  <span>Register on WhatsApp</span>
-                </a>
-              </div>
-            </div>
-          )}
-
-          {/* THE FORMFACADE DIV TARGET */}
-          <div
-            id="ff-compose"
+          <h3
             style={{
-              minHeight: isLoading ? '0px' : '450px',
-              display: hasError ? 'none' : 'block'
+              color: '#111827',
+              fontSize: '1.4rem',
+              fontWeight: '800',
+              marginBottom: '10px'
             }}
-          />
+          >
+            Vegetable Carving Workshop Registration
+          </h3>
+
+          <p
+            style={{
+              color: '#6b7280',
+              fontSize: '0.95rem',
+              maxWidth: '580px',
+              margin: '0 auto 24px',
+              lineHeight: '1.7'
+            }}
+          >
+            Complete your registration through our official
+            Google Forms portal. Submit your details to proceed
+            with your workshop seat reservation.
+          </p>
+
+          <a
+            href={GOOGLE_FORM_REGISTER_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '10px',
+              padding: '14px 30px',
+              fontSize: '1rem',
+              fontWeight: '800',
+              borderRadius: '30px',
+              textDecoration: 'none',
+              boxShadow: '0 4px 20px rgba(232, 167, 16, 0.3)'
+            }}
+          >
+            Open Official Registration Form
+            <ExportOutlined />
+          </a>
+
+          <div
+            style={{
+              marginTop: '24px',
+              padding: '12px 16px',
+              background: '#f9fafb',
+              borderRadius: '10px',
+              border: '1px solid #e5e7eb',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '8px',
+              color: '#4b5563',
+              fontSize: '0.85rem'
+            }}
+          >
+            <CheckCircleOutlined style={{ color: '#16a34a' }} />
+            <span>
+              Official and secure Google Forms registration
+            </span>
+          </div>
         </div>
 
         {/* Helpline & Support Bar */}
@@ -435,17 +495,38 @@ export default function RegistrationForm() {
           }}
         >
           <div>
-            <div style={{ fontWeight: '700', fontSize: '0.95rem', color: '#ffffff', marginBottom: '2px' }}>
+            <div
+              style={{
+                fontWeight: '700',
+                fontSize: '0.95rem',
+                color: '#ffffff',
+                marginBottom: '2px'
+              }}
+            >
               Need assistance with your seat reservation or group booking?
             </div>
-            <div style={{ fontSize: '0.82rem', opacity: 0.75 }}>
-              Direct admissions helpline: +91 8939648457 • samsculinaryartclass@gmail.com
+
+            <div
+              style={{
+                fontSize: '0.82rem',
+                opacity: 0.75
+              }}
+            >
+              Direct admissions helpline: +91 8939648457
+              {' • '}
+              samsculinaryartclass@gmail.com
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+          <div
+            style={{
+              display: 'flex',
+              gap: '10px',
+              flexWrap: 'wrap'
+            }}
+          >
             <a
-              href="https://wa.me/918939648457?text=Hi%20Sam's%20Culinary%20Art%20Class,%20I%20have%20a%20question%20about%20the%20Vegetable%20Carving%20Workshop%20registration."
+              href={WHATSAPP_SUPPORT_URL}
               target="_blank"
               rel="noopener noreferrer"
               style={{
