@@ -13,6 +13,8 @@ import {
   WhatsAppOutlined
 } from '@ant-design/icons';
 
+const WHATSAPP_GROUP_URL = 'https://chat.whatsapp.com/J67g8MJwUjF25VYogReGYY?s=cl&p=a&iam=2';
+
 export default function App() {
   const [isAdminOpen, setIsAdminOpen] = useState(() => {
     return window.location.hash === '#admin' || window.location.pathname === '/admin';
@@ -107,10 +109,41 @@ export default function App() {
           right: '24px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '12px',
+          alignItems: 'flex-end',
+          gap: '10px',
           zIndex: 999
         }}
       >
+        {/* Floating Workshop WhatsApp Group Button */}
+        <a
+          href={WHATSAPP_GROUP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Join Official Workshop WhatsApp Group"
+          style={{
+            height: '38px',
+            padding: '0 15px',
+            borderRadius: '24px',
+            background: 'linear-gradient(135deg, #128C7E 0%, #25D366 100%)',
+            color: '#ffffff',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '7px',
+            fontSize: '0.82rem',
+            fontWeight: '700',
+            boxShadow: '0 4px 16px rgba(18, 140, 126, 0.45)',
+            textDecoration: 'none',
+            transition: 'transform 0.2s ease',
+            whiteSpace: 'nowrap'
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
+          onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+        >
+          <WhatsAppOutlined style={{ fontSize: '17px' }} />
+          <span>Join Group</span>
+        </a>
+
+        {/* Floating WhatsApp Direct Chat */}
         <a
           href="https://wa.me/918939648457?text=Hi%20Sam's%20Culinary%20Art%20Class,%20I%20want%20to%20reserve%20my%20slot%20for%20Chef%20Manikandan's%20One%20Day%20Workshop!"
           target="_blank"

@@ -11,8 +11,11 @@ import {
   ArrowRightOutlined,
   CheckCircleOutlined,
   StarFilled,
-  GlobalOutlined
+  GlobalOutlined,
+  PlayCircleOutlined
 } from '@ant-design/icons';
+
+const WHATSAPP_GROUP_URL = 'https://chat.whatsapp.com/J67g8MJwUjF25VYogReGYY?s=cl&p=a&iam=2';
 
 export default function HeroSection() {
   return (
@@ -108,24 +111,69 @@ export default function HeroSection() {
               </div>
             </div>
 
-            {/* CTA Button */}
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <a
-                href="#register"
-                className="btn-primary"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  padding: '14px 32px',
-                  fontSize: '1.05rem',
-                  fontWeight: '700',
-                  borderRadius: '30px'
-                }}
-              >
-                <span>Register Now</span>
-                <ArrowRightOutlined />
-              </a>
+            {/* CTA Buttons & Community Pill */}
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
+                <a
+                  href="#register"
+                  className="btn-primary"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    padding: '14px 32px',
+                    fontSize: '1.05rem',
+                    fontWeight: '700',
+                    borderRadius: '30px'
+                  }}
+                >
+                  <span>Register Now</span>
+                  <ArrowRightOutlined />
+                </a>
+
+                <a
+                  href="#workshop-video"
+                  className="btn-outline"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '13px 24px',
+                    fontSize: '0.98rem',
+                    fontWeight: '600',
+                    borderRadius: '30px',
+                    color: '#ffffff'
+                  }}
+                >
+                  <PlayCircleOutlined style={{ color: 'var(--mango-yellow)', fontSize: '18px' }} />
+                  <span>Watch Video Sneak Peek</span>
+                </a>
+              </div>
+
+              <div style={{ marginTop: '16px' }}>
+                <a
+                  href={WHATSAPP_GROUP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    background: 'rgba(37, 211, 102, 0.12)',
+                    border: '1px solid rgba(37, 211, 102, 0.4)',
+                    color: '#25D366',
+                    padding: '7px 16px',
+                    borderRadius: '20px',
+                    fontSize: '0.84rem',
+                    fontWeight: '700',
+                    textDecoration: 'none',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  <WhatsAppOutlined style={{ fontSize: '16px' }} />
+                  <span>Join Official Workshop WhatsApp Group ↗</span>
+                </a>
+              </div>
             </div>
           </div>
 

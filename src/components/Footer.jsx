@@ -5,8 +5,11 @@ import {
   EnvironmentOutlined,
   GlobalOutlined,
   ArrowUpOutlined,
-  CopyrightOutlined
+  CopyrightOutlined,
+  WhatsAppOutlined
 } from '@ant-design/icons';
+
+const WHATSAPP_GROUP_URL = 'https://chat.whatsapp.com/J67g8MJwUjF25VYogReGYY?s=cl&p=a&iam=2';
 
 export default function Footer({ onOpenAdmin }) {
   const scrollToTop = () => {
@@ -96,6 +99,29 @@ export default function Footer({ onOpenAdmin }) {
               <li>
                 <a href="#pricing" style={{ color: 'var(--text-dark)', opacity: 0.85, textDecoration: 'none' }}>
                   Registration Fee (Rs. 500) &amp; Workshop Fee (Call &amp; Ask)
+                </a>
+              </li>
+              <li>
+                <a href="#workshop-video" style={{ color: 'var(--text-dark)', opacity: 0.85, textDecoration: 'none' }}>
+                  🎥 Workshop Live Video Teaser
+                </a>
+              </li>
+              <li>
+                <a
+                  href={WHATSAPP_GROUP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    color: '#25D366',
+                    fontWeight: '700',
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}
+                >
+                  <WhatsAppOutlined />
+                  <span>Join Official WhatsApp Group</span>
                 </a>
               </li>
             </ul>

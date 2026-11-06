@@ -13,6 +13,8 @@ import {
   ArrowRightOutlined
 } from '@ant-design/icons';
 
+const WHATSAPP_GROUP_URL = 'https://chat.whatsapp.com/J67g8MJwUjF25VYogReGYY?s=cl&p=a&iam=2';
+
 export default function PricingOffers() {
   return (
     <section id="pricing" style={{ padding: '70px 16px', background: 'var(--bg-surface)' }}>
@@ -217,6 +219,26 @@ export default function PricingOffers() {
             >
               <PhoneOutlined />
               <span>Call +91 8939648457</span>
+            </a>
+          </div>
+
+          <div style={{ marginTop: '20px', textAlign: 'center' }}>
+            <a
+              href={WHATSAPP_GROUP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: '#25D366',
+                fontSize: '0.86rem',
+                fontWeight: '700',
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px'
+              }}
+            >
+              <WhatsAppOutlined />
+              <span>Have questions about fees or schedules? Join Official Workshop WhatsApp Group ↗</span>
             </a>
           </div>
         </div>

@@ -6,7 +6,6 @@ import {
   WhatsAppOutlined,
   CalendarOutlined,
   EnvironmentOutlined,
-  TrophyOutlined,
   CheckCircleOutlined,
   ExportOutlined,
   FormOutlined
@@ -14,6 +13,9 @@ import {
 
 const GOOGLE_FORM_REGISTER_URL =
   'https://forms.gle/apADmiAttyFzYj516';
+
+const WHATSAPP_GROUP_URL =
+  'https://chat.whatsapp.com/J67g8MJwUjF25VYogReGYY?s=cl&p=a&iam=2';
 
 const WHATSAPP_REGISTER_URL =
   `https://wa.me/918939648457?text=${encodeURIComponent(
@@ -479,6 +481,75 @@ export default function RegistrationForm() {
           </div>
         </div>
 
+        {/* Official Workshop WhatsApp Group Card */}
+        <div
+          style={{
+            marginTop: '24px',
+            background: 'linear-gradient(135deg, rgba(37, 211, 102, 0.15) 0%, rgba(14, 25, 16, 0.95) 100%)',
+            border: '2px solid rgba(37, 211, 102, 0.45)',
+            borderRadius: '20px',
+            padding: '24px 28px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '18px',
+            boxShadow: '0 12px 32px rgba(0, 0, 0, 0.35)'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', maxWidth: '580px' }}>
+            <div
+              style={{
+                width: '52px',
+                height: '52px',
+                borderRadius: '50%',
+                background: '#25D366',
+                color: '#ffffff',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '28px',
+                flexShrink: 0,
+                boxShadow: '0 4px 16px rgba(37, 211, 102, 0.45)'
+              }}
+            >
+              <WhatsAppOutlined />
+            </div>
+            <div>
+              <div style={{ fontWeight: '800', fontSize: '1.05rem', color: '#ffffff', marginBottom: '4px' }}>
+                Join the Official Workshop WhatsApp Group
+              </div>
+              <div style={{ fontSize: '0.86rem', color: '#d1d5db', lineHeight: '1.5' }}>
+                Connect with registered workshop participants, receive live pre-workshop preparation tips, venue directions, and direct announcements from Chef Manikandan &amp; team.
+              </div>
+            </div>
+          </div>
+
+          <a
+            href={WHATSAPP_GROUP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              background: '#25D366',
+              color: '#ffffff',
+              padding: '12px 24px',
+              borderRadius: '30px',
+              fontWeight: '800',
+              fontSize: '0.92rem',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              textDecoration: 'none',
+              boxShadow: '0 4px 18px rgba(37, 211, 102, 0.4)',
+              transition: 'all 0.2s ease',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            <span>Join WhatsApp Community</span>
+            <ExportOutlined />
+          </a>
+        </div>
+
         {/* Helpline & Support Bar */}
         <div
           style={{
@@ -525,6 +596,27 @@ export default function RegistrationForm() {
               flexWrap: 'wrap'
             }}
           >
+            <a
+              href={WHATSAPP_GROUP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: 'rgba(37, 211, 102, 0.15)',
+                border: '1px solid #25D366',
+                color: '#25D366',
+                padding: '9px 18px',
+                borderRadius: '24px',
+                fontWeight: '700',
+                fontSize: '0.88rem',
+                textDecoration: 'none'
+              }}
+            >
+              <WhatsAppOutlined style={{ fontSize: '16px' }} />
+              <span>WhatsApp Group</span>
+            </a>
             <a
               href={WHATSAPP_SUPPORT_URL}
               target="_blank"

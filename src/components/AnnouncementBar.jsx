@@ -3,8 +3,11 @@ import {
   GlobalOutlined,
   PhoneOutlined,
   ThunderboltFilled,
-  CalendarOutlined
+  CalendarOutlined,
+  WhatsAppOutlined
 } from '@ant-design/icons';
+
+const WHATSAPP_GROUP_URL = 'https://chat.whatsapp.com/J67g8MJwUjF25VYogReGYY?s=cl&p=a&iam=2';
 
 export default function AnnouncementBar() {
   return (
@@ -12,7 +15,7 @@ export default function AnnouncementBar() {
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: '12px', fontSize: '0.86rem' }}>
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
           <ThunderboltFilled style={{ color: 'var(--mango-yellow)' }} />
-          <strong>One Day Vegetable Carving Workshop:</strong>with Sun TV MasterChef Manikandan
+          <strong>One Day Vegetable Carving Workshop:</strong> with Sun TV MasterChef Manikandan
         </span>
         <span style={{ opacity: 0.5, display: 'inline-block' }}>|</span>
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
@@ -21,13 +24,23 @@ export default function AnnouncementBar() {
         </span>
         <span style={{ opacity: 0.5, display: 'inline-block' }}>|</span>
         <a
+          href={WHATSAPP_GROUP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', color: '#25D366', fontWeight: '700', textDecoration: 'none' }}
+        >
+          <WhatsAppOutlined />
+          Join Official WhatsApp Group
+        </a>
+        <span style={{ opacity: 0.5, display: 'inline-block' }}>|</span>
+        <a
           href="https://www.samsculinaryartclass.com/"
           target="_blank"
           rel="noopener noreferrer"
           style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}
         >
           <GlobalOutlined />
-          Visit Official Academy (samsculinaryartclass.com)
+          samsculinaryartclass.com
         </a>
         <span style={{ opacity: 0.5, display: 'inline-block' }}>|</span>
         <a href="tel:+918939648457" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>

@@ -9,6 +9,8 @@ import {
   TrophyOutlined
 } from '@ant-design/icons';
 
+const WHATSAPP_GROUP_URL = 'https://chat.whatsapp.com/J67g8MJwUjF25VYogReGYY?s=cl&p=a&iam=2';
+
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -89,6 +91,30 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
+
+          <a
+            href={WHATSAPP_GROUP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Join Official Workshop WhatsApp Group"
+            style={{
+              color: '#25D366',
+              border: '1px solid rgba(37, 211, 102, 0.45)',
+              background: 'rgba(37, 211, 102, 0.12)',
+              padding: '8px 16px',
+              borderRadius: '30px',
+              fontWeight: '700',
+              fontSize: '0.86rem',
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            <WhatsAppOutlined />
+            <span>WhatsApp Group</span>
+          </a>
 
         </nav>
 
@@ -171,6 +197,29 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
+
+          <a
+            href={WHATSAPP_GROUP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMobileMenuOpen(false)}
+            style={{
+              color: '#25D366',
+              background: 'rgba(37, 211, 102, 0.12)',
+              border: '1px solid rgba(37, 211, 102, 0.35)',
+              padding: '10px 16px',
+              borderRadius: '8px',
+              fontWeight: '700',
+              fontSize: '0.95rem',
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px'
+            }}
+          >
+            <WhatsAppOutlined style={{ fontSize: '18px' }} />
+            <span>Join Official WhatsApp Group</span>
+          </a>
 
           <a
             href="https://www.samsculinaryartclass.com/"
