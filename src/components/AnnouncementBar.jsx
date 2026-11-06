@@ -3,11 +3,8 @@ import {
   GlobalOutlined,
   PhoneOutlined,
   ThunderboltFilled,
-  CalendarOutlined,
-  WhatsAppOutlined
+  CalendarOutlined
 } from '@ant-design/icons';
-
-const WHATSAPP_GROUP_URL = 'https://chat.whatsapp.com/J67g8MJwUjF25VYogReGYY?s=cl&p=a&iam=2';
 
 export default function AnnouncementBar() {
   return (
@@ -22,16 +19,6 @@ export default function AnnouncementBar() {
           <CalendarOutlined style={{ color: 'var(--mango-yellow)' }} />
           <strong>Date:</strong> Nov 15 | 10:00 AM to 5:00 PM
         </span>
-        <span style={{ opacity: 0.5, display: 'inline-block' }}>|</span>
-        <a
-          href={WHATSAPP_GROUP_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', color: '#25D366', fontWeight: '700', textDecoration: 'none' }}
-        >
-          <WhatsAppOutlined />
-          Join Official WhatsApp Group
-        </a>
         <span style={{ opacity: 0.5, display: 'inline-block' }}>|</span>
         <a
           href="https://www.samsculinaryartclass.com/"
